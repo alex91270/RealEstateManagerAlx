@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+    android:id="@+id/nav_drawer_see_offers"
+    android:icon="@drawable/ic_home_24dp"
+    android:color="#e7981b"
+    android:title="@string/navigation_offers" />
+
+        <item
+            android:id="@+id/nav_drawer_see_on_map"
+            android:icon="@drawable/ic_map_24dp"
+            android:color="#e7981b"
+            android:title="@string/navigation_map" />
+
+        <item
+            android:id="@+id/nav_drawer_loan"
+            android:icon="@drawable/ic_money_24dp"
+            android:color="#e7981b"
+            android:title="@string/navigation_loan" />
+
+        <item
+            android:id="@+id/nav_drawer_pro"
+            android:icon="@drawable/ic_pro_24dp"
+            android:color="#e7981b"
+            android:title="@string/navigation_pro" />
+</group>
+
+</menu>

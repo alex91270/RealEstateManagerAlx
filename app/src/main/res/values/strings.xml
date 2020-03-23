@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">Real Estate Manager</string>
+
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_offers">SEE OFFERS</string>
+    <string name="navigation_map">SEE ON MAP</string>
+    <string name="navigation_loan">LOAN SIMULATOR</string>
+    <string name="navigation_pro">PROFESSIONAL ACCESS</string>
+
+    <!-- TOOLBAR -->
+    <string name="toolbar_title">Real Estate Manager</string>
+    <string name="toolbar_title_mates">Available workmates</string>
+    <string name="hint_search_mate">Search workmate...</string>
+    <string name="hint_search_rest">Search restaurant...</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- LOCATION PERMISSION -->
+    <string name="rationale_location">This app needs access to your location to find restaurants nearby</string>
+    <string name="perm_denied">The app won\'t run correctly until you manually add the location permission in your device settings</string>
+
+</resources>
