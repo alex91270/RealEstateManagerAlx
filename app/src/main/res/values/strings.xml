@@ -18,8 +18,15 @@
     <string name="hint_search_rest">Search restaurant...</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- CURRENCY -->
+    <string name="currency_API_key">3b301693b991299c15ea00ae5ba03129</string>
+
     <!-- LOCATION PERMISSION -->
     <string name="rationale_location">This app needs access to your location to find restaurants nearby</string>
     <string name="perm_denied">The app won\'t run correctly until you manually add the location permission in your device settings</string>
 
+    <!-- ERRORS -->
+    <string name="error_api_url">Error in the Google Places request</string>
+    <string name="error_connecting_api">Failed to connect to Google Places service</string>
+    <string name="error_processing_result">Failed to process the restaurants found</string>
 </resources>

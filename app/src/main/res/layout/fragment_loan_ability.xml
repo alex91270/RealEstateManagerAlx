@@ -7,6 +7,8 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="loan ability"
+        android:layout_marginTop="200dp"
+        android:text="     loan ability"
+        android:textColor="@color/colorText"
         android:textSize="36sp" />
 </LinearLayout>

@@ -1,13 +1,13 @@
 package com.example.realestatemanageralx.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,13 +31,13 @@ public class LoanFragment extends Fragment {
 
         PagerAdapter pagerAdapter = new LoanPagerAdapter(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager)
         {
             @Override
-            public void onTabSelected(TabLayout.Tab tabSelected)
-            {
+            public void onTabSelected(TabLayout.Tab tabSelected){
+                Log.i("alex", "tab tapped");
                 viewPager.setCurrentItem(tabSelected.getPosition());
         }
 
