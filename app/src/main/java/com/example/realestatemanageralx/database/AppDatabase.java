@@ -1,19 +1,26 @@
 package com.example.realestatemanageralx.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.content.Context;
-import android.support.annotation.NonNull;
 
-import com.cleanup.todoc_alx.model.Project;
-import com.cleanup.todoc_alx.model.Task;
+import android.content.Context;
+
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
+
+
+public abstract class AppDatabase extends RoomDatabase {
+
+}
+
+
+
+
 
 /**
  * Class representing the database, with its tables
  * and providing the DAO's used to query the DB
  */
+
+/**
 
 @Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
@@ -42,3 +49,4 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
 }
+ */

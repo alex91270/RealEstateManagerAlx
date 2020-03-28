@@ -19,6 +19,9 @@
     <string name="title_activity_maps">Map</string>
 
     <!-- CURRENCY -->
+    <string name="loans_API_key">rhpK3nJpjHCJz9DDEZD7</string>
+
+    <!-- LOAN RATES -->
     <string name="currency_API_key">3b301693b991299c15ea00ae5ba03129</string>
 
     <!-- LOCATION PERMISSION -->

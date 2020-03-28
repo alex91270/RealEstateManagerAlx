@@ -2,14 +2,14 @@ package com.example.realestatemanageralx.database;
 
 import android.os.AsyncTask;
 
-import com.cleanup.todoc_alx.database.AppDatabase;
-import com.cleanup.todoc_alx.model.Project;
-
 /**
  * Called if the database did not exist yet, to initialise it with the 3 projects
  */
 
+
+
 public class DatabaseInitialize {
+
 
     public static void populateAsync(final AppDatabase db) {
 
@@ -33,8 +33,14 @@ public class DatabaseInitialize {
     }
 
     private static void populateProjectsIfNewDb(AppDatabase db) {
+        /**
         db.projectDao().insertProject(new Project("Projet Tartampion", 0xFFEADAD1));
         db.projectDao().insertProject(new Project( "Projet Lucidia", 0xFFB4CDBA));
         db.projectDao().insertProject(new Project( "Projet Circus", 0xFFA3CED2));
+         */
     }
+
 }
+
+
+

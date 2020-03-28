@@ -1,7 +1,9 @@
 package com.example.realestatemanageralx;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +19,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.realestatemanageralx.currency.GetCurrencyRate;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
+import com.example.realestatemanageralx.interest_rates.GetInterestRates;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,6 +61,14 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureDrawerLayout();
         configureNavigationView();
         showStartFragment();
+
+        //GetCurrencyRate getCurrencyRate = new GetCurrencyRate();
+        GetInterestRates getInterestRates = new GetInterestRates();
+        //getCurrencyRate.updateRate2();
+        //getCurrencyRate.updateRate(getString(R.string.currency_API_key));
+        //new FetchTask().execute("http://httpbin.org/ip");
+
+        getInterestRates.updateInterestRates(getString(R.string.loans_API_key));
     }
 
     @Override
@@ -132,4 +151,76 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
                     .replace(R.id.activity_master_frame_layout, fragment).commit();
         }
     }
+
+
+
+
+    private class FetchTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            InputStream inputStream = null;
+            HttpURLConnection conn = null;
+
+            String stringUrl = strings[0];
+            try {
+                URL url = new URL(stringUrl);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.connect();
+                int response = conn.getResponseCode();
+                if (response != 200) {
+                    return null;
+                }
+
+                inputStream = conn.getInputStream();
+                if (inputStream == null) {
+                    return null;
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                StringBuffer buffer = new StringBuffer();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                    buffer.append("\n");
+                }
+
+                return new String(buffer);
+            } catch (IOException e) {
+                return null;
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException ignored) {
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s == null) {
+                Log.i("alex", "erreur ");
+            } else {
+                Log.i("alex", "resultat: " + s);
+
+            }
+
+        }
+    }
 }
+
+
+
+

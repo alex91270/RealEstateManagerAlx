@@ -1,17 +1,10 @@
 package com.example.realestatemanageralx.currency;
-
-import android.content.res.Resources;
 import android.os.StrictMode;
 import android.util.Log;
-
-import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.service.DI;
 import com.example.realestatemanageralx.service.RealApiService;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -22,20 +15,23 @@ public class GetCurrencyRate {
 
     private static final String CURRENCY_API_BASE = "http://data.fixer.io/api/latest?access_key=";
     private static final String LOG_TAG = "RealEstateManager";
-    private static String result;
     private RealApiService service =DI.getRestApiService();
 
-    public void updateRate2() {
-
+    public void updateExchangeRate2() {
+        //Log.i("alex", "we are in currency stuff");
+        String result = "{\"success\":true,\"timestamp\":1585004046,\"base\":\"EUR\",\"date\":\"2020-03-23\",\"rates\":{\"USD\":1.074506}}";
+        //getRateFromJson("{\"success\":true,\"timestamp\":1585004046,\"base\":\"EUR\",\"date\":\"2020-03-23\",\"rates\":{\"USD\":1.074506}}");
+        //Log.i("alex", "result" + result);
+        getRateFromJson(result);
     }
 
-    public void updateRate(String currency_API_key) {
+    public void updateExchangeRate(String currency_API_key) {
+
+        Log.i("alex", "key: " + currency_API_key);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        //builds the request URL for GooglePlaces API with as parameters, the location of the center
-        //of research, the type od establishment, the ranking, and API key
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
 
@@ -46,9 +42,12 @@ public class GetCurrencyRate {
 
 
             URL url = new URL(sb.toString());
+            //URL url = new URL ("http://httpbin.org/ip");
+            //url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=40.712775,-74.0059717&type=restaurant&rankby=distance&key=AIzaSyAhwPQxQ6UU4V7VQ7IxYsvFa3WzoNJ2qDg");
+            Log.i("alex", "url: " + url);
             conn = (HttpURLConnection) url.openConnection();
             //opens up an inputStreamReader to intercept the response from that url
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            InputStreamReader in = new InputStreamReader(conn.getInputStream(), "UTF-8");
 
             int read;
             char[] buff = new char[1024];
@@ -57,16 +56,20 @@ public class GetCurrencyRate {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
-            result = Resources.getSystem().getString(R.string.error_api_url);
+            Log.e(LOG_TAG, "Error processing the API URL", e);
+            Log.i("alex", "Error processing the API URL ");
+
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
-            result = Resources.getSystem().getString(R.string.error_connecting_api);
+            Log.i("alex", "Error connecting to the API");
+            Log.e(LOG_TAG, "Error connecting to the API", e);
+
         } finally {
             if (conn != null) {
                 conn.disconnect();
             }
         }
+
+        Log.i("alex", "json got: " + jsonResults.toString());
 
 
         getRateFromJson(jsonResults.toString());
@@ -78,30 +81,16 @@ public class GetCurrencyRate {
         try {
             //converts JSON raw data into JSON objects
             JSONObject jsonObj = new JSONObject(result);
-            JSONArray predsJsonArray = jsonObj.getJSONArray("results");
+            String rates = jsonObj.getString("rates");
+            Log.i("alex", "rates: " +rates);
+            JSONObject jsonObj2 = new JSONObject(rates);
 
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                JSONObject jsonObject = predsJsonArray.getJSONObject(i);
+            String usd = jsonObj2.getString("USD");
+            Log.i("alex", "usd: " + usd);
 
-
-
-                try {
-                    String reference = jsonObject.getString("reference");
-                    //builds a Restaurant with it's ID only, which is the GooglePlaces identifier
-                    //return new Restaurant(reference);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "Error processing JSON results", e);
-                    result = Resources.getSystem().getString(R.string.error_processing_result);
-                }
-
-
-
-            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error processing JSON results", e);
-            result = Resources.getSystem().getString(R.string.error_processing_result);
+            //result = Resources.getSystem().getString(R.string.error_processing_result);
         }
 
         return 0;
