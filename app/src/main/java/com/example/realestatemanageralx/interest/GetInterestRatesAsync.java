@@ -1,9 +1,14 @@
-package com.example.realestatemanageralx.interest_rates;
+package com.example.realestatemanageralx.interest;
 
+import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
+
+import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.service.DI;
 import com.example.realestatemanageralx.service.RealApiService;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,15 +16,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
-public class GetInterestRates {
+public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
 
     private static final String CURRENCY_API_BASE = "https://www.quandl.com/api/v3/datasets/FED/SVENPY.json?api_key=";
     private static final String LOG_TAG = "RealEstateManager";
     private RealApiService service = DI.getRestApiService();
+    //private String loan_API_key = Resources.getSystem().getString(R.string.loans_API_key);
+    //private String loan_API_key = "rhpK3nJpjHCJz9DDEZD7";
 
-    public void updateInterestRates(String loan_API_key) {
+    private String raw_result;
 
-        //Log.i("alex", "key: " + loan_API_key);
+    @Override
+    protected String doInBackground(String... strings) {
+        String loan_API_key = strings[0];
+
+        Log.i("alex", "thread interest rates async: " + String.valueOf(Thread.currentThread().getId()));
+
         Calendar cal = Calendar.getInstance();
         String today = String.valueOf(cal.get(Calendar.YEAR)) + "-"
                 + String.valueOf(cal.get(Calendar.MONTH) + 1) + "-"
@@ -27,7 +39,6 @@ public class GetInterestRates {
         String last_month = String.valueOf(cal.get(Calendar.YEAR)) + "-"
                 + String.valueOf(cal.get(Calendar.MONTH)) + "-"
                 + String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -69,16 +80,15 @@ public class GetInterestRates {
             }
         }
 
-        String raw_result = jsonResults.toString();
-
-        Log.i("alex", raw_result);
-
-        getRatesFromJson(raw_result);
+        raw_result = jsonResults.toString();
+        return null;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
 
-    private void getRatesFromJson(String result) {
-        String result_last_day = result.substring((result.indexOf("data\":[[") + 9), (result.indexOf("],[") + 3));
+        String result_last_day = raw_result.substring((raw_result.indexOf("data\":[[") + 9), (raw_result.indexOf("],[") + 3));
         String last_date_available = result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
 
         String rates_only = result_last_day.substring(result_last_day.indexOf("\",") + 2, result_last_day.indexOf("],["));
@@ -91,7 +101,16 @@ public class GetInterestRates {
 
         Log.i("alex", "rates array size : " + ratesArray.length);
         Log.i("alex", "rate one year: " + ratesArray[0]);
-    }
 
+        s="success";
+
+        if (s == null) {
+            Log.i("alex", "error ");
+        } else {
+            Log.i("alex", "result: " + s);
+
+        }
+
+    }
 }
 

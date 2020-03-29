@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -19,11 +17,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 
-import com.example.realestatemanageralx.currency.GetCurrencyRate;
+import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
-import com.example.realestatemanageralx.interest_rates.GetInterestRates;
+import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
@@ -57,18 +55,23 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_master);
         //setContentView(R.layout.activity_test);
 
+        //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
+        //new GetCurrencyRateAsync().execute(getString(R.string.currency_API_key));
+
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
         showStartFragment();
 
+        Log.i("alex", "master thread: " + String.valueOf(Thread.currentThread().getId()));
+
         //GetCurrencyRate getCurrencyRate = new GetCurrencyRate();
-        GetInterestRates getInterestRates = new GetInterestRates();
+        //GetInterestRates getInterestRates = new GetInterestRates();
         //getCurrencyRate.updateRate2();
         //getCurrencyRate.updateRate(getString(R.string.currency_API_key));
-        //new FetchTask().execute("http://httpbin.org/ip");
+        //getInterestRates.updateInterestRates(getString(R.string.loans_API_key));
 
-        getInterestRates.updateInterestRates(getString(R.string.loans_API_key));
+
     }
 
     @Override

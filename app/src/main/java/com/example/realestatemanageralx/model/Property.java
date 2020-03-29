@@ -27,6 +27,9 @@ public class Property {
     @ColumnInfo(name = "pId")
     private long pId;
 
+    @ColumnInfo(name="description")
+    private String description;
+
     @ColumnInfo(name="city")
     private String city;
 
@@ -46,7 +49,7 @@ public class Property {
     private int showers;
 
     @ColumnInfo(name="bathtubs")
-    private boolean bathtubs;
+    private int bathtubs;
 
     @ColumnInfo(name="aircon")
     private boolean aircon;
@@ -65,5 +68,24 @@ public class Property {
 
     @ColumnInfo(name="agentId")
     private long agentId;
+
+    public Property(String description, String city, String district, int surface, int bedrooms,
+                    int toilets, int showers, int bathtubs, boolean aircon, Date dateOffer,
+                    LatLng location, int price, long agentId) {
+        this.description = description;
+        this.city = city;
+        this.district = district;
+        this.surface = surface;
+        this.bedrooms = bedrooms;
+        this.showers = showers;
+        this.toilets = toilets;
+        this.bathtubs = bathtubs;
+        this.aircon = aircon;
+        this.dateOffer = dateOffer;
+        this.sold = false;
+        this.location = location;
+        this.price = price;
+        this.agentId = agentId;
+    }
 
 }

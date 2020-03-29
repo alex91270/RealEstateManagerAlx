@@ -15,7 +15,6 @@ public class Agent {
     @ColumnInfo(name = "aId")
     private long aId;
 
-
     /**
      * The first name of the real estate agent
      */
@@ -57,4 +56,13 @@ public class Agent {
     @ColumnInfo(name="phone")
     @NonNull
     private String phone;
+
+    public Agent( String firstName,  String lastName, String userName, String password, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+    }
 }
