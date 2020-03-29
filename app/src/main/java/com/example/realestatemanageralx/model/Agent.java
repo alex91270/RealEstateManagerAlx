@@ -65,4 +65,38 @@ public class Agent {
         this.email = email;
         this.phone = phone;
     }
+
+    public long getaId() {
+        return aId;
+    }
+
+    @NonNull
+    public String getEmail() {
+        return email;
+    }
+
+    @NonNull
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @NonNull
+    public String getLastName() {
+        return lastName;
+    }
+
+    @NonNull
+    public String getPassword() {
+        return password;
+    }
+
+    @NonNull
+    public String getUserName() {
+        return userName;
+    }
+
+    @NonNull
+    public String getPhone() {
+        return phone;
+    }
 }

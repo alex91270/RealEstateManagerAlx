@@ -3,7 +3,9 @@ package com.example.realestatemanageralx.database;
 import android.os.AsyncTask;
 
 import com.example.realestatemanageralx.model.Agent;
+import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
+import com.example.realestatemanageralx.model.Rate;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -80,7 +82,54 @@ public class DatabaseInitialize {
                 1, false, new Date(1577535466) , new LatLng(40.775125, -73.962203),
                 1075000, 1 ));
 
+        db.PropertyDAO().insertProperty(new Property("Welcome to vibrant Inwood! This Art Deco building, built 1939, 6 floors, forty-eight units boasts a spacious and bright four bedrooms oozing with charm. It features a large foyer, hardwood floors, high ceilings, eat-in kitchen and a spa.",
+                "New-York", "Midtown", 140, 4, 2, 2,
+                1, true, new Date(1548850666) , new LatLng(40.755090, -73.986091),
+                2350000, 1 ));
+
+        //adding rates
+        db.rateDAO().insertRate(new Rate("exchangeRate", 1.074506 ));
+        db.rateDAO().insertRate(new Rate("dateExchangeRate", 1585004046 ));
+        db.rateDAO().insertRate(new Rate("dateLoanInterest", 1584706666 ));
+        db.rateDAO().insertRate(new Rate("Rate1", 0.37830001115799 ));
+        db.rateDAO().insertRate(new Rate("Rate2", 0.446099996566772 ));
+        db.rateDAO().insertRate(new Rate("Rate3", 0.528199970722198 ));
+        db.rateDAO().insertRate(new Rate("Rate4", 0.614300012588501 ));
+        db.rateDAO().insertRate(new Rate("Rate5", 0.698499977588654 ));
+        db.rateDAO().insertRate(new Rate("Rate6", 0.777499973773956 ));
+        db.rateDAO().insertRate(new Rate("Rate7", 0.850199997425079 ));
+        db.rateDAO().insertRate(new Rate("Rate8", 0.916400015354156 ));
+        db.rateDAO().insertRate(new Rate("Rate9", 0.976499974727631 ));
+        db.rateDAO().insertRate(new Rate("Rate10", 1.03120005130768 ));
+        db.rateDAO().insertRate(new Rate("Rate11", 1.0814000368118 ));
+        db.rateDAO().insertRate(new Rate("Rate12", 1.1279000043869 ));
+        db.rateDAO().insertRate(new Rate("Rate13", 1.17139995098114 ));
+        db.rateDAO().insertRate(new Rate("Rate14", 1.21280002593994 ));
+        db.rateDAO().insertRate(new Rate("Rate15", 1.25240004062653 ));
+        db.rateDAO().insertRate(new Rate("Rate16", 1.29089999198914 ));
+        db.rateDAO().insertRate(new Rate("Rate17", 1.32850003242493 ));
+        db.rateDAO().insertRate(new Rate("Rate18", 1.36559998989105 ));
+        db.rateDAO().insertRate(new Rate("Rate19", 1.40230000019073 ));
+        db.rateDAO().insertRate(new Rate("Rate20", 1.43879997730255 ));
+        db.rateDAO().insertRate(new Rate("Rate21", 1.47510004043579 ));
+        db.rateDAO().insertRate(new Rate("Rate22", 1.51129996776581 ));
+        db.rateDAO().insertRate(new Rate("Rate23", 1.54750001430511 ));
+        db.rateDAO().insertRate(new Rate("Rate24", 1.58350002765656 ));
+        db.rateDAO().insertRate(new Rate("Rate25", 1.61940002441406 ));
+        db.rateDAO().insertRate(new Rate("Rate26", 1.6550999879837 ));
+        db.rateDAO().insertRate(new Rate("Rate27", 1.69050002098083 ));
+        db.rateDAO().insertRate(new Rate("Rate28", 1.72560000419617 ));
+        db.rateDAO().insertRate(new Rate("Rate29", 1.76030004024506 ));
+        db.rateDAO().insertRate(new Rate("Rate30", 1.79449999332428 ));
+
+
+        //adding medias
+        db.offerMediaDAO().insertOfferMedia(new OfferMedia());
+
+
     }
+
+
 
 }
 

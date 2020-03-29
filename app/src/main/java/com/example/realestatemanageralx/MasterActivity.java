@@ -25,6 +25,7 @@ import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -53,7 +54,16 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
-        //setContentView(R.layout.activity_test);
+
+        String PATH = "/remote/dir/server/";
+        String directoryName = "RealEM";
+        File directory = new File(directoryName);
+        if (! directory.exists()) {
+            Log.i("alex", "le repertoire n'existe pas");
+            directory.mkdir();
+        } else {
+            Log.i("alex", "le repertoire existe");
+        }
 
         //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
         //new GetCurrencyRateAsync().execute(getString(R.string.currency_API_key));
@@ -65,14 +75,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
         Log.i("alex", "master thread: " + String.valueOf(Thread.currentThread().getId()));
 
-        //GetCurrencyRate getCurrencyRate = new GetCurrencyRate();
-        //GetInterestRates getInterestRates = new GetInterestRates();
-        //getCurrencyRate.updateRate2();
-        //getCurrencyRate.updateRate(getString(R.string.currency_API_key));
-        //getInterestRates.updateInterestRates(getString(R.string.loans_API_key));
-
-
-    }
+       }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

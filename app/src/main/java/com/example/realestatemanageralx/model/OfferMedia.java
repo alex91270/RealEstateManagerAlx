@@ -1,6 +1,8 @@
 package com.example.realestatemanageralx.model;
 
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -30,6 +32,42 @@ public class OfferMedia {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "pid")
     private long propertyId;
+
+    /**
+     * The Uri of the media file
+     */
+    @ColumnInfo(name="fileUri")
+    @NonNull
     private Uri fileUri;
+
+    /**
+     * whether or not this media is the main one
+     */
+    @ColumnInfo(name="isMain")
+    @NonNull
     private boolean isMain;
+
+    public OfferMedia(long propertyId, Uri fileUri, boolean isMain) {
+        this.propertyId = propertyId;
+        this.fileUri = fileUri;
+        this.isMain = isMain;
+    }
+
+    public long getmId() {
+        return mId;
+    }
+
+    public long getPropertyId() {
+        return propertyId;
+    }
+
+    @NonNull
+    public Uri getFileUri() {
+        return fileUri;
+    }
+
+    public boolean getIsMain() {
+        return isMain;
+    }
 }
+

@@ -88,4 +88,55 @@ public class Property {
         this.agentId = agentId;
     }
 
+    public long getpId() {
+        return pId;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public int getBathtubs() {
+        return bathtubs;
+    }
+
+    public Date getDateOffer() {
+        return dateOffer;
+    }
+
+    public int getBedrooms() {
+        return bedrooms;
+    }
+
+    public int getShowers() {
+        return showers;
+    }
+
+    public int getSurface() {
+        return surface;
+    }
+
+    public int getToilets() {
+        return toilets;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public long getAgentId() {
+        return agentId;
+    }
+
+    public LatLng getLocation() {
+        return location;
+    }
 }

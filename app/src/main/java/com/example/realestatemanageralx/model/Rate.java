@@ -33,4 +33,9 @@ public class Rate {
     @ColumnInfo(name="value")
     @NonNull
     private double value;
+
+    public Rate(String dataType, double value) {
+        this.dataType = dataType;
+        this.value = value;
+    }
 }
