@@ -12,8 +12,8 @@ public class Agent {
      * The unique identifier of the real estate agent
      */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "aId")
-    private long aId;
+    @ColumnInfo(name = "aid")
+    private long id;
 
     /**
      * The first name of the real estate agent
@@ -66,8 +66,14 @@ public class Agent {
         this.phone = phone;
     }
 
-    public long getaId() {
-        return aId;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @NonNull
+    public long getId() {
+        return id;
     }
 
     @NonNull
@@ -99,4 +105,5 @@ public class Agent {
     public String getPhone() {
         return phone;
     }
+
 }

@@ -17,8 +17,8 @@ public class Rate {
      * The unique identifier of the rate
      */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "rId")
-    private int rId;
+    @ColumnInfo(name = "rid")
+    private int id;
 
     /**
      * The name of the value stored
@@ -37,5 +37,22 @@ public class Rate {
     public Rate(String dataType, double value) {
         this.dataType = dataType;
         this.value = value;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @NonNull
+    public String getDataType() {
+        return dataType;
     }
 }

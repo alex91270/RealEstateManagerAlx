@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity(tableName = "property",
         foreignKeys = {@ForeignKey(entity = Agent.class,
-        parentColumns = "aId",
+        parentColumns = "aid",
         childColumns = "agentId",
         onDelete = ForeignKey.CASCADE)},
         indices = {
@@ -24,8 +24,8 @@ public class Property {
      * The unique identifier of the project
      */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "pId")
-    private long pId;
+    @ColumnInfo(name = "pid")
+    private long id;
 
     @ColumnInfo(name="description")
     private String description;
@@ -55,13 +55,13 @@ public class Property {
     private boolean aircon;
 
     @ColumnInfo(name="dateOffer")
-    private Date dateOffer;
+    private double dateOffer;
 
     @ColumnInfo(name="sold")
     private boolean sold;
 
     @ColumnInfo(name="location")
-    private LatLng location;
+    private String location;
 
     @ColumnInfo(name="price")
     private int price;
@@ -70,8 +70,8 @@ public class Property {
     private long agentId;
 
     public Property(String description, String city, String district, int surface, int bedrooms,
-                    int toilets, int showers, int bathtubs, boolean aircon, Date dateOffer,
-                    LatLng location, int price, long agentId) {
+                    int toilets, int showers, int bathtubs, boolean aircon, double dateOffer,
+                    String location, int price, long agentId) {
         this.description = description;
         this.city = city;
         this.district = district;
@@ -88,8 +88,12 @@ public class Property {
         this.agentId = agentId;
     }
 
-    public long getpId() {
-        return pId;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getCity() {
@@ -100,7 +104,7 @@ public class Property {
         return bathtubs;
     }
 
-    public Date getDateOffer() {
+    public double getDateOffer() {
         return dateOffer;
     }
 
@@ -136,7 +140,19 @@ public class Property {
         return agentId;
     }
 
-    public LatLng getLocation() {
+    public String getLocation() {
         return location;
+    }
+
+    public boolean isAircon() {
+        return aircon;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 }

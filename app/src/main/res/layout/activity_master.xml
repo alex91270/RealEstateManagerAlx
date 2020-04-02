@@ -29,6 +29,7 @@
         <!-- Bottom navigation bar -->
 
         <!-- FrameLayout for our fragments -->
+
         <FrameLayout
             android:id="@+id/activity_master_frame_layout"
             android:layout_width="match_parent"

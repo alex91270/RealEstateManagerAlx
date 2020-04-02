@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "offerMedia",
         foreignKeys = {@ForeignKey(entity = Property.class,
-                parentColumns = "pId",
+                parentColumns = "pid",
                 childColumns = "propertyId",
                 onDelete = ForeignKey.CASCADE)},
         indices = {
@@ -23,14 +23,13 @@ public class OfferMedia {
      * The unique identifier of the media
      */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "mId")
-    private long mId;
+    @ColumnInfo(name = "mid")
+    private long id;
 
     /**
      * The id of the property concerned
      */
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "pid")
+    @ColumnInfo(name = "propertyId")
     private long propertyId;
 
     /**
@@ -38,7 +37,7 @@ public class OfferMedia {
      */
     @ColumnInfo(name="fileUri")
     @NonNull
-    private Uri fileUri;
+    private String fileUri;
 
     /**
      * whether or not this media is the main one
@@ -47,22 +46,28 @@ public class OfferMedia {
     @NonNull
     private boolean isMain;
 
-    public OfferMedia(long propertyId, Uri fileUri, boolean isMain) {
+    public OfferMedia(long propertyId, String fileUri, boolean isMain) {
         this.propertyId = propertyId;
         this.fileUri = fileUri;
         this.isMain = isMain;
     }
 
-    public long getmId() {
-        return mId;
+
+    public long getId() {
+        return id;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 
     public long getPropertyId() {
         return propertyId;
     }
 
     @NonNull
-    public Uri getFileUri() {
+    public String getFileUri() {
         return fileUri;
     }
 

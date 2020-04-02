@@ -1,11 +1,18 @@
 package com.example.realestatemanageralx;
 
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -26,11 +33,15 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,15 +66,29 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
-        String PATH = "/remote/dir/server/";
-        String directoryName = "RealEM";
-        File directory = new File(directoryName);
-        if (! directory.exists()) {
-            Log.i("alex", "le repertoire n'existe pas");
-            directory.mkdir();
-        } else {
-            Log.i("alex", "le repertoire existe");
+        File folderToCreate = new File(this.getFilesDir(), "medias");
+        if (! folderToCreate.exists()) {
+            Log.i("alex","First launch, copying media files...");
+            folderToCreate.mkdir();
         }
+
+        /**AssetManager assetManager = getAssets();
+        String[] files = null;
+
+        try {
+            files = assetManager.list("medias");
+            Log.i("alex", "asset list size: " + files.length);
+
+            for(int i=0;i<files.length;i++){
+                Log.i("alex", "list element " + i + " :" + files[i]);
+            }
+
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }*/
+
+        copyMediaFiles();
+
 
         //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
         //new GetCurrencyRateAsync().execute(getString(R.string.currency_API_key));
@@ -73,7 +98,20 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         showStartFragment();
 
-        Log.i("alex", "master thread: " + String.valueOf(Thread.currentThread().getId()));
+        /**ImageView imageView = findViewById(R.id.imageViewTest);
+        File imgFile = new  File(this.getFilesDir() +"/medias/photo11.jpg");
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        imageView.setImageBitmap(myBitmap);
+         */
+
+        Log.i("alex", "path: " + getFilesDir().getPath() + "/medias/photo11.jpg" );
+
+        File filePhoto11 = new File(getFilesDir().getPath() + "/medias/photo11.jpg" );
+        if (! filePhoto11.exists()) {
+            Log.i("alex", "photo11 existe pas ");
+        }else {
+            Log.i("alex", "photo11 existe");
+        }
 
        }
 
@@ -158,72 +196,73 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-
-
-
-    private class FetchTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    private void copyMediaFiles() {
+        long timeStart = new Date().getTime();
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("medias");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
         }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            InputStream inputStream = null;
-            HttpURLConnection conn = null;
-
-            String stringUrl = strings[0];
+        if (files != null) for (String filename : files) {
+            Log.i("alex", "filename in files: " + filename );
+            InputStream in = null;
+            OutputStream out = null;
             try {
-                URL url = new URL(stringUrl);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
-                int response = conn.getResponseCode();
-                if (response != 200) {
-                    return null;
-                }
+                in = assetManager.open("medias/" + filename);
 
-                inputStream = conn.getInputStream();
-                if (inputStream == null) {
-                    return null;
-                }
+                //File outFile = new File(this.getFilesDir(), "medias/" + filename);
+                //File outFile = new File(getExternalFilesDir(null), filename);
+                File outFile = new File(getFilesDir().getPath() + "/medias/" + filename );
 
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                StringBuffer buffer = new StringBuffer();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                    buffer.append("\n");
-                }
 
-                return new String(buffer);
-            } catch (IOException e) {
-                return null;
-            } finally {
-                if (conn != null) {
-                    conn.disconnect();
-                }
-                if (inputStream != null) {
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+            } catch(IOException e) {
+                Log.e("alex", "Failed to copy asset file: " + filename, e);
+            }
+            finally {
+                if (in != null) {
                     try {
-                        inputStream.close();
-                    } catch (IOException ignored) {
+                        in.close();
+                    } catch (IOException e) {
+                        // NOOP
+                        Log.e("alex", "error closing  file IN");
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        Log.e("alex", "error closing  file IN");
+                        // NOOP
                     }
                 }
             }
         }
+        long timeEnd = new Date().getTime();
+        Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (s == null) {
-                Log.i("alex", "erreur ");
-            } else {
-                Log.i("alex", "resultat: " + s);
+    }
 
-            }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
 
+        Log.i("alex", "we are in copyfile ");
+
+        long timeStart = new Date().getTime();
+        byte[] buffer = new byte[1024];
+        int read;
+
+        int bits = 0;
+
+        while((read = in.read(buffer)) != -1){
+            bits +=1;
+            out.write(buffer, 0, read);
         }
+
+        Log.i("alex", "1 file copieds, number bits: " + bits);
+        long timeEnd = new Date().getTime();
     }
 }
 
