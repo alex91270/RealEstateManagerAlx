@@ -2,6 +2,7 @@ package com.example.realestatemanageralx;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
+import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.google.android.material.navigation.NavigationView;
 
@@ -66,10 +68,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
-        File folderToCreate = new File(this.getFilesDir(), "medias");
-        if (! folderToCreate.exists()) {
-            Log.i("alex","First launch, copying media files...");
-            folderToCreate.mkdir();
+        File folderMedias = new File(this.getFilesDir(), "medias");
+        if (! folderMedias.exists()) {
+            startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
         /**AssetManager assetManager = getAssets();
@@ -87,7 +88,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
             Log.e("tag", "Failed to get asset file list.", e);
         }*/
 
-        copyMediaFiles();
+        //copyMediaFiles();
 
 
         //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
@@ -102,7 +103,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         File imgFile = new  File(this.getFilesDir() +"/medias/photo11.jpg");
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         imageView.setImageBitmap(myBitmap);
-         */
+
 
         Log.i("alex", "path: " + getFilesDir().getPath() + "/medias/photo11.jpg" );
 
@@ -112,6 +113,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }else {
             Log.i("alex", "photo11 existe");
         }
+
+         */
 
        }
 
