@@ -1,7 +1,5 @@
 package com.example.realestatemanageralx.model;
 
-import android.net.Uri;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -33,11 +31,11 @@ public class OfferMedia {
     private long propertyId;
 
     /**
-     * The Uri of the media file
+     * The name of the media file
      */
-    @ColumnInfo(name="fileUri")
+    @ColumnInfo(name="fileName")
     @NonNull
-    private String fileUri;
+    private String fileName;
 
     /**
      * whether or not this media is the main one
@@ -46,9 +44,9 @@ public class OfferMedia {
     @NonNull
     private boolean isMain;
 
-    public OfferMedia(long propertyId, String fileUri, boolean isMain) {
+    public OfferMedia(long propertyId, String fileName, boolean isMain) {
         this.propertyId = propertyId;
-        this.fileUri = fileUri;
+        this.fileName = fileName;
         this.isMain = isMain;
     }
 
@@ -67,8 +65,8 @@ public class OfferMedia {
     }
 
     @NonNull
-    public String getFileUri() {
-        return fileUri;
+    public String getFileName() {
+        return fileName;
     }
 
     public boolean getIsMain() {

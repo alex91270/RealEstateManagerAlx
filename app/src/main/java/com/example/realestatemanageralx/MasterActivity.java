@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,14 +24,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
+import com.example.realestatemanageralx.data.DataHolder;
+import com.example.realestatemanageralx.database.AppDatabase;
+import com.example.realestatemanageralx.database.OfferMediaDAO;
+import com.example.realestatemanageralx.database.PropertyDAO;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
+import com.example.realestatemanageralx.model.OfferMedia;
+import com.example.realestatemanageralx.model.Property;
+import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
@@ -43,7 +53,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -61,6 +73,12 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private static final int FRAGMENT_MAP = 1;
     private static final int FRAGMENT_LOAN = 2;
 
+    private AppDatabase myDatabase;
+    private PropertyViewModel propertyViewModel;
+    private List<Property> propertiesList = new ArrayList<>();
+
+    private OfferMediaDAO offerMediaDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +91,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
-        /**AssetManager assetManager = getAssets();
-        String[] files = null;
+        Log.i("alex", "calling the db from master");
 
-        try {
-            files = assetManager.list("medias");
-            Log.i("alex", "asset list size: " + files.length);
-
-            for(int i=0;i<files.length;i++){
-                Log.i("alex", "list element " + i + " :" + files[i]);
-            }
-
-        } catch (IOException e) {
-            Log.e("tag", "Failed to get asset file list.", e);
-        }*/
-
-        //copyMediaFiles();
-
+        myDatabase = AppDatabase.getDatabase(getApplicationContext());
 
         //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
         //new GetCurrencyRateAsync().execute(getString(R.string.currency_API_key));
@@ -99,23 +103,13 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         showStartFragment();
 
-        /**ImageView imageView = findViewById(R.id.imageViewTest);
-        File imgFile = new  File(this.getFilesDir() +"/medias/photo11.jpg");
-        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        imageView.setImageBitmap(myBitmap);
+        //List<Property> propList = myDatabase.PropertyDAO().getAllProjects();
+        //Log.i("alex", "property list size : " + propList.size());
 
+        List<OfferMedia> mediaList = offerMediaDAO.getMediasByPropertyId(2);
+        Log.i("alex", "list of medias for property 1: " + mediaList.size());
 
-        Log.i("alex", "path: " + getFilesDir().getPath() + "/medias/photo11.jpg" );
-
-        File filePhoto11 = new File(getFilesDir().getPath() + "/medias/photo11.jpg" );
-        if (! filePhoto11.exists()) {
-            Log.i("alex", "photo11 existe pas ");
-        }else {
-            Log.i("alex", "photo11 existe");
-        }
-
-         */
-
+        initObservers();
        }
 
     @Override
@@ -199,73 +193,24 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-    private void copyMediaFiles() {
-        long timeStart = new Date().getTime();
-        AssetManager assetManager = getAssets();
-        String[] files = null;
-        try {
-            files = assetManager.list("medias");
-        } catch (IOException e) {
-            Log.e("tag", "Failed to get asset file list.", e);
-        }
-        if (files != null) for (String filename : files) {
-            Log.i("alex", "filename in files: " + filename );
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                in = assetManager.open("medias/" + filename);
+    private void initObservers() {
 
-                //File outFile = new File(this.getFilesDir(), "medias/" + filename);
-                //File outFile = new File(getExternalFilesDir(null), filename);
-                File outFile = new File(getFilesDir().getPath() + "/medias/" + filename );
+        //the ViewModel allows to separate the access to the data of the view(fragments and activities). It also survives
+        //the configurations changes. Can be useful if same data is accessed from multiple views.
+        propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
+        propertyViewModel.getProjectsList().observe(this, new Observer<List<Property>>() {
+            public void onChanged(@Nullable List<Property> properties) {
+                propertiesList = properties;
+                DataHolder.getInstance().setPropertiesList((ArrayList) properties);
 
-
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-            } catch(IOException e) {
-                Log.e("alex", "Failed to copy asset file: " + filename, e);
-            }
-            finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        // NOOP
-                        Log.e("alex", "error closing  file IN");
-                    }
+                /**
+                Log.i("alex", "property list size : " + propertiesList.size());
+                for (Property prop : propertiesList) {
+                    Log.i("alex", "property id : " + prop.getId() + "  surface: " + prop.getSurface());
                 }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        Log.e("alex", "error closing  file IN");
-                        // NOOP
-                    }
-                }
+                 */
             }
-        }
-        long timeEnd = new Date().getTime();
-        Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
-
-    }
-
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
-
-        Log.i("alex", "we are in copyfile ");
-
-        long timeStart = new Date().getTime();
-        byte[] buffer = new byte[1024];
-        int read;
-
-        int bits = 0;
-
-        while((read = in.read(buffer)) != -1){
-            bits +=1;
-            out.write(buffer, 0, read);
-        }
-
-        Log.i("alex", "1 file copieds, number bits: " + bits);
-        long timeEnd = new Date().getTime();
+        });
     }
 }
 

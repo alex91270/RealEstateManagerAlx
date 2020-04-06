@@ -31,6 +31,7 @@ public class InitialCopyActivity extends AppCompatActivity {
                 .load(R.drawable.wait)
                 .into(image);
 
+        Log.i("alex", "initial copy activity ");
         copyMediaFiles();
     }
 
@@ -49,7 +50,7 @@ public class InitialCopyActivity extends AppCompatActivity {
             Log.e("tag", "Failed to get asset file list.", e);
         }
         if (files != null) for (String filename : files) {
-            Log.i("alex", "filename in files: " + filename );
+            //Log.i("alex", "filename in files: " + filename );
             InputStream in = null;
             OutputStream out = null;
             try {
@@ -84,14 +85,14 @@ public class InitialCopyActivity extends AppCompatActivity {
             }
         }
         long timeEnd = new Date().getTime();
-        Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
+        //Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
         startActivity(new Intent(this, MasterActivity.class));
 
     }
 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
 
-        Log.i("alex", "we are in copyfile ");
+        //Log.i("alex", "we are in copyfile ");
 
         long timeStart = new Date().getTime();
         byte[] buffer = new byte[1024];
@@ -104,7 +105,7 @@ public class InitialCopyActivity extends AppCompatActivity {
             out.write(buffer, 0, read);
         }
 
-        Log.i("alex", "1 file copieds, number bits: " + bits);
+        //Log.i("alex", "1 file copieds, number bits: " + bits);
         long timeEnd = new Date().getTime();
     }
 }
