@@ -26,12 +26,12 @@ public class PropertyViewModel  extends AndroidViewModel {
         propertyDao = AppDatabase.getDatabase(application).propertyDAO();
     }
 
-    public LiveData<List<Property>> getProjectsList() {
+    public LiveData<List<Property>> getPropertiesList() {
         propertiesLiveData = propertyDao.getAllProperties();
         return propertiesLiveData;
     }
 
-    public LiveData<Property> getProjectById(long id) {
+    public LiveData<Property> getPropertyById(long id) {
         propertyLiveData = propertyDao.getPropertyById(id);
         return propertyLiveData;}
 }

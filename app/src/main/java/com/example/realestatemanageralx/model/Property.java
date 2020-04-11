@@ -6,10 +6,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.Date;
-
 @Entity(tableName = "property",
         foreignKeys = {@ForeignKey(entity = Agent.class,
         parentColumns = "aid",
@@ -55,7 +51,7 @@ public class Property {
     private boolean aircon;
 
     @ColumnInfo(name="dateOffer")
-    private double dateOffer;
+    private long dateOffer;
 
     @ColumnInfo(name="sold")
     private boolean sold;
@@ -70,7 +66,7 @@ public class Property {
     private long agentId;
 
     public Property(String description, String city, String district, int surface, int bedrooms,
-                    int toilets, int showers, int bathtubs, boolean aircon, double dateOffer,
+                    int toilets, int showers, int bathtubs, boolean aircon, long dateOffer,
                     String location, int price, long agentId) {
         this.description = description;
         this.city = city;
@@ -104,7 +100,7 @@ public class Property {
         return bathtubs;
     }
 
-    public double getDateOffer() {
+    public long getDateOffer() {
         return dateOffer;
     }
 

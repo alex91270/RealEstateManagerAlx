@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -37,6 +38,8 @@ import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
+import com.example.realestatemanageralx.helpers.DataProcessing;
+import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
@@ -91,8 +94,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
-        Log.i("alex", "calling the db from master");
-
         myDatabase = AppDatabase.getDatabase(getApplicationContext());
 
         //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
@@ -102,12 +103,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureDrawerLayout();
         configureNavigationView();
         showStartFragment();
-
-        //List<Property> propList = myDatabase.PropertyDAO().getAllProjects();
-        //Log.i("alex", "property list size : " + propList.size());
-
-        List<OfferMedia> mediaList = offerMediaDAO.getMediasByPropertyId(2);
-        Log.i("alex", "list of medias for property 1: " + mediaList.size());
 
         initObservers();
        }
@@ -198,7 +193,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         //the ViewModel allows to separate the access to the data of the view(fragments and activities). It also survives
         //the configurations changes. Can be useful if same data is accessed from multiple views.
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getProjectsList().observe(this, new Observer<List<Property>>() {
+        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
             public void onChanged(@Nullable List<Property> properties) {
                 propertiesList = properties;
                 DataHolder.getInstance().setPropertiesList((ArrayList) properties);

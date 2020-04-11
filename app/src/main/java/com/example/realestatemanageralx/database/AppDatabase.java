@@ -34,9 +34,9 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "real.db";
 
     public static AppDatabase getDatabase(Context context) {
-        Log.i("alex", "app database getdatabase");
+        //Log.i("alex", "app database getdatabase");
         if (INSTANCE == null) {
-            Log.i("alex", "instance = null");
+            //Log.i("alex", "instance = null");
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DB_NAME)
                             .addCallback(new RoomDatabase.Callback() {

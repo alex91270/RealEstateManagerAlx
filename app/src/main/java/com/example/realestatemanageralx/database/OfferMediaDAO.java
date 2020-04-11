@@ -26,5 +26,5 @@ public interface OfferMediaDAO {
 
     @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")
     //LiveData<Property> getMediaByPropertyId(long propertyId);
-    List<OfferMedia> getMediasByPropertyId(long propertyId);
+    LiveData<List<OfferMedia>> getMediasByPropertyId(long propertyId);
 }

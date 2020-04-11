@@ -21,7 +21,7 @@ import java.util.List;
 public class OfferMediaViewModel  extends AndroidViewModel {
     private OfferMediaDAO offerMediaDAO;
     private LiveData<List<OfferMedia>> allMediasLiveData;
-    private List<OfferMedia> mediasList;
+    private LiveData<List<OfferMedia>> mediasList;
 
 
     public OfferMediaViewModel (@NonNull Application application) {
@@ -34,7 +34,7 @@ public class OfferMediaViewModel  extends AndroidViewModel {
         return allMediasLiveData;
     }
 
-    public List<OfferMedia> getMediasByPropertyId(long id) {
+    public LiveData<List<OfferMedia>> getMediasByPropertyId(long id) {
         mediasList = offerMediaDAO.getMediasByPropertyId(id);
         return mediasList;}
 }

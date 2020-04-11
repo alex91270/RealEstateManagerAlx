@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#e7981b</color>
     <color name="colorText">#111110</color>
+    <color name="colorHint">#3F51B5</color>color>
+    <color name="colorPurple">#736685</color>color>
 </resources>
