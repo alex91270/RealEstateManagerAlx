@@ -96,7 +96,7 @@ public class LoanSimulatorFragment extends Fragment {
                 ratesList = new ArrayList<>();
 
                 for (int i = 3; i < 33; i++) {
-                    ratesList.add(round(rates.get(i).getValue(), 2));
+                    ratesList.add(tc.round(rates.get(i).getValue(), 2));
                     Log.i("alex", "index: " + i + "  " + rates.get(i).getDataType() + ": " + rates.get(i).getValue());
                 }
             }
@@ -113,12 +113,5 @@ public class LoanSimulatorFragment extends Fragment {
         textViewMonthlyAmount.setText(String.valueOf(Math.round(payment)));
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
 
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
 }
