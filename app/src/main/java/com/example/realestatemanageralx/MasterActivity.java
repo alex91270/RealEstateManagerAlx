@@ -1,7 +1,9 @@
 package com.example.realestatemanageralx;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -11,10 +13,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -41,8 +47,11 @@ import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
+import com.example.realestatemanageralx.login.LoginHolder;
+import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
+import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -63,6 +72,7 @@ import java.util.List;
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
+    private Menu nav_Menu;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
 
@@ -77,10 +87,15 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private static final int FRAGMENT_LOAN = 2;
 
     private AppDatabase myDatabase;
-    private PropertyViewModel propertyViewModel;
-    private List<Property> propertiesList = new ArrayList<>();
+    //private PropertyViewModel propertyViewModel;
+    //private List<Property> propertiesList = new ArrayList<>();
+    private AgentViewModel agentViewModel;
+    private AlertDialog dialog = null;
+    private Context context;
+    private EditText dialogTextUsername = null;
+    private EditText dialogTextPassword = null;
 
-    private OfferMediaDAO offerMediaDAO;
+    //private OfferMediaDAO offerMediaDAO;
 
 
     @Override
@@ -88,6 +103,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
+        context = this;
 
         File folderMedias = new File(this.getFilesDir(), "medias");
         if (! folderMedias.exists()) {
@@ -104,7 +120,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         showStartFragment();
 
-        initObservers();
+
+
+        //initObservers();
        }
 
     @Override
@@ -119,6 +137,20 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
                 break;
             case R.id.nav_drawer_loan :
                 showLoanFragment();
+                break;
+            case R.id.nav_drawer_pro :
+                final AlertDialog dialog = getMessageDialog();
+                dialog.show();
+                break;
+            case R.id.nav_drawer_create :
+                showCreateFragment();
+                break;
+            case R.id.nav_drawer_logout :
+                nav_Menu.setGroupEnabled(R.id.pro_group, false);
+                nav_Menu.setGroupVisible(R.id.pro_group, false);
+                LoginHolder.getInstance().setIsLogged(false);
+                Toast.makeText(context, "You are logged out", Toast.LENGTH_LONG).show();
+                showFirstFragment();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -141,7 +173,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private void configureNavigationView(){
         navigationView = (NavigationView) findViewById(R.id.activity_master_nav_view);
         View headerView = navigationView.getHeaderView(0);
-
+        nav_Menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -180,6 +212,10 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         startTransactionFragment(loanFragment);
     }
 
+    private void showCreateFragment() {
+
+    }
+
     private void startTransactionFragment(Fragment fragment){
 
         if (!fragment.isVisible()){
@@ -188,24 +224,54 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-    private void initObservers() {
-
-        //the ViewModel allows to separate the access to the data of the view(fragments and activities). It also survives
-        //the configurations changes. Can be useful if same data is accessed from multiple views.
-        propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
-            public void onChanged(@Nullable List<Property> properties) {
-                propertiesList = properties;
-                DataHolder.getInstance().setPropertiesList((ArrayList) properties);
-
-                /**
-                Log.i("alex", "property list size : " + propertiesList.size());
-                for (Property prop : propertiesList) {
-                    Log.i("alex", "property id : " + prop.getId() + "  surface: " + prop.getSurface());
+    private void initObserverAgent(String name, String pass) {
+        agentViewModel = ViewModelProviders.of(this).get(AgentViewModel.class);
+        agentViewModel.getAgentByUsername(name).observe(this, new Observer<Agent>() {
+            @Override
+            public void onChanged(Agent agent) {
+                if (agent!=null) {
+                    if (agent.getPassword().equals(pass)) {
+                        Toast.makeText(context, "You are now loggued in", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                        nav_Menu.setGroupEnabled(R.id.pro_group, true);
+                        nav_Menu.setGroupVisible(R.id.pro_group, true);
+                        LoginHolder.getInstance().setIsLogged(true);
+                        showFirstFragment();
+                    } else {
+                        Toast.makeText(context, "Wrong username/password", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Unknown username", Toast.LENGTH_LONG).show();
                 }
-                 */
             }
         });
+    }
+
+    private AlertDialog getMessageDialog() {
+        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.alert_dialog_login, null);
+        alertBuilder.setView(v);
+        dialog = alertBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = dialog.findViewById(R.id.dialog_button_login);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        dialogTextUsername = dialog.findViewById(R.id.loginEditTextName);
+                        dialogTextPassword = dialog.findViewById(R.id.loginEditTextPassword);
+
+                       initObserverAgent(dialogTextUsername.getText().toString(), dialogTextPassword.getText().toString());
+                    }
+                });
+            }
+        });
+
+        return dialog;
     }
 }
 

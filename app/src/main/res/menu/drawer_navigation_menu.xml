@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+            android:id="@+id/main_group">
         <item
     android:id="@+id/nav_drawer_see_offers"
     android:icon="@drawable/ic_home_24dp"
@@ -28,5 +29,25 @@
             android:color="#e7981b"
             android:title="@string/navigation_pro" />
 </group>
+
+    <group
+        android:id="@+id/pro_group"
+        android:checkableBehavior="single"
+        android:enabled="false"
+        android:visible="false">
+
+        <item
+            android:id="@+id/nav_drawer_create"
+            android:color="#e7981b"
+            android:icon="@drawable/ic_note_add"
+            android:title="@string/navigation_add" />
+
+        <item
+            android:id="@+id/nav_drawer_logout"
+            android:color="#e7981b"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/navigation_logout" />
+
+    </group>
 
 </menu>

@@ -3,4 +3,59 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/dialog_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Professional access"
+        android:textColor="#736685"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
+
+    <View
+        android:id="@+id/detail_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#f53128" />
+
+    <EditText
+        android:id="@+id/loginEditTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Your username"
+        android:textColorHint="@color/colorHint"
+        android:inputType="textPersonName"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/loginEditTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Your password"
+        android:textColorHint="@color/colorHint"
+        android:inputType="textPassword"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/detail_divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#f53128" />
+
+    <Button
+        android:id="@+id/dialog_button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="sign in" />
 </LinearLayout>

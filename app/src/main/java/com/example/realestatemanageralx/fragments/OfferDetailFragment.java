@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.TypesConversions;
+import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
@@ -40,7 +41,7 @@ import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
     private PropertyViewModel propertyViewModel;
-    private List<Property> propertiesList = new ArrayList<>();
+    //private List<Property> propertiesList = new ArrayList<>();
     private OfferMediaViewModel mediaViewModel;
     private List<OfferMedia> mediasList = new ArrayList<>();
     private AgentViewModel agentViewModel;
@@ -64,6 +65,7 @@ public class OfferDetailFragment extends Fragment {
     private TextView textViewAgentName;
     private TextView textViewAgentPhone;
     private TextView textViewAgentMail;
+    private Button buttonSold;
     private Button buttonMail;
     private Button buttonPhone;
     private TextView textViewSeeonmap;
@@ -115,11 +117,24 @@ public class OfferDetailFragment extends Fragment {
         textViewSeeonmap = root.findViewById(R.id.detail_text_seeonmap);
         textViewConvertUnit = root.findViewById(R.id.detail_text_convert_unit);
         textViewConvertCurrency = root.findViewById(R.id.detail_text_currency);
+        buttonSold = root.findViewById(R.id.detail_button_sold);
         buttonMail = root.findViewById(R.id.detail_button_mail);
         buttonPhone = root.findViewById(R.id.detail_button_call);
         imageCurrency = root.findViewById(R.id.imageViewCurrency);
         gallery = root.findViewById(R.id.gallery);
         galleryInflater = LayoutInflater.from(root.getContext());
+
+        if(LoginHolder.getInstance().getIsAgentLogged()) {
+            buttonSold.setVisibility(View.VISIBLE);
+            buttonSold.setEnabled(true);
+        }
+
+        buttonSold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         buttonMail.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,6 +10,8 @@
     <string name="navigation_map">SEE ON MAP</string>
     <string name="navigation_loan">LOAN SIMULATOR</string>
     <string name="navigation_pro">PROFESSIONAL ACCESS</string>
+    <string name="navigation_add">CREATE A NEW OFFER</string>
+    <string name="navigation_logout">LOGOUT</string>
 
     <!-- TOOLBAR -->
     <string name="toolbar_title">Real Estate Manager</string>

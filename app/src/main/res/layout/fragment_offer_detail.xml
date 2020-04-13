@@ -341,6 +341,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/detail_text_agent_email" />
 
+                <Button
+                    android:id="@+id/detail_button_sold"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="#f53128"
+                    android:enabled="false"
+                    android:text="  set this offer as sold"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="12sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_text_agent_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/detail_text_agent_title"
+                    tools:visibility="invisible" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

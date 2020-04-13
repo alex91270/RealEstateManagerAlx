@@ -11,11 +11,6 @@ import java.util.ArrayList;
 public class DataHolder {
 
     private static final DataHolder holder = new DataHolder();
-   //private ArrayList<Property> propertiesList;
-    //private ArrayList<OfferMedia> offerMediaList;
-    //private ArrayList<Agent> agentList;
-    //private ArrayList<Rate> rateList;
-    //private String data;
 
     private boolean isAgentLoggued;
     private long agentId;
@@ -23,19 +18,6 @@ public class DataHolder {
     public static DataHolder getInstance() {
         return holder;
     }
-
-    /**public ArrayList<Property> getPropertiesList() {
-        return propertiesList;
-    }
-    public void setPropertiesList(ArrayList<Property> list) {
-        this.propertiesList = list;
-    }
-    public String getData() {
-        return data;
-    }
-    public void setData(String data) {
-        this.data = data;
-    }*/
 
     public void setIsLoggued(boolean loggued){
         isAgentLoggued = loggued;
