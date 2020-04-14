@@ -5,24 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -31,43 +22,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 
-import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
-import com.example.realestatemanageralx.data.DataHolder;
 import com.example.realestatemanageralx.database.AppDatabase;
-import com.example.realestatemanageralx.database.OfferMediaDAO;
-import com.example.realestatemanageralx.database.PropertyDAO;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
-import com.example.realestatemanageralx.helpers.DataProcessing;
-import com.example.realestatemanageralx.helpers.TypesConversions;
-import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
-import com.example.realestatemanageralx.model.OfferMedia;
-import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
-import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -214,7 +184,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     private void showCreateFragment() {
 
+
     }
+
 
     private void startTransactionFragment(Fragment fragment){
 

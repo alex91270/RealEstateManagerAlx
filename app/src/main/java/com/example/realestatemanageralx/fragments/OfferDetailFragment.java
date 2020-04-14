@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+//import android.util.Log;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -72,7 +74,7 @@ public class OfferDetailFragment extends Fragment {
     private TextView textViewConvertUnit;
     private TextView textViewConvertCurrency;
     private ImageView imageCurrency;
-    private LinearLayout gallery;
+    private ViewPager gallery;
     private LayoutInflater galleryInflater;
 
     private String surfaceUnit = "m²";
@@ -121,7 +123,7 @@ public class OfferDetailFragment extends Fragment {
         buttonMail = root.findViewById(R.id.detail_button_mail);
         buttonPhone = root.findViewById(R.id.detail_button_call);
         imageCurrency = root.findViewById(R.id.imageViewCurrency);
-        gallery = root.findViewById(R.id.gallery);
+        gallery = root.findViewById(R.id.view_pager_slider);
         galleryInflater = LayoutInflater.from(root.getContext());
 
         if(LoginHolder.getInstance().getIsAgentLogged()) {
@@ -183,7 +185,7 @@ public class OfferDetailFragment extends Fragment {
 
                 if (currency.equals("dollar")) {
                     currency = "euro";
-                    textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())*exchangeRate))));
+                    textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())/exchangeRate))));
                     textViewConvertCurrency.setText("convert to dollar");
                     imageCurrency.setImageResource(R.drawable.ic_euro);
 
@@ -195,6 +197,9 @@ public class OfferDetailFragment extends Fragment {
                 }
             }
         });
+
+        Log.i("alex", "end on create ");
+
         initObservers();
 
         return root;
@@ -224,8 +229,8 @@ public class OfferDetailFragment extends Fragment {
             public void onChanged(@Nullable List<Rate> rates) {
                 exchangeRate = rates.get(0).getValue();
                 rateUpdateDate = rates.get(1).getValue();
-                Log.i("alex", "exchangerate: " + exchangeRate);
-                Log.i("alex", "rate date: " + rateUpdateDate);
+               // Log.i("alex", "exchangerate: " + exchangeRate);
+                //Log.i("alex", "rate date: " + rateUpdateDate);
             }
         });
 
@@ -233,8 +238,11 @@ public class OfferDetailFragment extends Fragment {
         mediaViewModel.getMediasByPropertyId(propertyId).observe(this, new Observer<List<OfferMedia>>() {
             public void onChanged(@Nullable List<OfferMedia> medias) {
                 mediasList = medias;
-                fillPictures();
-                //Log.i("alex", "medias list size: " + mediasList.size() );
+                Log.i("alex", "medias list size: " + mediasList.size() );
+                gallery.setAdapter(new SliderAdapter(context, mediasList));
+                //gallery.setAdapter(new SliderAdapter(context));
+                //fillPictures();
+
 
             }
         });
@@ -270,7 +278,7 @@ public class OfferDetailFragment extends Fragment {
 
     private void fillPictures() {
         for (OfferMedia media : mediasList) {
-            Log.i("alex", "another view");
+            //Log.i("alex", "another view");
             View mView = galleryInflater.inflate(R.layout.item_gallery, gallery, false);
             ImageView image = mView.findViewById(R.id.image_gallery_item);
 

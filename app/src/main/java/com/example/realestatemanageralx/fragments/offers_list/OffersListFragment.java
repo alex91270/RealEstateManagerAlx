@@ -2,7 +2,7 @@ package com.example.realestatemanageralx.fragments.offers_list;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +67,7 @@ public class OffersListFragment extends Fragment {
         propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
             public void onChanged(@Nullable List<Property> properties) {
                 propertiesList = properties;
-                Log.i("alex", "properties list size: " + propertiesList.size() );
+                //Log.i("alex", "properties list size: " + propertiesList.size() );
                 myAdapter = new OffersListRecyclerViewAdapter(propertiesList, mediasList, fm);
                 mRecyclerView.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
@@ -78,7 +78,7 @@ public class OffersListFragment extends Fragment {
         mediaViewModel.getAllMedias().observe(this, new Observer<List<OfferMedia>>() {
             public void onChanged(@Nullable List<OfferMedia> medias) {
                 mediasList = medias;
-                Log.i("alex", "medias list size: " + mediasList.size() );
+                //Log.i("alex", "medias list size: " + mediasList.size() );
                 myAdapter = new OffersListRecyclerViewAdapter(propertiesList, mediasList, fm);
                 mRecyclerView.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();

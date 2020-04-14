@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +47,8 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         this.fragmentManager = fm;
 
 
-        Log.i("alex", "adapter properties list size: " + listOffers.size() );
-        Log.i("alex", "adapter medias list size: " + listMedias.size() );
+        //Log.i("alex", "adapter properties list size: " + listOffers.size() );
+        //Log.i("alex", "adapter medias list size: " + listMedias.size() );
     }
 
     @Override
@@ -67,7 +67,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         positionRecycler = position;
         Property property = listOffers.get(position);
-        Log.i("alex", "position: " + position + " property ID: " + property.getId() + "  price: " + property.getPrice());
+        //Log.i("alex", "position: " + position + " property ID: " + property.getId() + "  price: " + property.getPrice());
 
         holder.textViewPrice.setText(new TypesConversions().formatPriceNicely(property.getPrice()));
 
@@ -78,7 +78,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         if (!fileNameMainMedia.equals("")) {
             Bitmap bitmap = BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia);
-            Log.i("alex", "bitmap size: " + bitmap.getByteCount());
+            //Log.i("alex", "bitmap size: " + bitmap.getByteCount());
             holder.picture.setImageBitmap(bitmap);
         }
 
