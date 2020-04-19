@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,6 +21,8 @@ import java.io.OutputStream;
 import java.util.Date;
 
 public class InitialCopyActivity extends AppCompatActivity {
+
+    MediaTypesAndCopy mtc = new MediaTypesAndCopy();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class InitialCopyActivity extends AppCompatActivity {
         File folderToCreate = new File(this.getFilesDir(), "medias");
             folderToCreate.mkdir();
 
-        long timeStart = new Date().getTime();
+        //long timeStart = new Date().getTime();
         AssetManager assetManager = getAssets();
         String[] files = null;
         try {
@@ -61,7 +64,7 @@ public class InitialCopyActivity extends AppCompatActivity {
 
 
                 out = new FileOutputStream(outFile);
-                copyFile(in, out);
+                mtc.copyFile(in, out);
             } catch(IOException e) {
                 Log.e("alex", "Failed to copy asset file: " + filename, e);
             }
@@ -84,13 +87,13 @@ public class InitialCopyActivity extends AppCompatActivity {
                 }
             }
         }
-        long timeEnd = new Date().getTime();
+       // long timeEnd = new Date().getTime();
         //Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
         startActivity(new Intent(this, MasterActivity.class));
 
     }
 
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
+    /**private void copyFile(InputStream in, OutputStream out) throws IOException {
 
         //Log.i("alex", "we are in copyfile ");
 
@@ -108,4 +111,5 @@ public class InitialCopyActivity extends AppCompatActivity {
         //Log.i("alex", "1 file copieds, number bits: " + bits);
         long timeEnd = new Date().getTime();
     }
+     */
 }

@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -30,6 +29,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
+import com.example.realestatemanageralx.fragments.create_offer.LocationPickerFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.login.LoginHolder;
@@ -50,6 +50,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private Fragment firstFragment;
     private Fragment mapFragment;
     private Fragment loanFragment;
+    private Fragment createFragment;
 
     //Identify each fragment with a number
     private static final int FRAGMENT_FIRST = 0;
@@ -183,8 +184,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void showCreateFragment() {
-
-
+        if (createFragment == null) createFragment = LocationPickerFragment.newInstance();
+        startTransactionFragment(createFragment);
     }
 
 

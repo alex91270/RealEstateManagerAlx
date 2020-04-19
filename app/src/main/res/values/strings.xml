@@ -15,10 +15,6 @@
 
     <!-- TOOLBAR -->
     <string name="toolbar_title">Real Estate Manager</string>
-    <string name="toolbar_title_mates">Available workmates</string>
-    <string name="hint_search_mate">Search workmate...</string>
-    <string name="hint_search_rest">Search restaurant...</string>
-    <string name="title_activity_maps">Map</string>
 
     <!-- CURRENCY -->
     <string name="loans_API_key">rhpK3nJpjHCJz9DDEZD7</string>

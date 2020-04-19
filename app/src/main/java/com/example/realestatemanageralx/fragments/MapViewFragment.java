@@ -128,6 +128,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setOnMarkerClickListener(this);
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                Toast.makeText(mContext, latLng.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         initObservers();
     }
 

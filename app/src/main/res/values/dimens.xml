@@ -5,4 +5,8 @@
 
     <!-- Default NavigationView Header height -->
     <dimen name="nav_header_height">200dp</dimen>
+
+    <!-- Default TextureView dimensions -->
+    <dimen name="texture_view_width">420dp</dimen>
+    <dimen name="texture_view_height">235dp</dimen>
 </resources>

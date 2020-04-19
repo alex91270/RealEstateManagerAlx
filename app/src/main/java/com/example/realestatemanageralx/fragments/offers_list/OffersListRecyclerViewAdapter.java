@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +43,10 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
 
     public OffersListRecyclerViewAdapter(List<Property> offers, List<OfferMedia> medias, FragmentManager fm) {
+        Log.i("alex", "constructor");
         listOffers = offers;
         listMedias = medias;
         this.fragmentManager = fm;
-
-
-        //Log.i("alex", "adapter properties list size: " + listOffers.size() );
-        //Log.i("alex", "adapter medias list size: " + listMedias.size() );
     }
 
     @Override
@@ -57,6 +55,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
                 .inflate(R.layout.fragment_offer, parent, false);
 
         context = view.getContext();
+        Log.i("alex", "oncreateviewholder");
 
         return new OffersListRecyclerViewAdapter.ViewHolder(view);
     }
@@ -64,6 +63,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public void onBindViewHolder(final OffersListRecyclerViewAdapter.ViewHolder holder, final int position) {
+        Log.i("alex", "onbindviewholder");
 
         positionRecycler = position;
         Property property = listOffers.get(position);
@@ -106,6 +106,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public int getItemCount() {
+        Log.i("alex", "itemCount: ");
         return listOffers.size();
     }
 
@@ -119,6 +120,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         public ViewHolder(View view) {
             super(view);
+            Log.i("alex", "public Viewholder");
             textViewPrice = view.findViewById(R.id.item_textview_price);
             textViewLocation = view.findViewById(R.id.item_textview_location);
             textViewSurface = view.findViewById(R.id.item_textview_surface);

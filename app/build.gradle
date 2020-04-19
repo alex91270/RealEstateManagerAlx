@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.realestatemanageralx"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -65,4 +65,7 @@ dependencies {
 
     //MAPS UTILS
     implementation 'com.google.maps.android:android-maps-utils:0.4'
+
+    //PLACES
+    implementation 'com.google.android.libraries.places:places:2.0.0'
 }
