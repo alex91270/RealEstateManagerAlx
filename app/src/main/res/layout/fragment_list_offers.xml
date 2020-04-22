@@ -14,28 +14,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/buttonPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#ffffff"
-            app:srcCompat="@drawable/price" />
+            app:srcCompat="@drawable/price_up_un" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/buttonSurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#ffffff"
-            app:srcCompat="@drawable/surface" />
+            app:srcCompat="@drawable/surface_up_un" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/buttonDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#ffffff"
-            app:srcCompat="@drawable/date" />
+            app:srcCompat="@drawable/date_up_sel" />
     </LinearLayout>
 
     <View

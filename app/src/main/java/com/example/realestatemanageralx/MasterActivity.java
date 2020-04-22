@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,8 @@ import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -209,6 +212,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
                         nav_Menu.setGroupEnabled(R.id.pro_group, true);
                         nav_Menu.setGroupVisible(R.id.pro_group, true);
                         LoginHolder.getInstance().setIsLogged(true);
+                        LoginHolder.getInstance().setAgentId(agent.getId());
                         showFirstFragment();
                     } else {
                         Toast.makeText(context, "Wrong username/password", Toast.LENGTH_LONG).show();

@@ -43,7 +43,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
 
     public OffersListRecyclerViewAdapter(List<Property> offers, List<OfferMedia> medias, FragmentManager fm) {
-        Log.i("alex", "constructor");
+        //Log.i("alex", "constructor");
         listOffers = offers;
         listMedias = medias;
         this.fragmentManager = fm;
@@ -55,7 +55,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
                 .inflate(R.layout.fragment_offer, parent, false);
 
         context = view.getContext();
-        Log.i("alex", "oncreateviewholder");
+        //Log.i("alex", "oncreateviewholder");
 
         return new OffersListRecyclerViewAdapter.ViewHolder(view);
     }
@@ -63,16 +63,27 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public void onBindViewHolder(final OffersListRecyclerViewAdapter.ViewHolder holder, final int position) {
-        Log.i("alex", "onbindviewholder");
+        //Log.i("alex", "onbindviewholder");
 
         positionRecycler = position;
         Property property = listOffers.get(position);
-        //Log.i("alex", "position: " + position + " property ID: " + property.getId() + "  price: " + property.getPrice());
+
+        Log.i("alex", "property sold : " + property.isSold());
+
+        if (property.isSold()) {
+            holder.imageSold.setVisibility(View.VISIBLE);
+        }
 
         holder.textViewPrice.setText(new TypesConversions().formatPriceNicely(property.getPrice()));
 
         holder.textViewLocation.setText(property.getCity() + " - " + property.getDistrict());
-        holder.textViewSurface.setText(property.getSurface() + " m²" + " - " + property.getBedrooms() + " bedrooms");
+
+        if (property.getBedrooms() == -1) {
+            holder.textViewSurface.setText(property.getSurface() + " m²" );
+        } else {
+            holder.textViewSurface.setText(property.getSurface() + " m²" + " - " + property.getBedrooms() + " bedrooms");
+        }
+
 
         String fileNameMainMedia = new DataProcessing().getMainPictureName(property.getId(), listMedias);
 
@@ -106,7 +117,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public int getItemCount() {
-        Log.i("alex", "itemCount: ");
+        //Log.i("alex", "itemCount: ");
         return listOffers.size();
     }
 
@@ -116,16 +127,18 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         TextView textViewSurface;
         ImageView picture;
         CardView cardView;
+        ImageView imageSold;
 
 
         public ViewHolder(View view) {
             super(view);
-            Log.i("alex", "public Viewholder");
+            //Log.i("alex", "public Viewholder");
             textViewPrice = view.findViewById(R.id.item_textview_price);
             textViewLocation = view.findViewById(R.id.item_textview_location);
             textViewSurface = view.findViewById(R.id.item_textview_surface);
             picture = view.findViewById(R.id.item_picture);
             cardView = view.findViewById(R.id.item_cardview);
+            imageSold = view.findViewById(R.id.item_sold);
         }
     }
 }

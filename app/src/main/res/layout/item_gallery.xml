@@ -24,4 +24,5 @@
         app:layout_constraintEnd_toStartOf="@+id/image_gallery_item"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/image_gallery_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

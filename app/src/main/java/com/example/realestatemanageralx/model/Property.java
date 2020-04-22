@@ -67,7 +67,7 @@ public class Property {
 
     public Property(String description, String city, String district, int surface, int bedrooms,
                     int toilets, int showers, int bathtubs, boolean aircon, long dateOffer,
-                    String location, int price, long agentId) {
+                    String location, int price, long agentId, boolean sold) {
         this.description = description;
         this.city = city;
         this.district = district;
@@ -82,6 +82,7 @@ public class Property {
         this.location = location;
         this.price = price;
         this.agentId = agentId;
+        this.sold = sold;
     }
 
     public void setId(long id) {

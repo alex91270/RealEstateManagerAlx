@@ -115,9 +115,20 @@ public class FirstFragment extends Fragment {
             //Log.i("alex", "last offer id: " + property.getId());
             //Log.i("alex", "last offer surface: " + property.getSurface());
 
+        if (!property.getDistrict().equals("")) {
             text_district.setText(property.getDistrict());
+        } else {
+            text_district.setText(property.getCity());
+        }
+
             text_surface.setText(String.valueOf(property.getSurface()) + " m²");
-            text_beds.setText(String.valueOf(property.getBedrooms()) + " bedrooms");
+
+            if (property.getBedrooms() == -1) {
+                text_beds.setText("N.C");
+            } else {
+                text_beds.setText(String.valueOf(property.getBedrooms()) + " bedrooms");
+            }
+
 
             Glide.with(context)
                     .load(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia)

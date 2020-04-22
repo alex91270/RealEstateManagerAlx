@@ -28,6 +28,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
@@ -43,13 +44,11 @@ import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
     private PropertyViewModel propertyViewModel;
-    //private List<Property> propertiesList = new ArrayList<>();
     private OfferMediaViewModel mediaViewModel;
     private List<OfferMedia> mediasList = new ArrayList<>();
     private AgentViewModel agentViewModel;
     private Agent mAgent;
     private RateViewModel rateViewModel;
-    //private List<Rate> rateList;
     private Property mProperty;
     private Long propertyId;
     private Long agentId;
@@ -134,7 +133,13 @@ public class OfferDetailFragment extends Fragment {
         buttonSold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.i("alex", "buttonsold clic");
+                propertyViewModel.setAsSold(propertyId);
+                Toast.makeText(context, "Offer set as sold", Toast.LENGTH_LONG).show();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_master_frame_layout, new OffersListFragment(), "fragment offers list")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -254,12 +259,33 @@ public class OfferDetailFragment extends Fragment {
 
             textViewLocation.setText(mProperty.getCity() + " | " + mProperty.getDistrict());
             textViewSurface.setText("Size: " + mProperty.getSurface() + " " + surfaceUnit);
-            textViewBeds.setText("Bedrooms: " + mProperty.getBedrooms());
+
+            if (mProperty.getBedrooms() == -1) {
+                textViewBeds.setText("N.C");
+            } else {
+                textViewBeds.setText("Bedrooms: " + mProperty.getBedrooms());
+            }
+
             textViewPrice.setText(tc.formatPriceNicely(mProperty.getPrice()));
             textViewDescription.setText(mProperty.getDescription());
-            textViewToilets.setText("Toilets: " + mProperty.getToilets());
-            textViewShowers.setText("Showers: " + mProperty.getShowers());
-            textViewBathtubs.setText("Bathtubs: " + mProperty.getBathtubs());
+
+            if (mProperty.getToilets() == -1) {
+                textViewToilets.setText("Toilets: N.C");
+            } else {
+                textViewToilets.setText("Toilets: " + mProperty.getToilets());
+            }
+
+            if (mProperty.getShowers() == -1) {
+                textViewShowers.setText("Showers: N.C");
+            } else {
+                textViewShowers.setText("Showers: " + mProperty.getShowers());
+            }
+
+            if (mProperty.getBathtubs()== -1) {
+                textViewBathtubs.setText("Bathtubs: N.C");
+            } else {
+                textViewBathtubs.setText("Bathtubs: " + mProperty.getBathtubs());
+            }
 
             if (mProperty.isAircon()) {
                 textViewAircon.setText("Air conditionner: yes");

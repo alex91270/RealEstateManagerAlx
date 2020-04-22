@@ -25,7 +25,9 @@ public interface PropertyDAO {
     @Query("SELECT * FROM property WHERE pid = :propertyId")
     LiveData<Property> getPropertyById(long propertyId);
 
+    @Query("SELECT rowid from property order by dateOffer DESC limit 1")
+    LiveData<Long> getLastInsertedId();
 
-
-
+    @Query("UPDATE property SET sold = 1 WHERE pid = :propertyId")
+    void setPropertyAsSold(long propertyId);
 }

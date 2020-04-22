@@ -39,12 +39,9 @@ public class InitialCopyActivity extends AppCompatActivity {
     }
 
     private void copyMediaFiles() {
-
-
         File folderToCreate = new File(this.getFilesDir(), "medias");
             folderToCreate.mkdir();
 
-        //long timeStart = new Date().getTime();
         AssetManager assetManager = getAssets();
         String[] files = null;
         try {
@@ -58,11 +55,7 @@ public class InitialCopyActivity extends AppCompatActivity {
             OutputStream out = null;
             try {
                 in = assetManager.open("medias/" + filename);
-
-
                 File outFile = new File(getFilesDir().getPath() + "/medias/" + filename );
-
-
                 out = new FileOutputStream(outFile);
                 mtc.copyFile(in, out);
             } catch(IOException e) {
@@ -87,10 +80,7 @@ public class InitialCopyActivity extends AppCompatActivity {
                 }
             }
         }
-       // long timeEnd = new Date().getTime();
-        //Log.i("alex", "time elapsed: " + (timeEnd - timeStart) + " milliseconds");
         startActivity(new Intent(this, MasterActivity.class));
-
     }
 
     /**private void copyFile(InputStream in, OutputStream out) throws IOException {

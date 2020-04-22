@@ -11,6 +11,8 @@ import com.example.realestatemanageralx.database.PropertyDAO;
 import com.example.realestatemanageralx.model.Property;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * ViewModel for properties, using the DAO and returning LiveData, observed by the view
@@ -20,10 +22,13 @@ public class PropertyViewModel  extends AndroidViewModel {
     private PropertyDAO propertyDao;
     private LiveData<List<Property>> propertiesLiveData;
     private LiveData<Property> propertyLiveData;
+    private LiveData<Long> lastPropertyId;
+    private Executor taskExecutor;
 
-    public PropertyViewModel (@NonNull Application application) {
+    public PropertyViewModel(@NonNull Application application) {
         super(application);
         propertyDao = AppDatabase.getDatabase(application).propertyDAO();
+        taskExecutor = Executors.newSingleThreadExecutor();
     }
 
     public LiveData<List<Property>> getPropertiesList() {
@@ -33,7 +38,31 @@ public class PropertyViewModel  extends AndroidViewModel {
 
     public LiveData<Property> getPropertyById(long id) {
         propertyLiveData = propertyDao.getPropertyById(id);
-        return propertyLiveData;}
+        return propertyLiveData;
+    }
+
+    public void insert(final Property property) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                propertyDao.insertProperty(property);
+            }
+        });
+    }
+
+    public LiveData<Long> getLastPropertyId() {
+        lastPropertyId = propertyDao.getLastInsertedId();
+        return lastPropertyId;
+    }
+
+    public void setAsSold(final long pId) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                propertyDao.setPropertyAsSold(pId);
+            }
+        });
+    }
 }
 
 
