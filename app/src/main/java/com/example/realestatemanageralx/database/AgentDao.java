@@ -1,6 +1,8 @@
 package com.example.realestatemanageralx.database;
 
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -26,5 +28,10 @@ public interface AgentDao {
 
     @Query("SELECT * FROM agent WHERE username = :agentUsername")
     LiveData<Agent> getAgentByUsername(String agentUsername);
+
+
+    // for contentProvider
+    @Query("SELECT * FROM agent WHERE aid = :agentId")
+    Cursor getAgentByIdWithCursor(long agentId);
 
 }

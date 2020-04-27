@@ -29,7 +29,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/item_sold"
+                android:id="@+id/item_image_sold"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_marginTop="24dp"

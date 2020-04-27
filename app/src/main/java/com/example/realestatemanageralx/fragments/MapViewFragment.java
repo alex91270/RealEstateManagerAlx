@@ -2,20 +2,16 @@ package com.example.realestatemanageralx.fragments;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,10 +21,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
-import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
-import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,9 +34,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.maps.android.ui.BubbleIconFactory;
 import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;

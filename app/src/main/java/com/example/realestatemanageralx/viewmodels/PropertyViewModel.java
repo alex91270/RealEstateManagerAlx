@@ -63,6 +63,24 @@ public class PropertyViewModel  extends AndroidViewModel {
             }
         });
     }
+
+    public void setAsNotSold(final long pId) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                propertyDao.setPropertyAsNotSold(pId);
+            }
+        });
+    }
+
+    public void setSaleDate(final long pId, final long mDate) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                propertyDao.setPropertySaleDate(pId, mDate);
+            }
+        });
+    }
 }
 
 

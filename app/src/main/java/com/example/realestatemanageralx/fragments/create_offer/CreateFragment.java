@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.database.AppDatabase;
+import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.OfferMedia;
@@ -189,6 +190,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
     private void publish() {
 
+        int rooms = -1;
         int beds = -1;
         int showers = -1;
         int bathtubs = -1;
@@ -215,7 +217,11 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                 location,
                 Integer.valueOf(editPrice.getText().toString()),
                 LoginHolder.getInstance().getAgentId(),
-                false);
+                false,
+                "",
+                1,
+                "Apartment",
+                0);
 
         propertyViewModel.insert(property);
 
@@ -267,6 +273,11 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
             }
             offerMediaViewModel.insert(new OfferMedia(propertyId, filename, isMain));
         }
+        Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_master_frame_layout, new FirstFragment(), "fragment first")
+                .addToBackStack(null)
+                .commit();
         }
 
     private void initObserverProperty() {

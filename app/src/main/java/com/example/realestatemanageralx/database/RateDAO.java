@@ -1,5 +1,7 @@
 package com.example.realestatemanageralx.database;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -22,4 +24,8 @@ public interface RateDAO {
 
     @Query("SELECT * FROM rate")
     LiveData<List<Rate>> getAllRates();
+
+    // for contentProvider
+    @Query("SELECT * FROM rate")
+    Cursor getRatesWithCursor();
 }

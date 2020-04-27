@@ -1,5 +1,7 @@
 package com.example.realestatemanageralx.model;
 
+import android.content.ContentValues;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -72,5 +74,19 @@ public class OfferMedia {
     public boolean getIsMain() {
         return isMain;
     }
+
+
+    /**public static OfferMedia fromContentValues(ContentValues values) {
+        long propertyId = 0;
+        String fileName = "";
+        boolean isMain = false;
+        if (values.containsKey("propertyId")) propertyId = values.getAsLong("propertyId");
+        if (values.containsKey("filename")) fileName = values.getAsString("filename");
+        if (values.containsKey("isMain")) isMain = values.getAsBoolean("isMain");
+
+        final OfferMedia offerMedia = new OfferMedia(propertyId, fileName, isMain);
+
+        return offerMedia;
+    }*/
 }
 

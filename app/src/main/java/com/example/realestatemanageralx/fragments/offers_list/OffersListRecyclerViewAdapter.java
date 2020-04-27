@@ -1,9 +1,7 @@
 package com.example.realestatemanageralx.fragments.offers_list;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,24 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.realestatemanageralx.R;
-import com.example.realestatemanageralx.fragments.OfferDetailFragment;
+import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersListRecyclerViewAdapter.ViewHolder> {
@@ -78,10 +72,10 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         holder.textViewLocation.setText(property.getCity() + " - " + property.getDistrict());
 
-        if (property.getBedrooms() == -1) {
+        if (property.getRooms() == -1) {
             holder.textViewSurface.setText(property.getSurface() + " m²" );
         } else {
-            holder.textViewSurface.setText(property.getSurface() + " m²" + " - " + property.getBedrooms() + " bedrooms");
+            holder.textViewSurface.setText(property.getSurface() + " m²" + " - " + property.getRooms() + " rooms");
         }
 
 
@@ -138,7 +132,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
             textViewSurface = view.findViewById(R.id.item_textview_surface);
             picture = view.findViewById(R.id.item_picture);
             cardView = view.findViewById(R.id.item_cardview);
-            imageSold = view.findViewById(R.id.item_sold);
+            imageSold = view.findViewById(R.id.item_image_sold);
         }
     }
 }

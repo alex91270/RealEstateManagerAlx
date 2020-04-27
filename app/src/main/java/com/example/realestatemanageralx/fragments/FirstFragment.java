@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
-import com.example.realestatemanageralx.fragments.offers_list.OffersListRecyclerViewAdapter;
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
@@ -105,7 +105,7 @@ public class FirstFragment extends Fragment {
         ImageView image = getView().findViewById(R.id.image_last_offer);
         TextView text_district = getView().findViewById(R.id.textView_district);
         TextView text_surface = getView().findViewById(R.id.textView_surface);
-        TextView text_beds = getView().findViewById(R.id.textView_bedrooms);
+        TextView text_rooms = getView().findViewById(R.id.textView_rooms);
 
 
         property = new DataProcessing().getLastOffer(propertiesList);
@@ -123,10 +123,10 @@ public class FirstFragment extends Fragment {
 
             text_surface.setText(String.valueOf(property.getSurface()) + " m²");
 
-            if (property.getBedrooms() == -1) {
-                text_beds.setText("N.C");
+            if (property.getRooms() == -1) {
+                text_rooms.setText("N.C");
             } else {
-                text_beds.setText(String.valueOf(property.getBedrooms()) + " bedrooms");
+                text_rooms.setText(String.valueOf(property.getBedrooms()) + " rooms");
             }
 
 

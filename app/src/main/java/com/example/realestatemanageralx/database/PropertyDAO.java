@@ -1,5 +1,7 @@
 package com.example.realestatemanageralx.database;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -30,4 +32,14 @@ public interface PropertyDAO {
 
     @Query("UPDATE property SET sold = 1 WHERE pid = :propertyId")
     void setPropertyAsSold(long propertyId);
+
+    @Query("UPDATE property SET sold = 0 WHERE pid = :propertyId")
+    void setPropertyAsNotSold(long propertyId);
+
+    @Query("UPDATE property SET dateSale = :dateS WHERE pid = :propertyId")
+    void setPropertySaleDate(long propertyId, long dateS);
+
+    // for contentProvider
+    @Query("SELECT * FROM property")
+    Cursor getPropertiesWithCursor();
 }

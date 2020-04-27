@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_district" />
 
     <TextView
-        android:id="@+id/textView_bedrooms"
+        android:id="@+id/textView_rooms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -116,8 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         app:srcCompat="@drawable/ic_dot_dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_bedrooms"
-        app:layout_constraintEnd_toStartOf="@+id/textView_bedrooms"
-        app:layout_constraintTop_toTopOf="@+id/textView_bedrooms" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView_rooms"
+        app:layout_constraintEnd_toStartOf="@+id/textView_rooms"
+        app:layout_constraintTop_toTopOf="@+id/textView_rooms" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

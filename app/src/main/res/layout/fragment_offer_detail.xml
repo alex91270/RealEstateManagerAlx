@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/detail_image_sold"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginTop="150dp"
+        android:elevation="15dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sold_stamp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +34,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_main_datas"
                 android:layout_width="match_parent"
-                android:layout_height="800dp">
+                android:layout_height="wrap_content">
 
                 <View
                     android:id="@+id/detail_divider1"
@@ -32,6 +44,17 @@
                     android:background="#f53128"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/detail_text_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Apartment"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_divider1" />
+
                 <ImageView
                     android:id="@+id/detail_icon_location"
                     android:layout_width="wrap_content"
@@ -39,7 +62,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/detail_divider1"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_type"
                     app:srcCompat="@drawable/ic_location" />
 
                 <TextView
@@ -64,14 +87,14 @@
                     app:layout_constraintStart_toEndOf="@+id/detail_text_location" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/detail_icon_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_icon_location"
-                    app:srcCompat="@drawable/ic_home" />
+                    app:srcCompat="@drawable/ic_size" />
 
                 <TextView
                     android:id="@+id/detail_text_surface"
@@ -80,8 +103,8 @@
                     android:layout_marginStart="32dp"
                     android:text="TextView"
                     android:textColor="@color/colorText"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3" />
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_icon_size"
+                    app:layout_constraintStart_toEndOf="@+id/detail_icon_size" />
 
                 <TextView
                     android:id="@+id/detail_text_convert_unit"
@@ -101,11 +124,11 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                    app:srcCompat="@drawable/ic_bed" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_icon_size"
+                    app:srcCompat="@drawable/ic_home" />
 
                 <TextView
-                    android:id="@+id/detail_text_beds"
+                    android:id="@+id/detail_text_rooms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -145,13 +168,26 @@
                     app:layout_constraintBottom_toBottomOf="@+id/detail_text_price"
                     app:layout_constraintStart_toEndOf="@+id/detail_text_price" />
 
+                <TextView
+                    android:id="@+id/detail_text_sold_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Sold on ..."
+                    android:textColor="@color/design_default_color_error"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_currency" />
+
                 <View
                     android:id="@+id/detail_divider2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:background="#f53128"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_text_currency" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_sold_on" />
 
                 <TextView
                     android:id="@+id/detail_text_description_title"
@@ -199,7 +235,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/detail_divider3" />
 
                 <TextView
-                    android:id="@+id/detail_text_toilets"
+                    android:id="@+id/detail_text_beds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -208,6 +244,17 @@
                     android:textColor="@color/colorText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
+
+                <TextView
+                    android:id="@+id/detail_text_toilets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:text="TextView"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_beds" />
 
                 <TextView
                     android:id="@+id/detail_text_showers"
@@ -262,6 +309,34 @@
                     app:layout_constraintTop_toBottomOf="@+id/detail_text_date_offer" />
 
                 <TextView
+                    android:id="@+id/detail_text_poi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Points of interest nearby:"
+                    android:textColor="#736685"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_divider4" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detail_recycler_poi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_poi_title"
+                    tools:layout_editor_absoluteX="32dp" />
+
+                <View
+                    android:id="@+id/detail_divider5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#f53128"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_recycler_poi" />
+
+                <TextView
                     android:id="@+id/detail_text_agent_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -271,14 +346,14 @@
                     android:textColor="#736685"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_divider4" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_divider5" />
 
                 <TextView
                     android:id="@+id/detail_text_agent_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="32dp"
                     android:text="TextView"
                     android:textColor="@color/colorText"
                     app:layout_constraintStart_toStartOf="parent"
@@ -346,10 +421,25 @@
                     app:layout_constraintTop_toTopOf="@+id/detail_text_agent_title"
                     tools:visibility="invisible" />
 
+                <Button
+                    android:id="@+id/detail_button_modify"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="#f53128"
+                    android:enabled="false"
+                    android:text="  modify offer content"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="12sp"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_button_sold"
+                    tools:visibility="invisible" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

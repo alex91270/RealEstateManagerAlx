@@ -1,5 +1,7 @@
 package com.example.realestatemanageralx.database;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -27,4 +29,8 @@ public interface OfferMediaDAO {
     @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")
     //LiveData<Property> getMediaByPropertyId(long propertyId);
     LiveData<List<OfferMedia>> getMediasByPropertyId(long propertyId);
+
+    // for contentProvider
+    @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")
+    Cursor getMediasWithCursor(long propertyId);
 }

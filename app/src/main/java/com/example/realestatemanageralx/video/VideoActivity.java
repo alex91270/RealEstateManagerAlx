@@ -28,10 +28,6 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
     // Log tag.
     private static final String TAG = "alex";
 
-    // Asset video file name.
-    private static final String FILE_NAME = "photo87.mp4";
-
-    // MediaPlayer instance to control playback of video file.
     private MediaPlayer mMediaPlayer;
 
     private String path;
@@ -71,16 +67,8 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
         Surface surface = new Surface(surfaceTexture);
 
         try {
-            AssetFileDescriptor afd = getAssets().openFd(FILE_NAME);
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setDataSource(path);
-            //mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-
-            final File file = new File(path);
-            FileInputStream is = new FileInputStream(file);
-            FileDescriptor fd = is.getFD();
-            //mMediaPlayer.setDataSource(fd);
-
             mMediaPlayer.setSurface(surface);
             mMediaPlayer.setLooping(true);
             mMediaPlayer.prepareAsync();

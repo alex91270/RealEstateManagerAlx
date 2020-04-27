@@ -23,8 +23,14 @@ public class Property {
     @ColumnInfo(name = "pid")
     private long id;
 
+    @ColumnInfo(name="buildType")
+    private String buildType;
+
     @ColumnInfo(name="description")
     private String description;
+
+    @ColumnInfo(name="pois")
+    private String pois;
 
     @ColumnInfo(name="city")
     private String city;
@@ -34,6 +40,9 @@ public class Property {
 
     @ColumnInfo(name="surface")
     private int surface;
+
+    @ColumnInfo(name="rooms")
+    private int rooms;
 
     @ColumnInfo(name="bedrooms")
     private int bedrooms;
@@ -53,6 +62,9 @@ public class Property {
     @ColumnInfo(name="dateOffer")
     private long dateOffer;
 
+    @ColumnInfo(name="dateSale")
+    private long dateSale;
+
     @ColumnInfo(name="sold")
     private boolean sold;
 
@@ -67,7 +79,7 @@ public class Property {
 
     public Property(String description, String city, String district, int surface, int bedrooms,
                     int toilets, int showers, int bathtubs, boolean aircon, long dateOffer,
-                    String location, int price, long agentId, boolean sold) {
+                    String location, int price, long agentId, boolean sold, String pois, int rooms, String buildType, long dateSale) {
         this.description = description;
         this.city = city;
         this.district = district;
@@ -83,6 +95,10 @@ public class Property {
         this.price = price;
         this.agentId = agentId;
         this.sold = sold;
+        this.pois = pois;
+        this.rooms = rooms;
+        this.buildType = buildType;
+        this.dateSale = dateSale;
     }
 
     public void setId(long id) {
@@ -93,9 +109,13 @@ public class Property {
         return id;
     }
 
+    public String getBuildType() {return buildType;}
+
     public String getCity() {
         return city;
     }
+
+    public int getRooms() { return rooms;}
 
     public int getBathtubs() {
         return bathtubs;
@@ -104,6 +124,8 @@ public class Property {
     public long getDateOffer() {
         return dateOffer;
     }
+
+    public long getDateSale() { return dateSale; }
 
     public int getBedrooms() {
         return bedrooms;
@@ -124,6 +146,8 @@ public class Property {
     public String getDescription() {
         return description;
     }
+
+    public String getPois() { return pois;}
 
     public String getDistrict() {
         return district;
@@ -149,7 +173,4 @@ public class Property {
         return sold;
     }
 
-    public void setSold(boolean sold) {
-        this.sold = sold;
-    }
 }

@@ -25,19 +25,7 @@ public class SliderAdapter extends PagerAdapter{
     Context context;
 
     List<OfferMedia> img;
-    /**
-    ArrayList<String> imageExtensions = new ArrayList<String>(
-            Arrays.asList("jpg", "bmp", "gif", "png"));
-
-    ArrayList<String> videoExtensions = new ArrayList<String>(
-            Arrays.asList("3gp", "mp4", "mkv"));
-     */
     MediaTypesAndCopy md = new MediaTypesAndCopy();
-
-
-
-    //int[] img = {R.drawable.apercu,R.drawable.apercu,R.drawable.apercu,
-            //R.drawable.apercu,R.drawable.apercu,R.drawable.apercu};
 
     public SliderAdapter(Context context, List<OfferMedia> medias) {
         this.context = context;

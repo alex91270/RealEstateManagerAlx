@@ -1,4 +1,4 @@
-package com.example.realestatemanageralx.fragments;
+package com.example.realestatemanageralx.fragments.offer_detail;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -23,11 +22,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.fragments.MapViewFragment;
+import com.example.realestatemanageralx.fragments.SliderAdapter;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.login.LoginHolder;
@@ -39,7 +39,11 @@ import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
@@ -53,11 +57,15 @@ public class OfferDetailFragment extends Fragment {
     private Long propertyId;
     private Long agentId;
 
+    private ImageView imageSold;
+    private TextView textViewBuildType;
     private TextView textViewLocation;
     private TextView textViewSurface;
-    private TextView textViewBeds;
+   private TextView textViewRooms;
     private TextView textViewPrice;
+    private TextView textViewSoldOn;
     private TextView textViewDescription;
+    private TextView textViewBeds;
     private TextView textViewToilets;
     private TextView textViewShowers;
     private TextView textViewBathtubs;
@@ -67,6 +75,7 @@ public class OfferDetailFragment extends Fragment {
     private TextView textViewAgentPhone;
     private TextView textViewAgentMail;
     private Button buttonSold;
+    private Button buttonModify;
     private Button buttonMail;
     private Button buttonPhone;
     private TextView textViewSeeonmap;
@@ -74,6 +83,8 @@ public class OfferDetailFragment extends Fragment {
     private TextView textViewConvertCurrency;
     private ImageView imageCurrency;
     private ViewPager gallery;
+    private RecyclerView poiRecycler;
+    private OfferDetailPoiRecyclerAdapter myAdapter;
     private LayoutInflater galleryInflater;
 
     private String surfaceUnit = "m²";
@@ -102,11 +113,16 @@ public class OfferDetailFragment extends Fragment {
         propertyId = getArguments().getLong("propertyId");
         agentId = getArguments().getLong("agentId");
 
+        imageSold = root.findViewById(R.id.detail_image_sold);
+
         textViewLocation = root.findViewById(R.id.detail_text_location);
+        textViewBuildType = root.findViewById(R.id.detail_text_type);
       textViewSurface = root.findViewById(R.id.detail_text_surface);
-       textViewBeds = root.findViewById(R.id.detail_text_beds);
+        textViewRooms = root.findViewById(R.id.detail_text_rooms);
         textViewPrice = root.findViewById(R.id.detail_text_price);
+        textViewSoldOn = root.findViewById(R.id.detail_text_sold_on);
          textViewDescription = root.findViewById(R.id.detail_text_description);
+        textViewBeds = root.findViewById(R.id.detail_text_beds);
          textViewToilets = root.findViewById(R.id.detail_text_toilets);
         textViewShowers = root.findViewById(R.id.detail_text_showers);
          textViewBathtubs = root.findViewById(R.id.detail_text_bathtubs);
@@ -119,29 +135,20 @@ public class OfferDetailFragment extends Fragment {
         textViewConvertUnit = root.findViewById(R.id.detail_text_convert_unit);
         textViewConvertCurrency = root.findViewById(R.id.detail_text_currency);
         buttonSold = root.findViewById(R.id.detail_button_sold);
+        buttonModify = root.findViewById(R.id.detail_button_modify);
         buttonMail = root.findViewById(R.id.detail_button_mail);
         buttonPhone = root.findViewById(R.id.detail_button_call);
         imageCurrency = root.findViewById(R.id.imageViewCurrency);
         gallery = root.findViewById(R.id.view_pager_slider);
+        poiRecycler = root.findViewById(R.id.detail_recycler_poi);
         galleryInflater = LayoutInflater.from(root.getContext());
 
         if(LoginHolder.getInstance().getIsAgentLogged()) {
             buttonSold.setVisibility(View.VISIBLE);
             buttonSold.setEnabled(true);
+            buttonModify.setVisibility(View.VISIBLE);
+            buttonModify.setEnabled(true);
         }
-
-        buttonSold.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("alex", "buttonsold clic");
-                propertyViewModel.setAsSold(propertyId);
-                Toast.makeText(context, "Offer set as sold", Toast.LENGTH_LONG).show();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, new OffersListFragment(), "fragment offers list")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
 
         buttonMail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,17 +264,25 @@ public class OfferDetailFragment extends Fragment {
 
         if (mProperty != null && mAgent != null) {
 
+            textViewBuildType.setText(mProperty.getBuildType());
+
             textViewLocation.setText(mProperty.getCity() + " | " + mProperty.getDistrict());
             textViewSurface.setText("Size: " + mProperty.getSurface() + " " + surfaceUnit);
+
+            if (mProperty.getRooms() == -1) {
+                textViewRooms.setText("N.C");
+            } else {
+                textViewRooms.setText("Rooms: " + mProperty.getRooms());
+            }
+
+            textViewPrice.setText(tc.formatPriceNicely(mProperty.getPrice()));
+            textViewDescription.setText(mProperty.getDescription());
 
             if (mProperty.getBedrooms() == -1) {
                 textViewBeds.setText("N.C");
             } else {
                 textViewBeds.setText("Bedrooms: " + mProperty.getBedrooms());
             }
-
-            textViewPrice.setText(tc.formatPriceNicely(mProperty.getPrice()));
-            textViewDescription.setText(mProperty.getDescription());
 
             if (mProperty.getToilets() == -1) {
                 textViewToilets.setText("Toilets: N.C");
@@ -298,25 +313,44 @@ public class OfferDetailFragment extends Fragment {
             textViewAgentPhone.setText("Phone: " + mAgent.getPhone());
             textViewAgentMail.setText("Email: " + mAgent.getEmail());
 
+            if (mProperty.isSold()) {
+                imageSold.setVisibility(View.VISIBLE);
+                buttonSold.setText("REMOVE THE SOLD STATUS");
+                textViewSoldOn.setVisibility(View.VISIBLE);
+                textViewSoldOn.setText("Sold on:  " + new TypesConversions().getStringFromTimestamp(mProperty.getDateSale()) );
+            }
+
+            Log.i("alex", "poilist as string: " + mProperty.getPois());
+
+
+            List<String> poiList = Arrays.asList(mProperty.getPois().split(","));
+
+            //Log.i("alex", "poilist size: " + poiList.size());
+
+            myAdapter = new OfferDetailPoiRecyclerAdapter(poiList);
+            poiRecycler.setAdapter(myAdapter);
+            myAdapter.notifyDataSetChanged();
+
+            buttonSold.setOnClickListener(v -> {
+                Log.i("alex", "buttonsold clic");
+                if (mProperty.isSold()) {
+                    propertyViewModel.setAsNotSold(propertyId);
+                    propertyViewModel.setSaleDate(propertyId, 0);
+                } else {
+                    propertyViewModel.setAsSold(propertyId);
+                    long ts = (new Timestamp(new Date().getTime())).getTime();
+                    propertyViewModel.setSaleDate(propertyId, ts);
+                }
+
+                Toast.makeText(context, "change offer sold status", Toast.LENGTH_LONG).show();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_master_frame_layout, new OffersListFragment(), "fragment offers list")
+                        .addToBackStack(null)
+                        .commit();
+            });
+
         }
-
     }
-
-    private void fillPictures() {
-        for (OfferMedia media : mediasList) {
-            //Log.i("alex", "another view");
-            View mView = galleryInflater.inflate(R.layout.item_gallery, gallery, false);
-            ImageView image = mView.findViewById(R.id.image_gallery_item);
-
-            Glide.with(context)
-                    .load(context.getFilesDir().getPath() + "/medias/" + media.getFileName())
-                    //.apply(RequestOptions.circleCropTransform())
-                    .into(image);
-
-            gallery.addView(mView);
-        }
-    }
-
 
     private AlertDialog getMessageDialog() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);

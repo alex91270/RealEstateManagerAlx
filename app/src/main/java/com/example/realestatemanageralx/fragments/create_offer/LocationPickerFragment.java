@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,6 +35,8 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
         mContext = this.getActivity();
         View root = inflater.inflate(R.layout.fragment_location_picker, container, false);
         validButton = root.findViewById(R.id.picker_button);
+
+        //((MasterActivity)getActivity()).temporaryProp = new P
 
        return root;
     }

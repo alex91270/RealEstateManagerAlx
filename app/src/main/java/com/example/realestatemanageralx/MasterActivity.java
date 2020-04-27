@@ -35,6 +35,7 @@ import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
+import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -59,6 +60,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private static final int FRAGMENT_FIRST = 0;
     private static final int FRAGMENT_MAP = 1;
     private static final int FRAGMENT_LOAN = 2;
+
+    public Property temporaryProp;
 
     private AppDatabase myDatabase;
     //private PropertyViewModel propertyViewModel;
