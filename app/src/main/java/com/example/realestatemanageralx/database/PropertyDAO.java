@@ -5,6 +5,7 @@ import android.database.Cursor;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.realestatemanageralx.model.Property;
@@ -18,7 +19,7 @@ import java.util.List;
 @Dao
 public interface PropertyDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertProperty(Property property);
 
     @Query("SELECT * FROM property")
@@ -38,6 +39,9 @@ public interface PropertyDAO {
 
     @Query("UPDATE property SET dateSale = :dateS WHERE pid = :propertyId")
     void setPropertySaleDate(long propertyId, long dateS);
+
+    @Query("DELETE FROM property WHERE pid = :propertyId")
+    void deleteProperty(long propertyId);
 
     // for contentProvider
     @Query("SELECT * FROM property")

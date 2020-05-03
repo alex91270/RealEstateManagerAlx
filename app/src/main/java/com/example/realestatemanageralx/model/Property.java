@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "property",
         foreignKeys = {@ForeignKey(entity = Agent.class,
         parentColumns = "aid",
@@ -14,7 +16,7 @@ import androidx.room.PrimaryKey;
         indices = {
                 @Index(name = "agentId_index", value = {"agentId"})
         })
-public class Property {
+public class Property implements Serializable {
 
     /**
      * The unique identifier of the project
@@ -111,18 +113,34 @@ public class Property {
 
     public String getBuildType() {return buildType;}
 
+    public void setBuildType(String type) {buildType = type;}
+
     public String getCity() {
         return city;
     }
 
+    public void setCity(String city){this.city = city;}
+
     public int getRooms() { return rooms;}
+
+    public void setRooms(int rooms) {
+        this.rooms = rooms;
+    }
 
     public int getBathtubs() {
         return bathtubs;
     }
 
+    public void setBathtubs(int bathtubs) {
+        this.bathtubs = bathtubs;
+    }
+
     public long getDateOffer() {
         return dateOffer;
+    }
+
+    public void setDateOffer(long dateOffer) {
+        this.dateOffer = dateOffer;
     }
 
     public long getDateSale() { return dateSale; }
@@ -131,30 +149,62 @@ public class Property {
         return bedrooms;
     }
 
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
+
     public int getShowers() {
         return showers;
+    }
+
+    public void setShowers(int showers) {
+        this.showers = showers;
     }
 
     public int getSurface() {
         return surface;
     }
 
+    public void setSurface(int surface) {
+        this.surface = surface;
+    }
+
     public int getToilets() {
         return toilets;
+    }
+
+    public void setToilets(int toilets) {
+        this.toilets = toilets;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getPois() { return pois;}
+
+    public void setPois(String pois) {
+        this.pois = pois;
+    }
 
     public String getDistrict() {
         return district;
     }
 
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public long getAgentId() {
@@ -165,8 +215,16 @@ public class Property {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public boolean isAircon() {
         return aircon;
+    }
+
+    public void setAircon(boolean aircon) {
+        this.aircon = aircon;
     }
 
     public boolean isSold() {

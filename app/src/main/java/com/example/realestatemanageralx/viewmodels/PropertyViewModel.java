@@ -81,6 +81,15 @@ public class PropertyViewModel  extends AndroidViewModel {
             }
         });
     }
+
+    public void deleteProperty(final long pId) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                propertyDao.deleteProperty(pId);
+            }
+        });
+    }
 }
 
 

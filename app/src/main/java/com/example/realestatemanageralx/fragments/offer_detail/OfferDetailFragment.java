@@ -22,12 +22,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.SliderAdapter;
+import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.login.LoginHolder;
@@ -44,6 +49,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
@@ -56,10 +62,12 @@ public class OfferDetailFragment extends Fragment {
     private Property mProperty;
     private Long propertyId;
     private Long agentId;
+    private static String apiKey;
 
     private ImageView imageSold;
     private TextView textViewBuildType;
     private TextView textViewLocation;
+    private ImageView liteMap;
     private TextView textViewSurface;
    private TextView textViewRooms;
     private TextView textViewPrice;
@@ -78,7 +86,6 @@ public class OfferDetailFragment extends Fragment {
     private Button buttonModify;
     private Button buttonMail;
     private Button buttonPhone;
-    private TextView textViewSeeonmap;
     private TextView textViewConvertUnit;
     private TextView textViewConvertCurrency;
     private ImageView imageCurrency;
@@ -110,12 +117,14 @@ public class OfferDetailFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         context = root.getContext();
+        apiKey = context.getString(R.string.google_maps_key);
         propertyId = getArguments().getLong("propertyId");
         agentId = getArguments().getLong("agentId");
 
         imageSold = root.findViewById(R.id.detail_image_sold);
 
         textViewLocation = root.findViewById(R.id.detail_text_location);
+        liteMap = root.findViewById(R.id.detail_map_lite);
         textViewBuildType = root.findViewById(R.id.detail_text_type);
       textViewSurface = root.findViewById(R.id.detail_text_surface);
         textViewRooms = root.findViewById(R.id.detail_text_rooms);
@@ -131,7 +140,6 @@ public class OfferDetailFragment extends Fragment {
         textViewAgentName = root.findViewById(R.id.detail_text_agent_name);
         textViewAgentPhone = root.findViewById(R.id.detail_text_agent_phone);
         textViewAgentMail = root.findViewById(R.id.detail_text_agent_email);
-        textViewSeeonmap = root.findViewById(R.id.detail_text_seeonmap);
         textViewConvertUnit = root.findViewById(R.id.detail_text_convert_unit);
         textViewConvertCurrency = root.findViewById(R.id.detail_text_currency);
         buttonSold = root.findViewById(R.id.detail_button_sold);
@@ -142,6 +150,8 @@ public class OfferDetailFragment extends Fragment {
         gallery = root.findViewById(R.id.view_pager_slider);
         poiRecycler = root.findViewById(R.id.detail_recycler_poi);
         galleryInflater = LayoutInflater.from(root.getContext());
+
+        poiRecycler.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
         if(LoginHolder.getInstance().getIsAgentLogged()) {
             buttonSold.setVisibility(View.VISIBLE);
@@ -165,7 +175,7 @@ public class OfferDetailFragment extends Fragment {
             }
         });
 
-        textViewSeeonmap.setOnClickListener(new View.OnClickListener() {
+        liteMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MapViewFragment mapViewFrag= new MapViewFragment();
@@ -251,11 +261,10 @@ public class OfferDetailFragment extends Fragment {
             public void onChanged(@Nullable List<OfferMedia> medias) {
                 mediasList = medias;
                 Log.i("alex", "medias list size: " + mediasList.size() );
+                for (OfferMedia media : medias) {
+                    Log.i("alex", "media file name: " + media.getFileName());
+                }
                 gallery.setAdapter(new SliderAdapter(context, mediasList));
-                //gallery.setAdapter(new SliderAdapter(context));
-                //fillPictures();
-
-
             }
         });
     }
@@ -264,9 +273,21 @@ public class OfferDetailFragment extends Fragment {
 
         if (mProperty != null && mAgent != null) {
 
+            Log.i("alex", "detail: offer ID: " + mProperty.getId());
+
             textViewBuildType.setText(mProperty.getBuildType());
 
             textViewLocation.setText(mProperty.getCity() + " | " + mProperty.getDistrict());
+
+            String lat = (mProperty.getLocation().split(",", -1))[0];
+            String lon = (mProperty.getLocation().split(",", -1))[1];
+
+            String liteMapUrl = "https://maps.google.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=12&size=400x200&markers=color:red%7C" + lat + "," + lon + "&sensor=false&key=" + apiKey;
+            Glide.with(context)
+                    .load(liteMapUrl)
+                    .into(liteMap);
+
+
             textViewSurface.setText("Size: " + mProperty.getSurface() + " " + surfaceUnit);
 
             if (mProperty.getRooms() == -1) {
@@ -322,12 +343,31 @@ public class OfferDetailFragment extends Fragment {
 
             Log.i("alex", "poilist as string: " + mProperty.getPois());
 
-
             List<String> poiList = Arrays.asList(mProperty.getPois().split(","));
+            List<String> recyclerPoiList = new ArrayList<>();
+            //HashMap<String, Integer>hashPOI;
 
-            //Log.i("alex", "poilist size: " + poiList.size());
+            for (int i=0; i<poiList.size(); i++) {
+                if (!poiList.get(i).equals("0")) {
+                    String poiNumber;
+                    if (poiList.get(i).equals("20")){
+                        poiNumber = "20+";
+                    } else {
+                        poiNumber = poiList.get(i);
+                    }
+                    if (i==0) recyclerPoiList.add("Schools: " + poiNumber );
+                    if (i==1) recyclerPoiList.add("Stores: " + poiNumber );
+                    if (i==2) recyclerPoiList.add("Parks: " + poiNumber );
+                    if (i==3) recyclerPoiList.add("Restaurants: " + poiNumber );
+                    if (i==4) recyclerPoiList.add("Subway stations: " + poiNumber );
+                }
+            }
+            Log.i("alex", "recycler list size: " + recyclerPoiList.size());
+            for (String p : recyclerPoiList) {
+                Log.i("alex", p);
+            }
 
-            myAdapter = new OfferDetailPoiRecyclerAdapter(poiList);
+            myAdapter = new OfferDetailPoiRecyclerAdapter(recyclerPoiList);
             poiRecycler.setAdapter(myAdapter);
             myAdapter.notifyDataSetChanged();
 
@@ -349,6 +389,20 @@ public class OfferDetailFragment extends Fragment {
                         .commit();
             });
 
+            buttonModify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CreateFragment createFragment = CreateFragment.newInstance();
+                    Bundle bundle=new Bundle();
+                    bundle.putString("action", "modification");
+                    bundle.putSerializable("prop", mProperty);
+                    createFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.activity_master_frame_layout, createFragment, "fragment create")
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
     }
 

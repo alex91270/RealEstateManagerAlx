@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.database.AppDatabase;
@@ -51,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
@@ -59,17 +64,19 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private EditText editCity;
-    private EditText editDistrict;
+    private static String apiKey;
+    private Spinner spinnerType;
     private EditText editSize;
     private EditText editPrice;
+    private EditText editRooms;
     private EditText editBeds;
     private EditText editToilets;
     private EditText editShowers;
     private EditText editBathtubs;
-    private EditText editDecription;
+    private EditText editDescription;
     private CheckBox checkBox;
     private RecyclerView recyclerView;
+    private Button buttonLocation;
     private Button buttonPick;
     private Button buttonPublish;
     private MediasRecyclerViewAdapter myAdapter;
@@ -77,10 +84,16 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
     private Context context;
     private final int RC_STORAGE_PERM = 321;
-    private String location;
     private AppDatabase db;
     private PropertyViewModel propertyViewModel;
     private OfferMediaViewModel offerMediaViewModel;
+    private boolean modif;
+    private Property tempProp;
+    private String pois;
+    private ImageView liteMap;
+    private LinearLayout medias_columns_titles;
+    List<String> spinnerArray;
+    private boolean isNewOffer = false;
 
     public static CreateFragment newInstance() {
         return (new CreateFragment());
@@ -90,53 +103,158 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_create, container, false);
         context = this.getActivity();
-        editCity = root.findViewById(R.id.create_city_edit);
-        editDistrict = root.findViewById(R.id.create_district_edit);
-        editDecription = root.findViewById(R.id.create_description_edit);
+        apiKey = context.getString(R.string.google_maps_key);
+        liteMap = root.findViewById(R.id.create_map_lite);
+        spinnerType = root.findViewById(R.id.create_spinner_type);
+        editDescription = root.findViewById(R.id.create_description_edit);
         editSize= root.findViewById(R.id.create_size_edit);
+        editRooms = root.findViewById(R.id.create_rooms_edit);
         editPrice = root.findViewById(R.id.create_price_edit);
         editBeds = root.findViewById(R.id.create_beds_edit);
         editToilets = root.findViewById(R.id.create_toilets_edit);
         editShowers = root.findViewById(R.id.create_showers_edit);
         editBathtubs = root.findViewById(R.id.create_bathtubs_edit);
         checkBox = root.findViewById(R.id.checkBox);
+        medias_columns_titles = root.findViewById(R.id.create_medias_columns);
         recyclerView = root.findViewById(R.id.create_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         db = AppDatabase.getDatabase(context);
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         offerMediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
-
         buttonPick = root.findViewById(R.id.button_pick);
         buttonPublish = root.findViewById(R.id.create_button_publish);
+        buttonLocation = root.findViewById(R.id.create_button_location);
+
+        EasyPermissions.requestPermissions(getActivity(), "Please grant access to your photo gallery", RC_STORAGE_PERM, Manifest.permission.READ_EXTERNAL_STORAGE);
 
         buttonPick.setOnClickListener(v -> {
+
             if (EasyPermissions.hasPermissions(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Log.i("alex", "we have permissions");
                 getToGallery();
             } else {
-                Log.i("alex", "we don't have permissions");
                 EasyPermissions.requestPermissions(getActivity(), "Please grant access to your photo gallery", RC_STORAGE_PERM, Manifest.permission.READ_EXTERNAL_STORAGE);
             }
         });
 
         buttonPublish.setOnClickListener(v -> {
-           if (editSize.getText().toString().equals("") || editCity.getText().toString().equals("")
-           || editPrice.getText().toString().equals("")) {
+           if (editSize.getText().toString().equals("") || editPrice.getText().toString().equals("")) {
                Toast.makeText(context, "Please provide at least a city, price and size", Toast.LENGTH_LONG).show();
-           } else { publish();}
+           } else {
+               saveTemporaryProp();
+               publish();}
+        });
+
+        buttonLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTemporaryProp();
+
+                LocationPickerFragment pickerFragment = LocationPickerFragment.newInstance();
+                Bundle bundle=new Bundle();
+                //bundle.putString("action", "modification");
+                bundle.putSerializable("prop", tempProp);
+                pickerFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_master_frame_layout, pickerFragment, "fragment locationPicker")
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
 
         myAdapter = new MediasRecyclerViewAdapter(paths);
         recyclerView.setAdapter(myAdapter);
 
-        location = getArguments().getString("location");
+        //location = getArguments().getString("location");
+
+        spinnerArray =  new ArrayList<>();
+        spinnerArray.add("Apartment");
+        spinnerArray.add("House");
+        spinnerArray.add("Duplex");
+        spinnerArray.add("Building");
+        spinnerArray.add("Land");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.my_spinner, spinnerArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapter);
+        spinnerType.setSelection(0);
+
+        modif = false;
+        if (getArguments().getString("action").equals("modification")) {
+            Log.i("alex", "bundle is modification ");
+            buttonLocation.setText("CHANGE LOCATION");
+            modif = true;
+            tempProp = (Property) getArguments().getSerializable("prop");
+            fillFieldsFromTemp();
+            initMediasObserver();
+        }else {
+            Log.i("alex", "bundle is creation ");
+            tempProp = new Property(
+                    "",
+                    "",
+                    "",
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    false,
+                    0,
+                    "",
+                    -1,
+                    LoginHolder.getInstance().getAgentId(),
+                    false,
+                    "",
+                    -1,
+                    "",
+                    0);
+        }
+
+        if (tempProp.getId() == 0) isNewOffer = true;
 
         return root;
     }
 
+
+
+    private void fillFieldsFromTemp() {
+
+        editDescription.setText(tempProp.getDescription());
+        if (tempProp.getSurface()!= -1) editSize.setText(String.valueOf(tempProp.getSurface()));
+        if (tempProp.getPrice()!= -1) editPrice.setText(String.valueOf(tempProp.getPrice()));
+        if (tempProp.getRooms()!= -1) editRooms.setText(String.valueOf(tempProp.getRooms()));
+        if (tempProp.getBedrooms()!= -1) editBeds.setText(String.valueOf(tempProp.getBedrooms()));
+        if (tempProp.getToilets()!= -1) editToilets.setText(String.valueOf(tempProp.getToilets()));
+        if (tempProp.getShowers()!= -1) editShowers.setText(String.valueOf(tempProp.getShowers()));
+        if (tempProp.getBathtubs()!= -1) editBathtubs.setText(String.valueOf(tempProp.getBathtubs()));
+        if(tempProp.isAircon()) {checkBox.setChecked(true);}
+        spinnerType.setSelection(spinnerArray.indexOf(tempProp.getBuildType()));
+
+        String lat = (tempProp.getLocation().split(",", -1))[0];
+        String lon = (tempProp.getLocation().split(",", -1))[1];
+        String liteMapUrl = "https://maps.google.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=12&size=400x200&markers=color:red%7C" + lat + "," + lon + "&sensor=false&key=" + apiKey;
+        Glide.with(context)
+                .load(liteMapUrl)
+                .into(liteMap);
+        }
+
+        private void initMediasObserver() {
+            offerMediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
+            offerMediaViewModel.getMediasByPropertyId(tempProp.getId()).observe(this, new Observer<List<OfferMedia>>() {
+                public void onChanged(@Nullable List<OfferMedia> medias) {
+
+                    Log.i("alex", "medias list observer changed. size: " + medias.size() );
+                    if (medias.size()>0) {
+                        paths.clear();
+                        for (OfferMedia media : medias) {
+                            paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
+                        }
+                        updateRecycler();
+                    }
+                }
+            });
+        }
+
     private void getToGallery() {
-        Log.i("alex", "permission granted");
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -145,7 +263,9 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     }
 
     private void updateRecycler() {
-        //Log.i("alex", "updateRecycler; list size: " + paths.size());
+        if (paths.size()>0){
+            medias_columns_titles.setVisibility(View.VISIBLE);
+        } else { medias_columns_titles.setVisibility(View.INVISIBLE);}
         myAdapter = new MediasRecyclerViewAdapter(paths);
         recyclerView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
@@ -177,6 +297,18 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         }
     }
 
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        getToGallery();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
+
+
+/**
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
         Log.i("alex", "permission granted");
@@ -188,90 +320,122 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         Log.i("alex", "permission denied");
     }
 
+    @AfterPermissionGranted(RC_STORAGE_PERM)
+    private void afterPermissionGranted() {
+        Log.i("alex", "after permission has been granted");
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(context, perms)) {
+            getToGallery();
+        } else {
+            EasyPermissions.requestPermissions(getActivity(), "Please grant access to your photo gallery", RC_STORAGE_PERM, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.i("alex", "on request permission result");
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+    */
+
+
+    private void saveTemporaryProp() {
+        if (!editRooms.getText().toString().equals(""))tempProp.setRooms(Integer.valueOf(editRooms.getText().toString()));
+        if (!editBeds.getText().toString().equals(""))tempProp.setBedrooms(Integer.valueOf(editBeds.getText().toString()));
+        if (!editShowers.getText().toString().equals(""))tempProp.setShowers(Integer.valueOf(editShowers.getText().toString()));
+        if (!editBathtubs.getText().toString().equals(""))tempProp.setBathtubs(Integer.valueOf(editBathtubs.getText().toString()));
+        if (!editToilets.getText().toString().equals(""))tempProp.setToilets(Integer.valueOf(editToilets.getText().toString()));
+        if (!editSize.getText().toString().equals(""))tempProp.setSurface(Integer.valueOf(editSize.getText().toString()));
+        if (!editPrice.getText().toString().equals(""))tempProp.setPrice(Integer.valueOf(editPrice.getText().toString()));
+        tempProp.setDateOffer((new Timestamp(new Date().getTime())).getTime());
+        tempProp.setDescription(editDescription.getText().toString());
+        tempProp.setAircon(checkBox.isChecked());
+        tempProp.setBuildType(spinnerType.getSelectedItem().toString());
+    }
+
+
+
     private void publish() {
 
-        int rooms = -1;
-        int beds = -1;
-        int showers = -1;
-        int bathtubs = -1;
-        int toilets = -1;
+        Log.i("alex", "temp offer id: " + tempProp.getId() );
 
-        if (!editBeds.getText().toString().equals(""))beds = Integer.valueOf(editBeds.getText().toString());
-        if (!editShowers.getText().toString().equals(""))showers = Integer.valueOf(editShowers.getText().toString());
-        if (!editBathtubs.getText().toString().equals(""))bathtubs = Integer.valueOf(editBathtubs.getText().toString());
-        if (!editToilets.getText().toString().equals(""))toilets = Integer.valueOf(editToilets.getText().toString());
+        //If requested fields are filled
 
-        long ts = (new Timestamp(new Date().getTime())).getTime();
-
-        Property property = new Property(
-                editDecription.getText().toString(),
-                editCity.getText().toString(),
-                editDistrict.getText().toString(),
-                Integer.valueOf(editSize.getText().toString()),
-                beds,
-                toilets,
-                showers,
-                bathtubs,
-                checkBox.isChecked(),
-                ts,
-                location,
-                Integer.valueOf(editPrice.getText().toString()),
-                LoginHolder.getInstance().getAgentId(),
-                false,
-                "",
-                1,
-                "Apartment",
-                0);
-
-        propertyViewModel.insert(property);
-
-        initObserverProperty();
+        if(!isNewOffer) {
+            //Log.i("alex", "delete media of property " + tempProp.getId());
+            offerMediaViewModel.deleteAllMediasOfThisProperty(tempProp.getId());
+           // Log.i("alex", "delete property " + tempProp.getId());
+            //propertyViewModel.deleteProperty(tempProp.getId());
+        }
+        Log.i("alex", "insert tempProp ");
+            propertyViewModel.insert(tempProp);
+        Log.i("alex", "initObserverProperty ");
+            initObserverProperty();
     }
 
     private void copyMedias(long propertyId) {
+
+        Log.i("alex", "copyMedias. paths size: " + paths.size() + "PID: " + propertyId  );
         String filename = "";
         int mainMediaIndex = myAdapter.getMainPicture();
         boolean isMain = false;
 
         if (paths != null) for (String path : paths) {
             Log.i("alex", "path of file to copy: " + path );
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                File inFile = new File (path);
-                filename = inFile.getName();
-                in = new FileInputStream(inFile);
-                File outFile = new File(context.getFilesDir().getPath() + "/medias/" + filename );
-                out = new FileOutputStream(outFile);
-
-                mtc.copyFile(in, out);
-            } catch(IOException e) {
-                Log.e("alex", "Failed to copy file: " + filename, e);
-            }
-            finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        Log.e("alex", "error closing  file IN");
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        Log.e("alex", "error closing  file IN");
-                    }
-                }
-            }
 
             isMain = false;
             if (paths.indexOf(path) == mainMediaIndex){
                 Log.i("alex", "this is main media !!");
-            } else {
                 isMain = true;
             }
+            File inFile = new File (path);
+            filename = inFile.getName();
+            File outFile = new File(context.getFilesDir().getPath() + "/medias/" + filename );
+
+            Log.i("alex", "insert media, ID: " + propertyId + " filename: " + filename + " " + isMain);
             offerMediaViewModel.insert(new OfferMedia(propertyId, filename, isMain));
+
+            InputStream in = null;
+            OutputStream out = null;
+
+            //Log.i("alex", "get name: " + inFile.getName());
+            //Log.i("alex", "get path: " + inFile.getPath());
+            //Log.i("alex", "get absolute path: " + inFile.getAbsolutePath());
+
+            if (!inFile.getPath().equals(outFile.getPath())) {
+                try {
+                    //File inFile = new File (path);
+                    //filename = inFile.getName();
+                    in = new FileInputStream(inFile);
+                    //File outFile = new File(context.getFilesDir().getPath() + "/medias/" + filename );
+                    out = new FileOutputStream(outFile);
+
+                    Log.i("alex", "infile: " + inFile.getPath());
+                    Log.i("alex", "outfile: " + outFile.getPath());
+
+                    mtc.copyFile(in, out);
+                } catch (IOException e) {
+                    Log.e("alex", "Failed to copy file: " + filename, e);
+                } finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            Log.e("alex", "error closing  file IN");
+                        }
+                    }
+                    if (out != null) {
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            Log.e("alex", "error closing  file IN");
+                        }
+                    }
+                }
+            }
         }
         Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -283,10 +447,16 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     private void initObserverProperty() {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         propertyViewModel.getLastPropertyId().observe(this, new Observer<Long>() {
+            boolean initialized = false;
             @Override
             public void onChanged(Long id) {
-                Log.i("alex", "last inserted id: " + id );
-                copyMedias(id);
+                if (initialized) {
+                    Log.i("alex", "initialize is true. last inserted id: " + id );
+                    copyMedias(id);
+                } else {
+                    Log.i("alex", "initialize is false" );
+                    initialized = true;
+                }
             }
         });
     }

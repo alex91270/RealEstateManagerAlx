@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
+import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
 import com.example.realestatemanageralx.fragments.create_offer.LocationPickerFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
@@ -60,8 +61,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private static final int FRAGMENT_FIRST = 0;
     private static final int FRAGMENT_MAP = 1;
     private static final int FRAGMENT_LOAN = 2;
-
-    public Property temporaryProp;
 
     private AppDatabase myDatabase;
     //private PropertyViewModel propertyViewModel;
@@ -97,7 +96,16 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         showStartFragment();
 
+        // TO BE REMOVED !!
+        nav_Menu.setGroupEnabled(R.id.pro_group, true);
+        nav_Menu.setGroupVisible(R.id.pro_group, true);
+        LoginHolder.getInstance().setIsLogged(true);
+        LoginHolder.getInstance().setAgentId(1);
+        showFirstFragment();
+        // TO BE REMOVED !!
 
+
+        showFirstFragment();
 
         //initObservers();
        }
@@ -190,7 +198,10 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void showCreateFragment() {
-        if (createFragment == null) createFragment = LocationPickerFragment.newInstance();
+        if (createFragment == null) createFragment = CreateFragment.newInstance();
+        Bundle bundle=new Bundle();
+        bundle.putString("action", "creation");
+        createFragment.setArguments(bundle);
         startTransactionFragment(createFragment);
     }
 

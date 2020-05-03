@@ -39,50 +39,47 @@
                     android:background="#f53128"
                     app:layout_constraintTop_toBottomOf="@id/create_title" />
 
+                <ImageView
+                    android:id="@+id/create_map_lite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/create_button_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_divider1"
+                    app:srcCompat="@drawable/no_location" />
+
+                <Button
+                    android:id="@+id/create_button_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="37dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="Select location"
+                    app:layout_constraintBottom_toBottomOf="@+id/create_map_lite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/create_map_lite" />
+
                 <TextView
-                    android:id="@+id/create_city_title"
+                    android:id="@+id/create_type_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
-                    android:text="City : "
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_divider1" />
+                    android:text="Type :"
+                    app:layout_constraintTop_toBottomOf="@+id/create_map_lite"/>
 
-                <EditText
-                    android:id="@+id/create_city_edit"
+                <Spinner
+                    android:id="@+id/create_spinner_type"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="New-York"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/create_city_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/create_type_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/create_city_title" />
-
-                <TextView
-                    android:id="@+id/create_district_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="District :"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_city_title" />
-
-                <EditText
-                    android:id="@+id/create_district_edit"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/create_district_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/create_district_title" />
+                    app:layout_constraintTop_toTopOf="@+id/create_type_title"
+                    />
 
                 <TextView
                     android:id="@+id/create_size_title"
@@ -92,7 +89,7 @@
                     android:layout_marginTop="24dp"
                     android:text="Size (m²) :"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_district_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/create_spinner_type" />
 
                 <EditText
                     android:id="@+id/create_size_edit"
@@ -129,6 +126,28 @@
                     app:layout_constraintTop_toTopOf="@+id/create_price_title" />
 
                 <TextView
+                    android:id="@+id/create_rooms_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Rooms :"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_price_title" />
+
+                <EditText
+                    android:id="@+id/create_rooms_edit"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/create_rooms_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/create_rooms_title" />
+
+                <TextView
                     android:id="@+id/create_beds_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,7 +155,7 @@
                     android:layout_marginTop="24dp"
                     android:text="Bedrooms :"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_price_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/create_rooms_title" />
 
                 <EditText
                     android:id="@+id/create_beds_edit"
@@ -267,7 +286,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
                     android:background="#f53128"
-                    app:layout_constraintTop_toTopOf="@id/create_description_edit" />
+                    app:layout_constraintTop_toBottomOf="@id/create_description_edit" />
 
                 <TextView
                     android:id="@+id/create_medias_title"
@@ -286,39 +305,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="add some media"
+                    android:text="+ add media"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/create_divider2" />
 
-                <TextView
-                    android:id="@+id/create_preview_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/create_medias_columns"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Preview"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button_pick" />
-
-                <TextView
-                    android:id="@+id/create_filename_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Filename"
-                    app:layout_constraintEnd_toStartOf="@+id/create_ismain"
-                    app:layout_constraintStart_toEndOf="@+id/create_preview_title"
-                    app:layout_constraintTop_toBottomOf="@+id/button_pick" />
-
-                <TextView
-                    android:id="@+id/create_ismain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:text="main picture"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button_pick" />
+                    app:layout_constraintTop_toBottomOf="@+id/button_pick"
+                  >
+
+                    <TextView
+                        android:id="@+id/create_filename_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Filename" />
+
+                    <TextView
+                        android:id="@+id/create_preview_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Preview" />
+
+                    <TextView
+                        android:id="@+id/create_ismain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="main picture" />
+
+                    <TextView
+                        android:id="@+id/create_media_delete_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="delete" />
+                </LinearLayout>
 
                 <View
                     android:id="@+id/create_divider3"
@@ -326,12 +357,12 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
                     android:background="#f53128"
-                    app:layout_constraintTop_toBottomOf="@id/create_ismain" />
+                    app:layout_constraintTop_toBottomOf="@+id/create_medias_columns" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/create_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="#00883232"
                     app:layout_constraintEnd_toEndOf="parent"

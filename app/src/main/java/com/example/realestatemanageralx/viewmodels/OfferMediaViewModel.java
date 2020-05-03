@@ -52,5 +52,14 @@ public class OfferMediaViewModel  extends AndroidViewModel {
         });
     }
 
+    public void deleteAllMediasOfThisProperty(long id) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                offerMediaDAO.deleteAllMediasByPropertyId(id);
+            }
+        });
+    }
+
 
 }

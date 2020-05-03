@@ -20,7 +20,7 @@ import com.example.realestatemanageralx.model.Rate;
  * and providing the DAO's used to query the DB
  */
 
-@Database(entities = {Agent.class, OfferMedia.class, Property.class, Rate.class}, version = 1, exportSchema = false)
+@Database(entities = {Agent.class, OfferMedia.class, Property.class, Rate.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     //As the data can be accessed by many threads asynchronously, volatile guaranties the value accessed
     //is always gonna be the most up to date one.
@@ -46,6 +46,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     DatabaseInitialize.populateAsync(INSTANCE);
                                 }
                             })
+                            .fallbackToDestructiveMigration()
                             .build();
         }
         return INSTANCE;

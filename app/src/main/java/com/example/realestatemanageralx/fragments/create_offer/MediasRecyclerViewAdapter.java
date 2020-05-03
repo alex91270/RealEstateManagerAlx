@@ -44,7 +44,11 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
 
         holder.radioButton.setChecked(lastSelectedPosition == position);
 
-        holder.filenameTextView.setText("..." + path.substring(path.length()-20));
+        if (path.length() > 20) {
+            holder.filenameTextView.setText("..." + path.substring(path.length()-20));
+        } else {
+            holder.filenameTextView.setText(path);
+        }
 
         if (mtc.isImage(path)) {
             //Log.i("alex", "it's an image");

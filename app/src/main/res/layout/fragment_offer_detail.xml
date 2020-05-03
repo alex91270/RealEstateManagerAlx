@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_text_type"
                     app:srcCompat="@drawable/ic_location" />
@@ -75,16 +75,16 @@
                     app:layout_constraintBottom_toBottomOf="@+id/detail_icon_location"
                     app:layout_constraintStart_toEndOf="@+id/detail_icon_location" />
 
-                <TextView
-                    android:id="@+id/detail_text_seeonmap"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/detail_map_lite"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:text="See on map"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail_text_location"
-                    app:layout_constraintStart_toEndOf="@+id/detail_text_location" />
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_icon_location" />
 
                 <ImageView
                     android:id="@+id/detail_icon_size"
@@ -93,7 +93,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_icon_location"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_map_lite"
                     app:srcCompat="@drawable/ic_size" />
 
                 <TextView
@@ -314,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
-                    android:text="Points of interest nearby:"
+                    android:text="Points of interest in a 200m radius:"
                     android:textColor="#736685"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -324,9 +324,8 @@
                     android:id="@+id/detail_recycler_poi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/detail_text_poi_title"
-                    tools:layout_editor_absoluteX="32dp" />
+                    tools:layout_editor_absoluteX="56dp" />
 
                 <View
                     android:id="@+id/detail_divider5"

@@ -1,5 +1,7 @@
 package com.example.realestatemanageralx.helpers;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,14 +34,20 @@ public class MediaTypesAndCopy {
     }
 
     public void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
+        Log.i("alex", "helper copyFile");
 
-        int bits = 0;
+        try {
+            byte[] buffer = new byte[1024];
+            int read;
 
-        while((read = in.read(buffer)) != -1){
-            bits +=1;
-            out.write(buffer, 0, read);
+            int bits = 0;
+
+            while ((read = in.read(buffer)) != -1) {
+                bits += 1;
+                out.write(buffer, 0, read);
+            }
+        } catch (IOException e) {
+            Log.e("alex", e.toString());
         }
     }
 

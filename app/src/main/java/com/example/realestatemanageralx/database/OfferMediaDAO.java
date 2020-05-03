@@ -27,8 +27,11 @@ public interface OfferMediaDAO {
         LiveData<List<OfferMedia>> getAllMedias();
 
     @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")
-    //LiveData<Property> getMediaByPropertyId(long propertyId);
+        //LiveData<Property> getMediaByPropertyId(long propertyId);
     LiveData<List<OfferMedia>> getMediasByPropertyId(long propertyId);
+
+    @Query("DELETE FROM offerMedia WHERE propertyId = :propertyId")
+    void deleteAllMediasByPropertyId(long propertyId);
 
     // for contentProvider
     @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")

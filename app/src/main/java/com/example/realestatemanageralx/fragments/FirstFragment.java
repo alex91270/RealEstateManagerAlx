@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +103,8 @@ public class FirstFragment extends Fragment {
     }
 
     private void fillLastOffer() {
+
+        Log.i("alex", "filllast offer");
         ImageView image = getView().findViewById(R.id.image_last_offer);
         TextView text_district = getView().findViewById(R.id.textView_district);
         TextView text_surface = getView().findViewById(R.id.textView_surface);
@@ -112,7 +115,7 @@ public class FirstFragment extends Fragment {
 
             String fileNameMainMedia = new DataProcessing().getMainPictureName(property.getId(), mediasList);
 
-            //Log.i("alex", "last offer id: " + property.getId());
+            Log.i("alex", "last offer id: " + property.getId());
             //Log.i("alex", "last offer surface: " + property.getSurface());
 
         if (!property.getDistrict().equals("")) {

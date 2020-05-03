@@ -37,7 +37,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
 
     public OffersListRecyclerViewAdapter(List<Property> offers, List<OfferMedia> medias, FragmentManager fm) {
-        //Log.i("alex", "constructor");
+        Log.i("alex", "medias list size: " + medias.size());
         listOffers = offers;
         listMedias = medias;
         this.fragmentManager = fm;
@@ -57,12 +57,12 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public void onBindViewHolder(final OffersListRecyclerViewAdapter.ViewHolder holder, final int position) {
-        //Log.i("alex", "onbindviewholder");
+
 
         positionRecycler = position;
         Property property = listOffers.get(position);
 
-        Log.i("alex", "property sold : " + property.isSold());
+        Log.i("alex", "this one property ID: " + property.getId());
 
         if (property.isSold()) {
             holder.imageSold.setVisibility(View.VISIBLE);
@@ -81,10 +81,16 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         String fileNameMainMedia = new DataProcessing().getMainPictureName(property.getId(), listMedias);
 
+        Log.i("alex", "filenameMain: " + fileNameMainMedia);
+
         if (!fileNameMainMedia.equals("")) {
+            Log.i("alex", "thecre is a picture " );
             Bitmap bitmap = BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia);
             //Log.i("alex", "bitmap size: " + bitmap.getByteCount());
             holder.picture.setImageBitmap(bitmap);
+        } else {
+            Log.i("alex", "there is no picture");
+            holder.picture.setImageResource(R.drawable.nopicture);
         }
 
 
