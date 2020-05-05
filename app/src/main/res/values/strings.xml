@@ -7,6 +7,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_offers">SEE OFFERS</string>
+    <string name="navigation_search">RESEARCH</string>
     <string name="navigation_map">SEE ON MAP</string>
     <string name="navigation_loan">LOAN SIMULATOR</string>
     <string name="navigation_pro">PROFESSIONAL ACCESS</string>

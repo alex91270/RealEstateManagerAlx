@@ -6,10 +6,16 @@
     <group android:checkableBehavior="single"
             android:id="@+id/main_group">
         <item
-    android:id="@+id/nav_drawer_see_offers"
-    android:icon="@drawable/ic_home_24dp"
-    android:color="#e7981b"
-    android:title="@string/navigation_offers" />
+            android:id="@+id/nav_drawer_see_offers"
+            android:icon="@drawable/ic_home_24dp"
+            android:color="#e7981b"
+            android:title="@string/navigation_offers" />
+
+        <item
+            android:id="@+id/nav_drawer_research"
+            android:icon="@drawable/ic_search_24dp"
+            android:color="#e7981b"
+            android:title="@string/navigation_search" />
 
         <item
             android:id="@+id/nav_drawer_see_on_map"

@@ -129,7 +129,7 @@ public class FirstFragment extends Fragment {
             if (property.getRooms() == -1) {
                 text_rooms.setText("N.C");
             } else {
-                text_rooms.setText(String.valueOf(property.getBedrooms()) + " rooms");
+                text_rooms.setText(String.valueOf(property.getRooms()) + " rooms");
             }
 
 

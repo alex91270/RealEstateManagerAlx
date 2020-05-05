@@ -68,4 +68,10 @@ dependencies {
 
     //PLACES
     implementation 'com.google.android.libraries.places:places:2.0.0'
+
+    //RANGE SEEK BAR
+    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
+    // EVENT BUS
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

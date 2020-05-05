@@ -30,9 +30,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
+import com.example.realestatemanageralx.fragments.ResearchFragment;
 import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
 import com.example.realestatemanageralx.fragments.create_offer.LocationPickerFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
+import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
@@ -53,6 +55,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     //Declare fragment handled by Navigation Drawer
     private Fragment firstFragment;
+    private Fragment offersListFragment;
+    private Fragment researchFragment;
     private Fragment mapFragment;
     private Fragment loanFragment;
     private Fragment createFragment;
@@ -70,9 +74,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private Context context;
     private EditText dialogTextUsername = null;
     private EditText dialogTextPassword = null;
-
-    //private OfferMediaDAO offerMediaDAO;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,10 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         int id = menuItem.getItemId();
         switch (id){
             case R.id.nav_drawer_see_offers :
-                showFirstFragment();
+                showOffersListFragment();
+                break;
+            case R.id.nav_drawer_research :
+                showResearchFragment();
                 break;
             case R.id.nav_drawer_see_on_map :
                 showMapFragment();
@@ -185,6 +189,16 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private void showFirstFragment(){
         if (firstFragment == null) firstFragment = FirstFragment.newInstance();
         startTransactionFragment(firstFragment);
+    }
+
+    private void showOffersListFragment(){
+        if (offersListFragment == null) offersListFragment = OffersListFragment.newInstance();
+        startTransactionFragment(offersListFragment);
+    }
+
+    private void showResearchFragment(){
+        if (researchFragment == null) researchFragment = ResearchFragment.newInstance();
+        startTransactionFragment(researchFragment);
     }
 
     private void showMapFragment(){

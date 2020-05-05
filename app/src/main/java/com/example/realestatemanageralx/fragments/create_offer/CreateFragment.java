@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,12 +37,15 @@ import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.database.AppDatabase;
+import com.example.realestatemanageralx.events.DeleteMediaEvent;
 import com.example.realestatemanageralx.fragments.FirstFragment;
+import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
+import com.example.realestatemanageralx.viewmodels.OnPropertyInserted;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 
 import java.io.File;
@@ -52,11 +56,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -97,6 +104,25 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
     public static CreateFragment newInstance() {
         return (new CreateFragment());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onDeleteMedia(DeleteMediaEvent event) {
+        Log.i("alex", "delete media triggered");
+        paths.remove(event.path);
+        myAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -210,7 +236,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         }
 
         if (tempProp.getId() == 0) isNewOffer = true;
-
         return root;
     }
 
@@ -248,6 +273,10 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                         for (OfferMedia media : medias) {
                             paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
                         }
+                        DataProcessing dp = new DataProcessing();
+                        int index = paths.indexOf(context.getFilesDir().getPath() + "/medias/" + dp.getMainPictureName(tempProp.getId(), medias));
+                        Log.i("alex", "index: " + index);
+                        Collections.swap(paths, index, 0);
                         updateRecycler();
                     }
                 }
@@ -308,40 +337,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     }
 
 
-/**
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.i("alex", "permission granted");
-        getToGallery();
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.i("alex", "permission denied");
-    }
-
-    @AfterPermissionGranted(RC_STORAGE_PERM)
-    private void afterPermissionGranted() {
-        Log.i("alex", "after permission has been granted");
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(context, perms)) {
-            getToGallery();
-        } else {
-            EasyPermissions.requestPermissions(getActivity(), "Please grant access to your photo gallery", RC_STORAGE_PERM, Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.i("alex", "on request permission result");
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-    */
-
-
     private void saveTemporaryProp() {
         if (!editRooms.getText().toString().equals(""))tempProp.setRooms(Integer.valueOf(editRooms.getText().toString()));
         if (!editBeds.getText().toString().equals(""))tempProp.setBedrooms(Integer.valueOf(editBeds.getText().toString()));
@@ -356,8 +351,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         tempProp.setBuildType(spinnerType.getSelectedItem().toString());
     }
 
-
-
     private void publish() {
 
         Log.i("alex", "temp offer id: " + tempProp.getId() );
@@ -365,15 +358,14 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         //If requested fields are filled
 
         if(!isNewOffer) {
-            //Log.i("alex", "delete media of property " + tempProp.getId());
             offerMediaViewModel.deleteAllMediasOfThisProperty(tempProp.getId());
-           // Log.i("alex", "delete property " + tempProp.getId());
-            //propertyViewModel.deleteProperty(tempProp.getId());
         }
-        Log.i("alex", "insert tempProp ");
-            propertyViewModel.insert(tempProp);
-        Log.i("alex", "initObserverProperty ");
-            initObserverProperty();
+            propertyViewModel.insert(tempProp, new OnPropertyInserted() {
+                @Override
+                public void doneWriting(long id) {
+                    copyMedias(id);
+                }
+            });
     }
 
     private void copyMedias(long propertyId) {
@@ -437,27 +429,20 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                 }
             }
         }
-        Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_master_frame_layout, new FirstFragment(), "fragment first")
-                .addToBackStack(null)
-                .commit();
-        }
 
-    private void initObserverProperty() {
-        propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getLastPropertyId().observe(this, new Observer<Long>() {
-            boolean initialized = false;
+        Handler mainHandler = new Handler(context.getMainLooper());
+        Runnable myRunnable = new Runnable() {
             @Override
-            public void onChanged(Long id) {
-                if (initialized) {
-                    Log.i("alex", "initialize is true. last inserted id: " + id );
-                    copyMedias(id);
-                } else {
-                    Log.i("alex", "initialize is false" );
-                    initialized = true;
-                }
+            public void run() {
+                Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_master_frame_layout, new FirstFragment(), "fragment first")
+                        .addToBackStack(null)
+                        .commit();
             }
-        });
-    }
-    }
+        };
+
+        mainHandler.post(myRunnable);
+
+        }
+}

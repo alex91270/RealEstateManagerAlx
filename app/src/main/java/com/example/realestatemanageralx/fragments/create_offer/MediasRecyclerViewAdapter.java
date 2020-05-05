@@ -1,11 +1,14 @@
 package com.example.realestatemanageralx.fragments.create_offer;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -14,7 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.events.DeleteMediaEvent;
+import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
+import org.greenrobot.eventbus.EventBus;
+
 
 import java.util.ArrayList;
 
@@ -22,6 +29,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
     private ArrayList<String> paths;
     private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
     private int lastSelectedPosition = 0;
+    CreateFragment fragment;
 
 
     public MediasRecyclerViewAdapter(ArrayList<String> myPaths) {
@@ -71,6 +79,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
         private ImageView picture;
         private TextView filenameTextView;
         public RadioButton radioButton;
+        private ImageButton deleteButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -78,6 +87,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
             picture = view.findViewById(R.id.create_item_picture);
             filenameTextView = view.findViewById(R.id.create_item_filename);
             radioButton = view.findViewById(R.id.radioButton);
+            deleteButton = view.findViewById(R.id.create_media_delete);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,10 +96,19 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
                     notifyDataSetChanged();
                 }
             });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new DeleteMediaEvent(paths.get(getAdapterPosition())));
+                }
+            });
+
         }
     }
 
     public int getMainPicture() {
         return lastSelectedPosition;
     }
+
 }

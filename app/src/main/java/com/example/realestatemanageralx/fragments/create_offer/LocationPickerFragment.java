@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,6 +159,18 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
 
         Log.i("alex", "location picker thread: " + Thread.currentThread());
 
+        validButton.setVisibility(View.INVISIBLE);
+        validButton.setEnabled(false);
+
+        Handler mainHandler = new Handler(mContext.getMainLooper());
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                validButton.setVisibility(View.VISIBLE);
+                validButton.setEnabled(true);
+            }
+        };
+
         Geocoder geocoder = new Geocoder(mContext);
         try {
             List<Address> addressList = geocoder.getFromLocation(
@@ -186,6 +199,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                 Log.i("alex", "poi stuff done");
                 Log.i("alex", "result: " + result);
                 tempProp.setPois(result);
+                mainHandler.post(myRunnable);
             }
         });
 
@@ -197,7 +211,6 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
             }
         });
 
-        validButton.setVisibility(View.VISIBLE);
-        validButton.setEnabled(true);
+
     }
 }

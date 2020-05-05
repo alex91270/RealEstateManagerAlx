@@ -323,25 +323,25 @@
                   >
 
                     <TextView
-                        android:id="@+id/create_filename_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Filename" />
-
-                    <TextView
                         android:id="@+id/create_preview_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Preview" />
+                        android:text="       Preview                " />
+
+                    <TextView
+                        android:id="@+id/create_filename_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Filename                   " />
 
                     <TextView
                         android:id="@+id/create_ismain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="main picture" />
+                        android:text="main" />
 
                     <TextView
                         android:id="@+id/create_media_delete_title"
