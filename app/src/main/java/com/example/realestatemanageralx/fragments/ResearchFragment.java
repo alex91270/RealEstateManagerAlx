@@ -54,7 +54,6 @@ public class ResearchFragment extends Fragment {
     @BindView(R.id.research_switch_subways) Switch switchSubways;
     @BindView(R.id.research_button_offers) Button buttonOffers;
     @BindView(R.id.cardviewConveniences) CardView cardViewSwitches;
-
     private int minPriceSelected;
     private int maxPriceSelected;
     private int minSurfaceSelected;
