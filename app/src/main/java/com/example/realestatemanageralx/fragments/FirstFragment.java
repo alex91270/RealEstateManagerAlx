@@ -52,32 +52,26 @@ public class FirstFragment extends Fragment {
         context = root.getContext();
 
         seeOffersButton = root.findViewById(R.id.see_offers_button);
-        seeOffersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OffersListFragment offersListFrag= new OffersListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, offersListFrag, "Fragment offersList")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        seeOffersButton.setOnClickListener(v -> {
+            OffersListFragment offersListFrag= new OffersListFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, offersListFrag, "Fragment offersList")
+                    .addToBackStack(null)
+                    .commit();
         });
 
         imageNewOffer = root.findViewById(R.id.image_last_offer);
-        imageNewOffer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        imageNewOffer.setOnClickListener(v -> {
 
-                OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
-                Bundle bundle=new Bundle();
-                bundle.putLong("propertyId",property.getId());
-                bundle.putLong("agentId", property.getAgentId());
-                offerDetailFrag.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, offerDetailFrag, "fragment offer detail")
-                        .addToBackStack(null)
-                        .commit();
-            }
+            OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
+            Bundle bundle=new Bundle();
+            bundle.putLong("propertyId",property.getId());
+            bundle.putLong("agentId", property.getAgentId());
+            offerDetailFrag.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, offerDetailFrag, "fragment offer detail")
+                    .addToBackStack(null)
+                    .commit();
         });
 
         initObservers();

@@ -314,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
-                    android:text="Points of interest in a 200m radius:"
+                    android:text="Conveniencies in a 200m radius:"
                     android:textColor="#736685"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"

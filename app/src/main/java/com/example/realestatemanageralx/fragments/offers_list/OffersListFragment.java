@@ -1,6 +1,7 @@
 package com.example.realestatemanageralx.fragments.offers_list;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.comparators.SortByDate;
 import com.example.realestatemanageralx.comparators.SortByPrice;
 import com.example.realestatemanageralx.comparators.SortBySurface;
+import com.example.realestatemanageralx.helpers.Filtering;
+import com.example.realestatemanageralx.model.Filter;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
@@ -66,7 +69,14 @@ public class OffersListFragment extends Fragment {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
             public void onChanged(@Nullable List<Property> properties) {
-                propertiesList = properties;
+                if(getArguments()!= null && getArguments().containsKey("filter")){
+                    Log.i("alex", "there is a filter in the bundle");
+                    Filter filter = (Filter) getArguments().getSerializable("filter");
+                    propertiesList = new Filtering().filterPropertiesList((ArrayList)properties, filter);
+                } else {
+                    Log.i("alex", "there is no filter in the bundle");
+                    propertiesList = properties;
+                }
                 updateRecycler();
             }
         });

@@ -1,24 +1,19 @@
 package com.example.realestatemanageralx.fragments.create_offer;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.events.DeleteMediaEvent;
-import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import org.greenrobot.eventbus.EventBus;
 
@@ -86,7 +81,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
             //Log.i("alex", "public Viewholder");
             picture = view.findViewById(R.id.create_item_picture);
             filenameTextView = view.findViewById(R.id.create_item_filename);
-            radioButton = view.findViewById(R.id.radioButton);
+            radioButton = view.findViewById(R.id.research_radio_button_on_sale);
             deleteButton = view.findViewById(R.id.create_media_delete);
 
             radioButton.setOnClickListener(new View.OnClickListener() {

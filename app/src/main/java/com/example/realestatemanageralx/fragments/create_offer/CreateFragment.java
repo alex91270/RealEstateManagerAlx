@@ -164,8 +164,8 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         });
 
         buttonPublish.setOnClickListener(v -> {
-           if (editSize.getText().toString().equals("") || editPrice.getText().toString().equals("")) {
-               Toast.makeText(context, "Please provide at least a city, price and size", Toast.LENGTH_LONG).show();
+           if (editSize.getText().toString().equals("") || editPrice.getText().toString().equals("") || tempProp.getCity().equals("")) {
+               Toast.makeText(context, "Please provide at least a location, price and size", Toast.LENGTH_LONG).show();
            } else {
                saveTemporaryProp();
                publish();}
