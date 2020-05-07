@@ -25,8 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
-
+import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
@@ -36,10 +35,12 @@ import com.example.realestatemanageralx.fragments.create_offer.LocationPickerFra
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
+import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
+import com.example.realestatemanageralx.viewmodels.RateViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
@@ -89,8 +90,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
         myDatabase = AppDatabase.getDatabase(getApplicationContext());
 
-        //new GetInterestRatesAsync().execute(getString(R.string.loans_API_key));
-        //new GetCurrencyRateAsync().execute(getString(R.string.currency_API_key));
+        RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
+        //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
+        new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
 
         configureToolBar();
         configureDrawerLayout();

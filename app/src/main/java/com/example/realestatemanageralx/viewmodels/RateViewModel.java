@@ -16,6 +16,8 @@ import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.model.Rate;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * ViewModel for agents, using the DAO and returning LiveData, observed by the view
@@ -24,16 +26,29 @@ import java.util.List;
 public class RateViewModel  extends AndroidViewModel {
     private RateDAO rateDAO;
     private LiveData<List<Rate>> rateLiveData;
+    private Executor taskExecutor;
+
 
     public RateViewModel (@NonNull Application application) {
         super(application);
         rateDAO = AppDatabase.getDatabase(application).rateDAO();
+        taskExecutor = Executors.newSingleThreadExecutor();
     }
 
     public LiveData<List<Rate>> getRates() {
         rateLiveData= rateDAO.getAllRates();
         return rateLiveData;
     }
+
+    public void updateRateValue(final long rId, final double value) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                rateDAO.updateRate(rId, value);
+            }
+        });
+    }
+
 }
 
 

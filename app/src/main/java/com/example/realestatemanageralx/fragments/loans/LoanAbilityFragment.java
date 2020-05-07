@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +47,11 @@ public class LoanAbilityFragment extends Fragment {
         buttonCalculate = root.findViewById(R.id.loan_ability_calculate);
 
         buttonCalculate.setOnClickListener(v -> {
-            calculate();
+            if (textIncome.getText().toString().equals("") ) {
+                Toast.makeText(root.getContext(), "Please provide an income", Toast.LENGTH_LONG).show();
+            } else {
+                calculate();
+            }
         });
 
         initObserver();

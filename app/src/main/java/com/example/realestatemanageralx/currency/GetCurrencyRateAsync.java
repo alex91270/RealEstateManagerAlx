@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.realestatemanageralx.service.DI;
 import com.example.realestatemanageralx.service.RealApiService;
+import com.example.realestatemanageralx.viewmodels.RateViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +21,12 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
 
     private static final String CURRENCY_API_BASE = "http://data.fixer.io/api/latest?access_key=";
     private static final String LOG_TAG = "RealEstateManager";
-    private RealApiService service =DI.getRestApiService();
     private String result;
+    private RateViewModel rateViewModel;
+
+    public GetCurrencyRateAsync(RateViewModel rvm) {
+        rateViewModel = rvm;
+    }
 
 
     @Override
@@ -88,15 +93,19 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
             //converts JSON raw data into JSON objects
             JSONObject jsonObj = new JSONObject(result);
             String rates = jsonObj.getString("rates");
+            String ts = jsonObj.getString("timestamp");
             Log.i("alex", "rates: " +rates);
             JSONObject jsonObj2 = new JSONObject(rates);
 
             String usd = jsonObj2.getString("USD");
             Log.i("alex", "usd: " + usd);
+            Log.i("alex", "timestamp: " + ts);
+
+            rateViewModel.updateRateValue(1, Double.valueOf(usd));
+            rateViewModel.updateRateValue(2, Double.valueOf(ts));
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error processing JSON results", e);
-            //result = Resources.getSystem().getString(R.string.error_processing_result);
         }
 
         s="success";

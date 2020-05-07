@@ -29,7 +29,7 @@ public class TypesConversions {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
 
-        return cal.getTimeInMillis();
+        return cal.getTimeInMillis()/1000;
     }
 
     public LatLng getLatLngFromString(String s) {

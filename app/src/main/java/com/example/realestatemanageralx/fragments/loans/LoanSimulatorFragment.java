@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +57,13 @@ public class LoanSimulatorFragment extends Fragment {
         initObserver();
 
         calculateButton.setOnClickListener(v -> {
-            calculate();
+
+            if (editTextLoanAmount.getText().toString().equals("") || editTextRate.getText().toString().equals("")) {
+                Toast.makeText(context, "Please provide an amount and a rate", Toast.LENGTH_LONG).show();
+            } else {
+                calculate();
+            }
+
         });
 
         return root;

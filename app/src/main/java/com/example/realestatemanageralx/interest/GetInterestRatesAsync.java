@@ -5,9 +5,14 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.database.RateDAO;
+import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.service.DI;
 import com.example.realestatemanageralx.service.RealApiService;
+import com.example.realestatemanageralx.viewmodels.RateViewModel;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,13 +26,18 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
     private static final String CURRENCY_API_BASE = "https://www.quandl.com/api/v3/datasets/FED/SVENPY.json?api_key=";
     private static final String LOG_TAG = "RealEstateManager";
     private RealApiService service = DI.getRestApiService();
+    private RateViewModel rateViewModel;
     //private String loan_API_key = Resources.getSystem().getString(R.string.loans_API_key);
     //private String loan_API_key = "rhpK3nJpjHCJz9DDEZD7";
 
     private String raw_result;
+    public GetInterestRatesAsync(RateViewModel rvm) {
+        rateViewModel = rvm;
+    }
 
     @Override
     protected String doInBackground(String... strings) {
+
         String loan_API_key = strings[0];
 
         Log.i("alex", "thread interest rates async: " + String.valueOf(Thread.currentThread().getId()));
@@ -89,11 +99,12 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
         super.onPostExecute(s);
 
         String result_last_day = raw_result.substring((raw_result.indexOf("data\":[[") + 9), (raw_result.indexOf("],[") + 3));
-        String last_date_available = result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
-
+        String last_date_available = "20" + result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
+        rateViewModel.updateRateValue(3, new TypesConversions().getTimeStampFromString(last_date_available));
         String rates_only = result_last_day.substring(result_last_day.indexOf("\",") + 2, result_last_day.indexOf("],["));
 
         Log.i("alex", "last date: " + last_date_available);
+        Log.i("alex", "last date timestamp: " + new TypesConversions().getTimeStampFromString(last_date_available));
         Log.i("alex", "cut_result: " + result_last_day);
         Log.i("alex", "rates only: " + rates_only);
 
@@ -101,6 +112,10 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
 
         Log.i("alex", "rates array size : " + ratesArray.length);
         Log.i("alex", "rate one year: " + ratesArray[0]);
+        for (int i = 0; i<ratesArray.length; i++) {
+            rateViewModel.updateRateValue(i+4, Double.valueOf(ratesArray[i]));
+            //Log.i("alex", "i=" + i + " rate id: " + String.valueOf(i+4) + " rateYear" + String.valueOf(i+1) + " value: " + ratesArray[i]);
+        }
 
         s="success";
 
@@ -108,7 +123,6 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
             Log.i("alex", "error ");
         } else {
             Log.i("alex", "result: " + s);
-
         }
 
     }
