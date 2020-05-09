@@ -1,10 +1,13 @@
 package com.example.realestatemanageralx;
 
-
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,27 +28,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import com.example.realestatemanageralx.currency.GetCurrencyRateAsync;
+
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.ResearchFragment;
 import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
-import com.example.realestatemanageralx.fragments.create_offer.LocationPickerFragment;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
-import com.example.realestatemanageralx.genuine_medias.InitialCopyActivity;
-import com.example.realestatemanageralx.interest.GetInterestRatesAsync;
+import com.example.realestatemanageralx.fragments.genuine_data.InitialCopyActivity;
+import com.example.realestatemanageralx.helpers.MyReceiver;
 import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
-import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -76,15 +75,24 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private EditText dialogTextUsername = null;
     private EditText dialogTextPassword = null;
 
+    private BroadcastReceiver MyReceiver = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
         context = this;
+        MyReceiver = new MyReceiver();
+
+        if(getResources().getString(R.string.orientation).equals("portrait")) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         File folderMedias = new File(this.getFilesDir(), "medias");
         if (! folderMedias.exists()) {
+            Log.i("alex", "the folder does not exist");
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
@@ -92,7 +100,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
         //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
-        new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
+        //new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
 
         configureToolBar();
         configureDrawerLayout();
@@ -107,10 +115,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         showFirstFragment();
         // TO BE REMOVED !!
 
-
-        showFirstFragment();
-
-        //initObservers();
+        //Log.i("alex", "onCreate, register receiver");
+        //registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        //showFirstFragment();
        }
 
     @Override
@@ -279,6 +286,12 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         });
 
         return dialog;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(MyReceiver);
     }
 }
 

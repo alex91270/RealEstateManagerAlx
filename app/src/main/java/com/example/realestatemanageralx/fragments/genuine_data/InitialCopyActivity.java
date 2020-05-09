@@ -1,4 +1,4 @@
-package com.example.realestatemanageralx.genuine_medias;
+package com.example.realestatemanageralx.fragments.genuine_data;
 
 import androidx.appcompat.app.AppCompatActivity;
 

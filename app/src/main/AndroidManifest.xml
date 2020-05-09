@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name = "android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".video.VideoActivity" />
-        <activity android:name=".genuine_medias.InitialCopyActivity" />
+        <activity android:name=".fragments.genuine_data.InitialCopyActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,6 +44,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name = ".helpers.MyReceiver">
+            <intent-filter>
+                <action android:name = "android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name = "android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name=".providers.MediasContentProvider"
