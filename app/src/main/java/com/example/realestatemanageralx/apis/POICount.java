@@ -1,4 +1,4 @@
-package com.example.realestatemanageralx.nearby_poi;
+package com.example.realestatemanageralx.apis;
 
 import android.os.StrictMode;
 import android.util.Log;
@@ -36,7 +36,11 @@ public class POICount {
         String result = "";
 
         for (int i = 0; i < integerResults.length; i++) {
-            result += integerResults[i];
+            if (integerResults[i] > 9) {
+                result += "+";
+            } else {
+                result += integerResults[i];
+            }
             if (i != integerResults.length - 1) result += ",";
         }
         onPOICountDone.OnPoiCountDone(result);

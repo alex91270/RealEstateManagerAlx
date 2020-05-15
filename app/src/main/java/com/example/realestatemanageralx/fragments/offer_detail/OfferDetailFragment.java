@@ -22,20 +22,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.SliderAdapter;
 import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
+import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.TypesConversions;
-import com.example.realestatemanageralx.login.LoginHolder;
+import com.example.realestatemanageralx.helpers.Utils;
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
@@ -48,8 +48,8 @@ import com.example.realestatemanageralx.viewmodels.RateViewModel;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
@@ -98,14 +98,10 @@ public class OfferDetailFragment extends Fragment {
     private String currency = "dollar";
 
     private double exchangeRate;
-    private double rateUpdateDate;
-
-
     private Context context;
     private AlertDialog dialog = null;
     private final int PERMISSION_REQUEST_CALL = 123;
     private TypesConversions tc = new TypesConversions();
-
 
     public static OfferDetailFragment newInstance() {
         return (new OfferDetailFragment());
@@ -153,7 +149,7 @@ public class OfferDetailFragment extends Fragment {
 
         poiRecycler.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
-        if(LoginHolder.getInstance().getIsAgentLogged()) {
+        if(DataHolder.getInstance().getIsAgentLogged()) {
             buttonSold.setVisibility(View.VISIBLE);
             buttonSold.setEnabled(true);
             buttonModify.setVisibility(View.VISIBLE);
@@ -207,13 +203,14 @@ public class OfferDetailFragment extends Fragment {
 
                 if (currency.equals("dollar")) {
                     currency = "euro";
-                    textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())/exchangeRate))));
+                    //textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())/exchangeRate))));
+                    textViewPrice.setText(tc.formatPriceNicely(Utils.convertDollarToEuro(mProperty.getPrice(),exchangeRate)));
                     textViewConvertCurrency.setText("convert to dollar");
                     imageCurrency.setImageResource(R.drawable.ic_euro);
 
                 } else {
                     currency = "dollar";
-                    textViewPrice.setText(tc.formatPriceNicely(mProperty.getPrice()));
+                    textViewPrice.setText(tc.formatPriceNicely(Utils.convertEuroToDollar(mProperty.getPrice(),exchangeRate)));
                     textViewConvertCurrency.setText("convert to euro");
                     imageCurrency.setImageResource(R.drawable.ic_dollar);
                 }
@@ -250,9 +247,6 @@ public class OfferDetailFragment extends Fragment {
         rateViewModel.getRates().observe(this, new Observer<List<Rate>>() {
             public void onChanged(@Nullable List<Rate> rates) {
                 exchangeRate = rates.get(0).getValue();
-                rateUpdateDate = rates.get(1).getValue();
-               // Log.i("alex", "exchangerate: " + exchangeRate);
-                //Log.i("alex", "rate date: " + rateUpdateDate);
             }
         });
 
@@ -260,10 +254,11 @@ public class OfferDetailFragment extends Fragment {
         mediaViewModel.getMediasByPropertyId(propertyId).observe(this, new Observer<List<OfferMedia>>() {
             public void onChanged(@Nullable List<OfferMedia> medias) {
                 mediasList = medias;
-                Log.i("alex", "medias list size: " + mediasList.size() );
-                for (OfferMedia media : medias) {
-                    Log.i("alex", "media file name: " + media.getFileName());
-                }
+                DataProcessing dp = new DataProcessing();
+                int index = dp.getMainPictureIndex(propertyId, medias);
+                Log.i("alex", "main pic index: " + index);
+                Collections.swap(medias, index, 0);
+
                 gallery.setAdapter(new SliderAdapter(context, mediasList));
             }
         });
@@ -350,8 +345,8 @@ public class OfferDetailFragment extends Fragment {
             for (int i=0; i<poiList.size(); i++) {
                 if (!poiList.get(i).equals("0")) {
                     String poiNumber;
-                    if (poiList.get(i).equals("20")){
-                        poiNumber = "20+";
+                    if (poiList.get(i).equals("+")){
+                        poiNumber = "10+";
                     } else {
                         poiNumber = poiList.get(i);
                     }

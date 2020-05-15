@@ -1,4 +1,4 @@
-package com.example.realestatemanageralx.nearby_poi;
+package com.example.realestatemanageralx.apis;
 
 public interface OnPOICountDone {
 

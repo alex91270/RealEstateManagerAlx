@@ -1,16 +1,11 @@
-package com.example.realestatemanageralx.currency;
+package com.example.realestatemanageralx.apis;
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
-
-import com.example.realestatemanageralx.service.DI;
-import com.example.realestatemanageralx.service.RealApiService;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;

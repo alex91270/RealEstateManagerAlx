@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,8 +19,8 @@ import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.comparators.SortByDate;
 import com.example.realestatemanageralx.comparators.SortByPrice;
 import com.example.realestatemanageralx.comparators.SortBySurface;
-import com.example.realestatemanageralx.helpers.Filtering;
-import com.example.realestatemanageralx.model.Filter;
+import com.example.realestatemanageralx.datas.DataHolder;
+import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
@@ -39,6 +40,7 @@ public class OffersListFragment extends Fragment {
     private ImageButton buttonPrice;
     private ImageButton buttonSurface;
     private ImageButton buttonDate;
+    private FragmentManager fm;
     private enum SortType{priceUp, priceDown, surfaceUp, surfaceDown, dateUp, dateDown}
     private SortType currentSort = SortType.dateUp;
 
@@ -51,6 +53,7 @@ public class OffersListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_list_offers, container, false);
+        fm = getActivity().getSupportFragmentManager();
         buttonDate = root.findViewById(R.id.buttonDate);
         buttonPrice = root.findViewById(R.id.buttonPrice);
         buttonSurface = root.findViewById(R.id.buttonSurface);
@@ -70,13 +73,24 @@ public class OffersListFragment extends Fragment {
             public void onChanged(@Nullable List<Property> properties) {
                 if(getArguments()!= null && getArguments().containsKey("filter")){
                     Log.i("alex", "there is a filter in the bundle");
-                    Filter filter = (Filter) getArguments().getSerializable("filter");
-                    propertiesList = new Filtering().filterPropertiesList((ArrayList)properties, filter);
+                    propertiesList = DataHolder.getInstance().getSearchedPropertiesList();
                 } else {
                     Log.i("alex", "there is no filter in the bundle");
                     propertiesList = properties;
                 }
                 updateRecycler();
+
+                if (DataHolder.getInstance().getOrientation().equals("landscape")) {
+                    OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("propertyId", 1);
+                    bundle.putLong("agentId", properties.get(1).getAgentId());
+                    offerDetailFrag.setArguments(bundle);
+                    fm.beginTransaction()
+                            .replace(R.id.fragment_list_frame_layout, offerDetailFrag, "fragment offer detail")
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -90,7 +104,6 @@ public class OffersListFragment extends Fragment {
     }
 
     private void updateRecycler() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
         myAdapter = new OffersListRecyclerViewAdapter(propertiesList, mediasList, fm);
         mRecyclerView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();

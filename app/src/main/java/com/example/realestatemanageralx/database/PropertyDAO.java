@@ -7,6 +7,8 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.example.realestatemanageralx.model.Property;
 
@@ -27,6 +29,12 @@ public interface PropertyDAO {
 
     @Query("SELECT * FROM property WHERE pid = :propertyId")
     LiveData<Property> getPropertyById(long propertyId);
+
+    //@Query("SELECT * FROM property WHERE :query")
+    // LiveData<List<Property>> getFilteredProperties(String query);
+
+    @RawQuery(observedEntities = Property.class)
+    LiveData<List<Property>> getFilteredProperties(SupportSQLiteQuery query);
 
     @Query("SELECT rowid from property order by dateOffer DESC limit 1")
     LiveData<Long> getLastInsertedId();

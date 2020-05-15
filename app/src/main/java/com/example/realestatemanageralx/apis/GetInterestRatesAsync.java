@@ -1,19 +1,10 @@
-package com.example.realestatemanageralx.interest;
+package com.example.realestatemanageralx.apis;
 
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
-
-import androidx.lifecycle.ViewModelProviders;
-
-import com.example.realestatemanageralx.R;
-import com.example.realestatemanageralx.database.RateDAO;
 import com.example.realestatemanageralx.helpers.TypesConversions;
-import com.example.realestatemanageralx.service.DI;
-import com.example.realestatemanageralx.service.RealApiService;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -25,11 +16,7 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
 
     private static final String CURRENCY_API_BASE = "https://www.quandl.com/api/v3/datasets/FED/SVENPY.json?api_key=";
     private static final String LOG_TAG = "RealEstateManager";
-    private RealApiService service = DI.getRestApiService();
     private RateViewModel rateViewModel;
-    //private String loan_API_key = Resources.getSystem().getString(R.string.loans_API_key);
-    //private String loan_API_key = "rhpK3nJpjHCJz9DDEZD7";
-
     private String raw_result;
     public GetInterestRatesAsync(RateViewModel rvm) {
         rateViewModel = rvm;
@@ -61,15 +48,12 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
             StringBuilder sb = new StringBuilder(CURRENCY_API_BASE);
             sb.append(loan_API_key);
             sb.append("&start_date=" + last_month + "&end_date=" + today);
-
-            //Log.i("alex", "date: " + sb.toString());
-
             URL url = new URL(sb.toString());
             Log.i("alex", "url: " + url);
             conn = (HttpURLConnection) url.openConnection();
+
             //opens up an inputStreamReader to intercept the response from that url
             InputStreamReader in = new InputStreamReader(conn.getInputStream(), "UTF-8");
-
             int read;
             char[] buff = new char[1024];
             while ((read = in.read(buff)) != -1) {

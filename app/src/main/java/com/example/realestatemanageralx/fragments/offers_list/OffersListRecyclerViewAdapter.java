@@ -2,6 +2,7 @@ package com.example.realestatemanageralx.fragments.offers_list;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -18,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.TypesConversions;
@@ -92,15 +96,16 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
             Log.i("alex", "there is no picture");
             holder.picture.setImageResource(R.drawable.nopicture);
         }
-
-
-
-
         holder.cardView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //int i = position;
+               int frameLayout;
+                if(DataHolder.getInstance().getOrientation().equals("portrait")) {
+                    frameLayout = R.id.activity_master_frame_layout;
+                } else {
+                    frameLayout = R.id.fragment_list_frame_layout;
+                }
 
                 OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
                 Bundle bundle=new Bundle();
@@ -108,7 +113,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
                 bundle.putLong("agentId", listOffers.get(position).getAgentId());
                offerDetailFrag.setArguments(bundle);
                         fragmentManager.beginTransaction()
-                                .replace(R.id.activity_master_frame_layout, offerDetailFrag, "fragment offer detail")
+                                .replace(frameLayout, offerDetailFrag, "fragment offer detail")
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -117,7 +122,6 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public int getItemCount() {
-        //Log.i("alex", "itemCount: ");
         return listOffers.size();
     }
 

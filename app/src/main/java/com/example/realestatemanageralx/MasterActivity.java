@@ -30,6 +30,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.realestatemanageralx.database.AppDatabase;
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
 import com.example.realestatemanageralx.fragments.ResearchFragment;
@@ -38,7 +39,6 @@ import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.fragments.genuine_data.InitialCopyActivity;
 import com.example.realestatemanageralx.helpers.MyReceiver;
-import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
@@ -83,11 +83,12 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_master);
         context = this;
         MyReceiver = new MyReceiver();
-
         if(getResources().getString(R.string.orientation).equals("portrait")) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            DataHolder.getInstance().setOrientation("portrait");
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            DataHolder.getInstance().setOrientation("landscape");
         }
 
         File folderMedias = new File(this.getFilesDir(), "medias");
@@ -110,15 +111,21 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         // TO BE REMOVED !!
         nav_Menu.setGroupEnabled(R.id.pro_group, true);
         nav_Menu.setGroupVisible(R.id.pro_group, true);
-        LoginHolder.getInstance().setIsLogged(true);
-        LoginHolder.getInstance().setAgentId(1);
+        DataHolder.getInstance().setIsLogged(true);
+        DataHolder.getInstance().setAgentId(1);
         showFirstFragment();
         // TO BE REMOVED !!
 
         //Log.i("alex", "onCreate, register receiver");
-        //registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        //showFirstFragment();
+
+        showFirstFragment();
        }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -146,7 +153,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_drawer_logout :
                 nav_Menu.setGroupEnabled(R.id.pro_group, false);
                 nav_Menu.setGroupVisible(R.id.pro_group, false);
-                LoginHolder.getInstance().setIsLogged(false);
+                DataHolder.getInstance().setIsLogged(false);
                 Toast.makeText(context, "You are logged out", Toast.LENGTH_LONG).show();
                 showFirstFragment();
                 break;
@@ -248,8 +255,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
                         dialog.dismiss();
                         nav_Menu.setGroupEnabled(R.id.pro_group, true);
                         nav_Menu.setGroupVisible(R.id.pro_group, true);
-                        LoginHolder.getInstance().setIsLogged(true);
-                        LoginHolder.getInstance().setAgentId(agent.getId());
+                        DataHolder.getInstance().setIsLogged(true);
+                        DataHolder.getInstance().setAgentId(agent.getId());
                         showFirstFragment();
                     } else {
                         Toast.makeText(context, "Wrong username/password", Toast.LENGTH_LONG).show();

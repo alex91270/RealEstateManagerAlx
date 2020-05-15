@@ -2,6 +2,7 @@ package com.example.realestatemanageralx.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
-import com.example.realestatemanageralx.helpers.Filtering;
+import com.example.realestatemanageralx.helpers.SearchQueryBuilder;
 import com.example.realestatemanageralx.model.Filter;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
@@ -33,8 +35,7 @@ import butterknife.ButterKnife;
 public class ResearchFragment extends Fragment {
 
     private PropertyViewModel propertyViewModel;
-    private ArrayList<Property> allPropertiesList = new ArrayList<>();
-    //private List<Property> filteredPropertiesList = new ArrayList<>();
+    private ArrayList<Property> filteredPropertiesList = new ArrayList<>();
     private Context context;
     @BindView(R.id.research_spinner_type) Spinner spinnerType;
     @BindView(R.id.research_spinner_location) Spinner spinnerLocation;
@@ -62,7 +63,7 @@ public class ResearchFragment extends Fragment {
     private String typeSelected;
     private String locationSelected;
     private int spinnerDatePosition;
-    private Filter filter;
+
 
     private ArrayList<String> typeSpinnerArray =  new ArrayList<>();
     private ArrayList<String> locationSpinnerArray = new ArrayList<>();
@@ -79,21 +80,15 @@ public class ResearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_research, container, false);
         context = root.getContext();
         ButterKnife.bind(this, root);
-        initObserver();
+        propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
+        fillValues();
         return root;
     }
 
-    private void initObserver() {
-        propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
-            public void onChanged(@Nullable List<Property> properties) {
-                allPropertiesList = (ArrayList) properties;
-                fillValues();
-            }
-        });
-    }
-
     private void fillValues() {
+
+        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
+            public void onChanged(@Nullable List<Property> allPropertiesList) {
 
         int minPrice = 1000000000;
         int maxPrice = 0;
@@ -250,9 +245,10 @@ public class ResearchFragment extends Fragment {
         buttonOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataHolder.getInstance().setSearchedPropertiesList(filteredPropertiesList);
                 OffersListFragment offerListFrag = new OffersListFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("filter", filter);
+                bundle.putString("filter", "filter");
                 offerListFrag.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.activity_master_frame_layout, offerListFrag, "fragment offer list")
@@ -260,14 +256,13 @@ public class ResearchFragment extends Fragment {
                         .commit();
             }
         });
+            }
+        });
     }
 
-    private void filter() {
-        buttonOffers.setText(getNumberOffers() + " Offers found");
-    }
 
-    private int getNumberOffers() {
-        filter = new Filter();
+    private Filter getTheFilter() {
+        Filter filter = new Filter();
         filter.setFilterByType(spinnerType.getSelectedItemPosition() != 0);
         filter.setType(typeSelected);
         filter.setFilterByLocation(spinnerLocation.getSelectedItemPosition() != 0);
@@ -289,7 +284,20 @@ public class ResearchFragment extends Fragment {
         filter.setFilterByRestaurants(switchRestaurants.isChecked());
         filter.setFilterBySubways(switchSubways.isChecked());
 
-        return new Filtering().filterPropertiesList(allPropertiesList, filter).size();
+        String query = new SearchQueryBuilder().buildQuery(filter);
+        Log.i("alex", "query: " + query);
+
+        return filter;
+    }
+
+    private void filter() {
+        propertyViewModel.getFilteredPropertiesList(getTheFilter()).observe(this, new Observer<List<Property>>() {
+            public void onChanged(@Nullable List<Property> properties) {
+                Log.i("alex", "viewmodel filtered changed, list size: " + properties.size() );
+                buttonOffers.setText(properties.size() + " Offers found");
+                filteredPropertiesList = (ArrayList) properties;
+            }
+        });
     }
 
 }

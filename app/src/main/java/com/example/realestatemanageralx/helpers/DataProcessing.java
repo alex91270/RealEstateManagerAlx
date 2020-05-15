@@ -24,6 +24,19 @@ public class DataProcessing {
         return fileNameMainMedia;
     }
 
+    public int getMainPictureIndex(long propertyId, List<OfferMedia> listMedias ) {
+        int index = 0;
+
+        for (int i = 0; i < listMedias.size(); i ++) {
+            OfferMedia media = listMedias.get(i);
+            if(media.getPropertyId() == propertyId) {
+                //listMediaThisProperty.add(media);
+                if (media.getIsMain()) index = i;
+            }
+        }
+        return index;
+    }
+
     public Property getLastOffer(List<Property> offersList) {
 
         Property lastOffer = null;

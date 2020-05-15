@@ -3,10 +3,7 @@ package com.example.realestatemanageralx.fragments.create_offer;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -32,22 +27,19 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.database.AppDatabase;
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.events.DeleteMediaEvent;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
-import com.example.realestatemanageralx.login.LoginHolder;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.OnPropertyInserted;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,12 +51,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import static android.app.Activity.RESULT_OK;
 
 public class CreateFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
@@ -227,7 +216,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                     0,
                     "",
                     -1,
-                    LoginHolder.getInstance().getAgentId(),
+                    DataHolder.getInstance().getAgentId(),
                     false,
                     "",
                     -1,
@@ -274,7 +263,8 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                             paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
                         }
                         DataProcessing dp = new DataProcessing();
-                        int index = paths.indexOf(context.getFilesDir().getPath() + "/medias/" + dp.getMainPictureName(tempProp.getId(), medias));
+                        //int index = paths.indexOf(context.getFilesDir().getPath() + "/medias/" + dp.getMainPictureName(tempProp.getId(), medias));
+                        int index = dp.getMainPictureIndex(tempProp.getId(), medias);
                         Log.i("alex", "index: " + index);
                         Collections.swap(paths, index, 0);
                         updateRecycler();
