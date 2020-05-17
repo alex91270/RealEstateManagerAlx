@@ -72,7 +72,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
             holder.imageSold.setVisibility(View.VISIBLE);
         }
 
-        holder.textViewPrice.setText(new TypesConversions().formatPriceNicely(property.getPrice()));
+        holder.textViewPrice.setText(TypesConversions.formatPriceNicely(property.getPrice()));
 
         holder.textViewLocation.setText(property.getCity() + " - " + property.getDistrict());
 
@@ -83,7 +83,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         }
 
 
-        String fileNameMainMedia = new DataProcessing().getMainPictureName(property.getId(), listMedias);
+        String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), listMedias);
 
         Log.i("alex", "filenameMain: " + fileNameMainMedia);
 

@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class TypesConversions {
 
-    public String getStringFromTimestamp(long timestamp) {
+    public static String getStringFromTimestamp(long timestamp) {
 
         Date date = new Date(timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -20,7 +20,7 @@ public class TypesConversions {
         return sdf.format(date);
     }
 
-    public double getTimeStampFromString(String dateString) {
+    public static double getTimeStampFromString(String dateString) {
         String[] dateArray = dateString.split("-");
         int year = Integer.valueOf(dateArray[0]);
         int month = Integer.valueOf(dateArray[1]) -1;
@@ -32,16 +32,16 @@ public class TypesConversions {
         return cal.getTimeInMillis()/1000;
     }
 
-    public LatLng getLatLngFromString(String s) {
+    public static LatLng getLatLngFromString(String s) {
         String[] coords = s.split(",", -1);
         return new LatLng(Double.valueOf(coords[0]), Double.valueOf(coords[1]));
     }
 
-    public String getStringFromLatLng(LatLng location) {
+    public static String getStringFromLatLng(LatLng location) {
         return location.latitude + "," + location.longitude;
     }
 
-    public String formatPriceNicely(int price) {
+    public static String formatPriceNicely(int price) {
         String priceString = String.valueOf(price);
         String nicePriceString = priceString;
 

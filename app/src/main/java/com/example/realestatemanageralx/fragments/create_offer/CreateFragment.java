@@ -77,7 +77,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     private Button buttonPublish;
     private MediasRecyclerViewAdapter myAdapter;
     private ArrayList<String> paths = new ArrayList();
-    private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
+    //private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
     private Context context;
     private final int RC_STORAGE_PERM = 321;
     private AppDatabase db;
@@ -262,9 +262,8 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                         for (OfferMedia media : medias) {
                             paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
                         }
-                        DataProcessing dp = new DataProcessing();
                         //int index = paths.indexOf(context.getFilesDir().getPath() + "/medias/" + dp.getMainPictureName(tempProp.getId(), medias));
-                        int index = dp.getMainPictureIndex(tempProp.getId(), medias);
+                        int index = DataProcessing.getMainPictureIndex(tempProp.getId(), medias);
                         Log.i("alex", "index: " + index);
                         Collections.swap(paths, index, 0);
                         updateRecycler();
@@ -306,7 +305,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            if (mtc.isImage(picturePath)||mtc.isVideo(picturePath)) {
+            if (MediaTypesAndCopy.isImage(picturePath)||MediaTypesAndCopy.isVideo(picturePath)) {
                 Log.i("alex", "picture path: " + picturePath);
                 paths.add(picturePath);
                 updateRecycler();
@@ -398,7 +397,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                     Log.i("alex", "infile: " + inFile.getPath());
                     Log.i("alex", "outfile: " + outFile.getPath());
 
-                    mtc.copyFile(in, out);
+                    MediaTypesAndCopy.copyFile(in, out);
                 } catch (IOException e) {
                     Log.e("alex", "Failed to copy file: " + filename, e);
                 } finally {

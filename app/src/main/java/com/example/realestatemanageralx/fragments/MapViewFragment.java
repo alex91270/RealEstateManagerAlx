@@ -53,7 +53,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     private final int RC_LOCATION_PERM = 123;
     private PropertyViewModel propertyViewModel;
     private List<Property> propertiesList;
-    private TypesConversions tc = new TypesConversions();
+    //private TypesConversions tc = new TypesConversions();
     private HashMap<String, Property> markersList = new HashMap<>();
 
     public static MapViewFragment newInstance() {
@@ -142,11 +142,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                 if (prop.getLocation() != null && mMap != null) {
 
 
-                    Bitmap bitmapIcon = iGen.makeIcon(tc.formatPriceNicely(prop.getPrice()) + " $");
+                    Bitmap bitmapIcon = iGen.makeIcon(TypesConversions.formatPriceNicely(prop.getPrice()) + " $");
 
                     MarkerOptions mo = new MarkerOptions()
                             .icon(BitmapDescriptorFactory.fromBitmap(bitmapIcon))
-                            .position(tc.getLatLngFromString(prop.getLocation()));
+                            .position(TypesConversions.getLatLngFromString(prop.getLocation()));
 
                     Marker marker = mMap.addMarker(mo);
 
@@ -220,7 +220,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                 public void onChanged(@Nullable Property property) {
                     propertiesList = new ArrayList<>();
                     propertiesList.add(property);
-                    LatLng location = new TypesConversions().getLatLngFromString(property.getLocation());
+                    LatLng location = TypesConversions.getLatLngFromString(property.getLocation());
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18)); //between 1 and 20
                     placeMarkers();
                 }

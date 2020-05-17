@@ -84,11 +84,11 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
 
         String result_last_day = raw_result.substring((raw_result.indexOf("data\":[[") + 9), (raw_result.indexOf("],[") + 3));
         String last_date_available = "20" + result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
-        rateViewModel.updateRateValue(3, new TypesConversions().getTimeStampFromString(last_date_available));
+        rateViewModel.updateRateValue(3, TypesConversions.getTimeStampFromString(last_date_available));
         String rates_only = result_last_day.substring(result_last_day.indexOf("\",") + 2, result_last_day.indexOf("],["));
 
         Log.i("alex", "last date: " + last_date_available);
-        Log.i("alex", "last date timestamp: " + new TypesConversions().getTimeStampFromString(last_date_available));
+        Log.i("alex", "last date timestamp: " + TypesConversions.getTimeStampFromString(last_date_available));
         Log.i("alex", "cut_result: " + result_last_day);
         Log.i("alex", "rates only: " + rates_only);
 

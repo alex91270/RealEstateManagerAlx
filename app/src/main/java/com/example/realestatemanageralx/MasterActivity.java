@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -114,6 +115,11 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         DataHolder.getInstance().setIsLogged(true);
         DataHolder.getInstance().setAgentId(1);
         showFirstFragment();
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        Log.i("alex", "height in DP: " + dpHeight);
+        Log.i("alex", "width in DP: " + dpWidth);
         // TO BE REMOVED !!
 
         //Log.i("alex", "onCreate, register receiver");

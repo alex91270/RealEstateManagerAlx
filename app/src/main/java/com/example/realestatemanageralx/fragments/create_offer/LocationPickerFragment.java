@@ -141,14 +141,14 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
         });
 
         if (tempProp.getLocation() != ""){
-            placeMarker(new TypesConversions().getLatLngFromString(tempProp.getLocation()));
+            placeMarker(TypesConversions.getLatLngFromString(tempProp.getLocation()));
         }
     }
 
     private void placeMarker(LatLng latLng) {
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(latLng));
-        tempProp.setLocation(new TypesConversions().getStringFromLatLng(latLng));
+        tempProp.setLocation(TypesConversions.getStringFromLatLng(latLng));
         Log.i("alex", "location: " + tempProp.getLocation());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12)); //between 1 and 20
 

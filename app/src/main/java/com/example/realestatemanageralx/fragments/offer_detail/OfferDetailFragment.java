@@ -101,7 +101,7 @@ public class OfferDetailFragment extends Fragment {
     private Context context;
     private AlertDialog dialog = null;
     private final int PERMISSION_REQUEST_CALL = 123;
-    private TypesConversions tc = new TypesConversions();
+    //private TypesConversions tc = new TypesConversions();
 
     public static OfferDetailFragment newInstance() {
         return (new OfferDetailFragment());
@@ -187,7 +187,7 @@ public class OfferDetailFragment extends Fragment {
 
         textViewConvertUnit.setOnClickListener(v -> {
             if (surfaceUnit.equals("m²")) {
-                surfaceUnit = "Sq m";
+                surfaceUnit = "Sq .ft";
                 textViewSurface.setText("Size: " + (Math.round(mProperty.getSurface()*10.7639)) + " " + surfaceUnit);
                 textViewConvertUnit.setText("convert to square meters");
             } else {
@@ -204,13 +204,13 @@ public class OfferDetailFragment extends Fragment {
                 if (currency.equals("dollar")) {
                     currency = "euro";
                     //textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())/exchangeRate))));
-                    textViewPrice.setText(tc.formatPriceNicely(Utils.convertDollarToEuro(mProperty.getPrice(),exchangeRate)));
+                    textViewPrice.setText(TypesConversions.formatPriceNicely(Utils.convertDollarToEuro(mProperty.getPrice(),exchangeRate)));
                     textViewConvertCurrency.setText("convert to dollar");
                     imageCurrency.setImageResource(R.drawable.ic_euro);
 
                 } else {
                     currency = "dollar";
-                    textViewPrice.setText(tc.formatPriceNicely(Utils.convertEuroToDollar(mProperty.getPrice(),exchangeRate)));
+                    textViewPrice.setText(TypesConversions.formatPriceNicely(Utils.convertEuroToDollar(mProperty.getPrice(),exchangeRate)));
                     textViewConvertCurrency.setText("convert to euro");
                     imageCurrency.setImageResource(R.drawable.ic_dollar);
                 }
@@ -254,8 +254,7 @@ public class OfferDetailFragment extends Fragment {
         mediaViewModel.getMediasByPropertyId(propertyId).observe(this, new Observer<List<OfferMedia>>() {
             public void onChanged(@Nullable List<OfferMedia> medias) {
                 mediasList = medias;
-                DataProcessing dp = new DataProcessing();
-                int index = dp.getMainPictureIndex(propertyId, medias);
+                int index = DataProcessing.getMainPictureIndex(propertyId, medias);
                 Log.i("alex", "main pic index: " + index);
                 Collections.swap(medias, index, 0);
 
@@ -291,7 +290,7 @@ public class OfferDetailFragment extends Fragment {
                 textViewRooms.setText("Rooms: " + mProperty.getRooms());
             }
 
-            textViewPrice.setText(tc.formatPriceNicely(mProperty.getPrice()));
+            textViewPrice.setText(TypesConversions.formatPriceNicely(mProperty.getPrice()));
             textViewDescription.setText(mProperty.getDescription());
 
             if (mProperty.getBedrooms() == -1) {

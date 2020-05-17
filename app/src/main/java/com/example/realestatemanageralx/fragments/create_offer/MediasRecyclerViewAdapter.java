@@ -53,11 +53,11 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
             holder.filenameTextView.setText(path);
         }
 
-        if (mtc.isImage(path)) {
+        if (MediaTypesAndCopy.isImage(path)) {
             //Log.i("alex", "it's an image");
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             holder.picture.setImageBitmap(bitmap);
-        }else if (mtc.isVideo(path)) {
+        }else if (MediaTypesAndCopy.isVideo(path)) {
             holder.picture.setImageResource(R.drawable.video);
         }
     }

@@ -105,9 +105,9 @@ public class FirstFragment extends Fragment {
         TextView text_rooms = getView().findViewById(R.id.textView_rooms);
 
 
-        property = new DataProcessing().getLastOffer(propertiesList);
+        property = DataProcessing.getLastOffer(propertiesList);
 
-            String fileNameMainMedia = new DataProcessing().getMainPictureName(property.getId(), mediasList);
+            String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), mediasList);
 
             Log.i("alex", "last offer id: " + property.getId());
             //Log.i("alex", "last offer surface: " + property.getSurface());

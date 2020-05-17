@@ -11,13 +11,13 @@ import java.util.Date;
 
 public class MediaTypesAndCopy {
 
-    private final ArrayList<String> imageExtensions = new ArrayList<String>(
+    private static final ArrayList<String> imageExtensions = new ArrayList<String>(
             Arrays.asList("jpg", "bmp", "gif", "png"));
 
-    private final ArrayList<String> videoExtensions = new ArrayList<String>(
+    private static final ArrayList<String> videoExtensions = new ArrayList<String>(
             Arrays.asList("3gp", "mp4", "mkv"));
 
-    public boolean isImage(String filename) {
+    public static boolean isImage(String filename) {
 
         if (imageExtensions.contains(filename.substring(filename.length() - 3))) {
             return true;
@@ -25,7 +25,7 @@ public class MediaTypesAndCopy {
         return false;
     }
 
-    public boolean isVideo(String filename) {
+    public static boolean isVideo(String filename) {
 
         if (videoExtensions.contains(filename.substring(filename.length() - 3))) {
             return true;
@@ -33,7 +33,7 @@ public class MediaTypesAndCopy {
         return false;
     }
 
-    public void copyFile(InputStream in, OutputStream out) throws IOException {
+    public static void copyFile(InputStream in, OutputStream out) throws IOException {
         Log.i("alex", "helper copyFile");
 
         try {

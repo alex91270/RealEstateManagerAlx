@@ -41,12 +41,10 @@
 
                 <ImageView
                     android:id="@+id/create_map_lite"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="400dp"
+                    android:layout_height="200dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
-                    android:layout_marginEnd="32dp"
-                    app:layout_constraintEnd_toStartOf="@+id/create_button_location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/create_divider1"
                     app:srcCompat="@drawable/no_location" />
@@ -55,10 +53,10 @@
                     android:id="@+id/create_button_location"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="100dp"
                     android:text="Select location"
                     app:layout_constraintBottom_toBottomOf="@+id/create_map_lite"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/create_map_lite"
                     app:layout_constraintTop_toTopOf="@+id/create_map_lite" />
 
                 <TextView
@@ -67,19 +65,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Type :"
-                    app:layout_constraintTop_toBottomOf="@+id/create_map_lite"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_map_lite" />
 
                 <Spinner
                     android:id="@+id/create_spinner_type"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="100dp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_type_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/create_type_title"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/create_type_title" />
 
                 <TextView
                     android:id="@+id/create_size_title"
@@ -93,14 +90,14 @@
 
                 <EditText
                     android:id="@+id/create_size_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="100dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_size_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/create_size_title" />
 
                 <TextView
@@ -115,14 +112,14 @@
 
                 <EditText
                     android:id="@+id/create_price_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="100dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_price_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/create_price_title" />
 
                 <TextView
@@ -137,43 +134,43 @@
 
                 <EditText
                     android:id="@+id/create_rooms_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="100dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_rooms_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/create_rooms_title" />
 
                 <TextView
                     android:id="@+id/create_beds_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="600dp"
                     android:text="Bedrooms :"
+                    app:layout_constraintBottom_toBottomOf="@+id/create_type_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_rooms_title" />
+                    app:layout_constraintTop_toTopOf="@+id/create_type_title" />
 
                 <EditText
                     android:id="@+id/create_beds_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="110dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_beds_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/create_beds_title"
                     app:layout_constraintTop_toTopOf="@+id/create_beds_title" />
 
                 <TextView
                     android:id="@+id/create_toilets_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="600dp"
                     android:layout_marginTop="24dp"
                     android:text="Toilets :"
                     app:layout_constraintStart_toStartOf="parent"
@@ -181,21 +178,21 @@
 
                 <EditText
                     android:id="@+id/create_toilets_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="110dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_toilets_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/create_toilets_title"
                     app:layout_constraintTop_toTopOf="@+id/create_toilets_title" />
 
                 <TextView
                     android:id="@+id/create_showers_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="600dp"
                     android:layout_marginTop="24dp"
                     android:text="Showers :"
                     app:layout_constraintStart_toStartOf="parent"
@@ -203,21 +200,21 @@
 
                 <EditText
                     android:id="@+id/create_showers_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="110dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_showers_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/create_showers_title"
                     app:layout_constraintTop_toTopOf="@+id/create_showers_title" />
 
                 <TextView
                     android:id="@+id/create_bathtubs_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="600dp"
                     android:layout_marginTop="24dp"
                     android:text="Bathtubs :"
                     app:layout_constraintStart_toStartOf="parent"
@@ -225,14 +222,14 @@
 
                 <EditText
                     android:id="@+id/create_bathtubs_edit"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="110dp"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_bathtubs_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/create_showers_title"
                     app:layout_constraintTop_toTopOf="@+id/create_bathtubs_title" />
 
                 <TextView
@@ -243,15 +240,15 @@
                     android:layout_marginTop="24dp"
                     android:text="Air conditionner :"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/create_bathtubs_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/create_rooms_title" />
 
                 <CheckBox
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="120dp"
+                    android:layout_marginStart="100dp"
                     app:layout_constraintBottom_toBottomOf="@+id/create_ac_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/create_ac_title"
                     app:layout_constraintTop_toTopOf="@+id/create_ac_title" />
 
                 <TextView
@@ -313,14 +310,13 @@
                     android:id="@+id/create_medias_columns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button_pick"
-                  >
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_pick">
 
                     <TextView
                         android:id="@+id/create_preview_title"
@@ -385,7 +381,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/create_recycler" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </ScrollView>
 

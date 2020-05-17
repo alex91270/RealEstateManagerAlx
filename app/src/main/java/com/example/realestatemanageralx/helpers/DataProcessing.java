@@ -2,13 +2,12 @@ package com.example.realestatemanageralx.helpers;
 
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataProcessing {
 
-    public String getMainPictureName(long propertyId, List<OfferMedia> listMedias ) {
+    public static String getMainPictureName(long propertyId, List<OfferMedia> listMedias ) {
         ArrayList<OfferMedia> listMediaThisProperty = new ArrayList<>();
         String fileNameMainMedia = "";
 
@@ -24,7 +23,7 @@ public class DataProcessing {
         return fileNameMainMedia;
     }
 
-    public int getMainPictureIndex(long propertyId, List<OfferMedia> listMedias ) {
+    public static int getMainPictureIndex(long propertyId, List<OfferMedia> listMedias ) {
         int index = 0;
 
         for (int i = 0; i < listMedias.size(); i ++) {
@@ -37,7 +36,7 @@ public class DataProcessing {
         return index;
     }
 
-    public Property getLastOffer(List<Property> offersList) {
+    public static Property getLastOffer(List<Property> offersList) {
 
         Property lastOffer = null;
         double timestamp = 0;
@@ -51,7 +50,7 @@ public class DataProcessing {
         return lastOffer;
     }
 
-    public Property getPropertyById(List<Property> offersList, long id) {
+    public static Property getPropertyById(List<Property> offersList, long id) {
         Property myProperty = null;
 
         for (Property prop : offersList) {

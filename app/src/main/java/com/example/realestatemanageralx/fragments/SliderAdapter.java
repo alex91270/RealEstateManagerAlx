@@ -25,7 +25,7 @@ public class SliderAdapter extends PagerAdapter{
     Context context;
 
     List<OfferMedia> img;
-    MediaTypesAndCopy md = new MediaTypesAndCopy();
+    //MediaTypesAndCopy md = new MediaTypesAndCopy();
 
     public SliderAdapter(Context context, List<OfferMedia> medias) {
         this.context = context;
@@ -56,13 +56,13 @@ public class SliderAdapter extends PagerAdapter{
 
         //String extension = img.get(position).getFileName().substring(img.get(position).getFileName().length()-3);
 
-        if (md.isImage(img.get(position).getFileName())) {
+        if (MediaTypesAndCopy.isImage(img.get(position).getFileName())) {
          Glide.with(context)
          .load(context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName())
          .into(imageView);
 
 
-        } else if (md.isVideo(img.get(position).getFileName())){
+        } else if (MediaTypesAndCopy.isVideo(img.get(position).getFileName())){
          imageView.setImageResource(R.drawable.video);
          imageView.setOnClickListener(v -> {
              Intent intent = new Intent(context, VideoActivity.class);
