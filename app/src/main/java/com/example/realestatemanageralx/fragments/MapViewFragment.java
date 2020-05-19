@@ -13,13 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
@@ -35,7 +33,6 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +50,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     private final int RC_LOCATION_PERM = 123;
     private PropertyViewModel propertyViewModel;
     private List<Property> propertiesList;
-    //private TypesConversions tc = new TypesConversions();
     private HashMap<String, Property> markersList = new HashMap<>();
 
     public static MapViewFragment newInstance() {
@@ -114,10 +110,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(mContext, R.raw.mapstyle_retro);
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(mContext, R.raw.mapstyle_retro_poi);
-        mMap.setMapStyle(style);
-        mMap.setMyLocationEnabled(true);
+        mMap.setMapStyle(style);        mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setOnMarkerClickListener(this);
 

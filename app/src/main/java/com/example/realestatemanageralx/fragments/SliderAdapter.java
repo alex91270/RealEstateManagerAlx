@@ -7,17 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import androidx.viewpager.widget.PagerAdapter;
-
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.video.VideoActivity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter{
@@ -25,7 +20,6 @@ public class SliderAdapter extends PagerAdapter{
     Context context;
 
     List<OfferMedia> img;
-    //MediaTypesAndCopy md = new MediaTypesAndCopy();
 
     public SliderAdapter(Context context, List<OfferMedia> medias) {
         this.context = context;
@@ -54,8 +48,6 @@ public class SliderAdapter extends PagerAdapter{
 
         imageView = itemView.findViewById(R.id.slider_image_view);
 
-        //String extension = img.get(position).getFileName().substring(img.get(position).getFileName().length()-3);
-
         if (MediaTypesAndCopy.isImage(img.get(position).getFileName())) {
          Glide.with(context)
          .load(context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName())
@@ -71,7 +63,6 @@ public class SliderAdapter extends PagerAdapter{
          });
 
         }
-
         container.addView(itemView);
 
         return itemView;

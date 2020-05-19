@@ -5,12 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.fragments.loans.LoanPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -21,8 +19,6 @@ public class LoanFragment extends Fragment {
         return (new LoanFragment());
     }
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_loan, container, false);
 
@@ -31,7 +27,6 @@ public class LoanFragment extends Fragment {
 
         PagerAdapter pagerAdapter = new LoanPagerAdapter(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager)
         {

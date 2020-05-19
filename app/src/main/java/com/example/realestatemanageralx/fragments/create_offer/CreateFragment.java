@@ -59,7 +59,6 @@ import static android.app.Activity.RESULT_OK;
 public class CreateFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
     private static int RESULT_LOAD_IMAGE = 1;
-
     private static String apiKey;
     private Spinner spinnerType;
     private EditText editSize;
@@ -77,7 +76,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     private Button buttonPublish;
     private MediasRecyclerViewAdapter myAdapter;
     private ArrayList<String> paths = new ArrayList();
-    //private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
     private Context context;
     private final int RC_STORAGE_PERM = 321;
     private AppDatabase db;
@@ -85,7 +83,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     private OfferMediaViewModel offerMediaViewModel;
     private boolean modif;
     private Property tempProp;
-    private String pois;
     private ImageView liteMap;
     private LinearLayout medias_columns_titles;
     List<String> spinnerArray;
@@ -101,6 +98,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         EventBus.getDefault().register(this);
     }
 
+    @SuppressWarnings("unused")
     @Subscribe
     public void onDeleteMedia(DeleteMediaEvent event) {
         Log.i("alex", "delete media triggered");
@@ -160,28 +158,20 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                publish();}
         });
 
-        buttonLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveTemporaryProp();
-
-                LocationPickerFragment pickerFragment = LocationPickerFragment.newInstance();
-                Bundle bundle=new Bundle();
-                //bundle.putString("action", "modification");
-                bundle.putSerializable("prop", tempProp);
-                pickerFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, pickerFragment, "fragment locationPicker")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        buttonLocation.setOnClickListener(v -> {
+            saveTemporaryProp();
+            LocationPickerFragment pickerFragment = LocationPickerFragment.newInstance();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("prop", tempProp);
+            pickerFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, pickerFragment, "fragment locationPicker")
+                    .addToBackStack(null)
+                    .commit();
         });
 
         myAdapter = new MediasRecyclerViewAdapter(paths);
         recyclerView.setAdapter(myAdapter);
-
-        //location = getArguments().getString("location");
-
         spinnerArray =  new ArrayList<>();
         spinnerArray.add("Apartment");
         spinnerArray.add("House");
@@ -203,35 +193,14 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
             initMediasObserver();
         }else {
             Log.i("alex", "bundle is creation ");
-            tempProp = new Property(
-                    "",
-                    "",
-                    "",
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    false,
-                    0,
-                    "",
-                    -1,
-                    DataHolder.getInstance().getAgentId(),
-                    false,
-                    "",
-                    -1,
-                    "",
-                    0);
+            tempProp = DataProcessing.buildEmptyProperty();
         }
 
         if (tempProp.getId() == 0) isNewOffer = true;
         return root;
     }
 
-
-
     private void fillFieldsFromTemp() {
-
         editDescription.setText(tempProp.getDescription());
         if (tempProp.getSurface()!= -1) editSize.setText(String.valueOf(tempProp.getSurface()));
         if (tempProp.getPrice()!= -1) editPrice.setText(String.valueOf(tempProp.getPrice()));
@@ -257,12 +226,11 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                 public void onChanged(@Nullable List<OfferMedia> medias) {
 
                     Log.i("alex", "medias list observer changed. size: " + medias.size() );
-                    if (medias.size()>0) {
+                    if (medias.size() > 0) {
                         paths.clear();
                         for (OfferMedia media : medias) {
                             paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
                         }
-                        //int index = paths.indexOf(context.getFilesDir().getPath() + "/medias/" + dp.getMainPictureName(tempProp.getId(), medias));
                         int index = DataProcessing.getMainPictureIndex(tempProp.getId(), medias);
                         Log.i("alex", "index: " + index);
                         Collections.swap(paths, index, 0);
@@ -276,7 +244,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
@@ -315,7 +282,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         }
     }
 
-
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         getToGallery();
@@ -324,7 +290,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
     }
-
 
     private void saveTemporaryProp() {
         if (!editRooms.getText().toString().equals(""))tempProp.setRooms(Integer.valueOf(editRooms.getText().toString()));
@@ -342,27 +307,18 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
     private void publish() {
 
-        Log.i("alex", "temp offer id: " + tempProp.getId() );
-
-        //If requested fields are filled
-
         if(!isNewOffer) {
             offerMediaViewModel.deleteAllMediasOfThisProperty(tempProp.getId());
         }
-            propertyViewModel.insert(tempProp, new OnPropertyInserted() {
-                @Override
-                public void doneWriting(long id) {
-                    copyMedias(id);
-                }
-            });
+            propertyViewModel.insert(tempProp, id -> copyMedias(id));
     }
 
     private void copyMedias(long propertyId) {
 
         Log.i("alex", "copyMedias. paths size: " + paths.size() + "PID: " + propertyId  );
-        String filename = "";
+        String filename;
         int mainMediaIndex = myAdapter.getMainPicture();
-        boolean isMain = false;
+        boolean isMain;
 
         if (paths != null) for (String path : paths) {
             Log.i("alex", "path of file to copy: " + path );
@@ -382,16 +338,9 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
             InputStream in = null;
             OutputStream out = null;
 
-            //Log.i("alex", "get name: " + inFile.getName());
-            //Log.i("alex", "get path: " + inFile.getPath());
-            //Log.i("alex", "get absolute path: " + inFile.getAbsolutePath());
-
             if (!inFile.getPath().equals(outFile.getPath())) {
                 try {
-                    //File inFile = new File (path);
-                    //filename = inFile.getName();
                     in = new FileInputStream(inFile);
-                    //File outFile = new File(context.getFilesDir().getPath() + "/medias/" + filename );
                     out = new FileOutputStream(outFile);
 
                     Log.i("alex", "infile: " + inFile.getPath());
@@ -420,18 +369,14 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         }
 
         Handler mainHandler = new Handler(context.getMainLooper());
-        Runnable myRunnable = new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, new FirstFragment(), "fragment first")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        Runnable myRunnable = () -> {
+            Toast.makeText(context, "Offer published!", Toast.LENGTH_LONG).show();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, new FirstFragment(), "fragment first")
+                    .addToBackStack(null)
+                    .commit();
         };
 
         mainHandler.post(myRunnable);
-
         }
 }

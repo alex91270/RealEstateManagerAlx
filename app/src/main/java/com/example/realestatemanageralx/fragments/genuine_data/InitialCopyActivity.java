@@ -1,24 +1,20 @@
 package com.example.realestatemanageralx.fragments.genuine_data;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 
 public class InitialCopyActivity extends AppCompatActivity {
 
@@ -50,7 +46,6 @@ public class InitialCopyActivity extends AppCompatActivity {
             Log.e("tag", "Failed to get asset file list.", e);
         }
         if (files != null) for (String filename : files) {
-            //Log.i("alex", "filename in files: " + filename );
             InputStream in = null;
             OutputStream out = null;
             try {
@@ -66,7 +61,6 @@ public class InitialCopyActivity extends AppCompatActivity {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        // NOOP
                         Log.e("alex", "error closing  file IN");
                     }
                 }
@@ -75,31 +69,10 @@ public class InitialCopyActivity extends AppCompatActivity {
                         out.close();
                     } catch (IOException e) {
                         Log.e("alex", "error closing  file IN");
-                        // NOOP
                     }
                 }
             }
         }
         startActivity(new Intent(this, MasterActivity.class));
     }
-
-    /**private void copyFile(InputStream in, OutputStream out) throws IOException {
-
-        //Log.i("alex", "we are in copyfile ");
-
-        long timeStart = new Date().getTime();
-        byte[] buffer = new byte[1024];
-        int read;
-
-        int bits = 0;
-
-        while((read = in.read(buffer)) != -1){
-            bits +=1;
-            out.write(buffer, 0, read);
-        }
-
-        //Log.i("alex", "1 file copieds, number bits: " + bits);
-        long timeEnd = new Date().getTime();
-    }
-     */
 }

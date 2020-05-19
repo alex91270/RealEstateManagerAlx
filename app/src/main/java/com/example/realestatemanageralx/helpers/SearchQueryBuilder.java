@@ -46,10 +46,13 @@ public class SearchQueryBuilder {
             switch (filter.getDateCase()) {
                     case 1:
                         difference = currentTs-604800000;
+                        break;
                     case 2:
                         difference = currentTs-2678400000L;
+                        break;
                     case 3:
                         difference = currentTs-31622400000L;
+                        break;
                 }
                 sb.append (" AND dateOffer < " + String.valueOf(difference));
             }

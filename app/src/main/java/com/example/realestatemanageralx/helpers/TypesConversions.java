@@ -3,9 +3,6 @@ package com.example.realestatemanageralx.helpers;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-
-//import java.security.Timestamp;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

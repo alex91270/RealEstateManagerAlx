@@ -4,10 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
@@ -26,7 +23,6 @@ import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,19 +76,15 @@ public class FirstFragment extends Fragment {
 
     private void initObservers() {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
-            public void onChanged(@Nullable List<Property> properties) {
-                propertiesList = properties;
-                if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
-            }
+        propertyViewModel.getPropertiesList().observe(this, properties -> {
+            propertiesList = properties;
+            if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
         });
 
         mediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
-        mediaViewModel.getAllMedias().observe(this, new Observer<List<OfferMedia>>() {
-            public void onChanged(@Nullable List<OfferMedia> medias) {
-                mediasList = medias;
-                if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
-            }
+        mediaViewModel.getAllMedias().observe(this, medias -> {
+            mediasList = medias;
+            if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
         });
     }
 
@@ -110,7 +102,6 @@ public class FirstFragment extends Fragment {
             String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), mediasList);
 
             Log.i("alex", "last offer id: " + property.getId());
-            //Log.i("alex", "last offer surface: " + property.getSurface());
 
         if (!property.getDistrict().equals("")) {
             text_district.setText(property.getDistrict());

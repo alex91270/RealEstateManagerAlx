@@ -1,7 +1,6 @@
 package com.example.realestatemanageralx.datas;
 
 import com.example.realestatemanageralx.model.Property;
-
 import java.util.ArrayList;
 
 public class DataHolder {
@@ -11,6 +10,7 @@ public class DataHolder {
     private long agentId = 0;
     private ArrayList<Property> searchedPropertiesList;
     private String orientation;
+    private String lastNetworkState;
 
     public static DataHolder getInstance() {
         return holder;
@@ -46,5 +46,13 @@ public class DataHolder {
 
     public void setOrientation(String orientation) {
         this.orientation = orientation;
+    }
+
+    public String getLastNetworkState() {
+        return lastNetworkState;
+    }
+
+    public void setLastNetworkState(String lastNetworkState) {
+        this.lastNetworkState = lastNetworkState;
     }
 }

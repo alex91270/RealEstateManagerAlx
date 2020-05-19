@@ -1,7 +1,6 @@
 package com.example.realestatemanageralx.fragments.loans;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.Rate;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +66,6 @@ public class LoanAbilityFragment extends Fragment {
 
                 for (int i = 3; i < 33; i++) {
                     ratesList.add(tc.round(rates.get(i).getValue(), 2));
-                    //Log.i("alex", "index: " + i + "  " + rates.get(i).getDataType() + ": " + rates.get(i).getValue());
                 }
             }
         });

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -28,7 +27,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -76,11 +74,8 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                             Toast.makeText(mContext, "Address not resolved...", Toast.LENGTH_LONG).show();
                         } else {
                             Address address = addressList.get(0);
-
-
                             String district = address.getSubLocality();
                             Log.i("alex", "sublocality: " + district);
-
 
                             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                           placeMarker(latLng);
@@ -132,13 +127,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
         mMap.setMapStyle(style);
         LatLng NYLocation = new LatLng(40.777108, -73.971537);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(NYLocation, 12)); //between 1 and 20
-
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                    placeMarker(latLng);
-            }
-        });
+        mMap.setOnMapLongClickListener(latLng -> placeMarker(latLng));
 
         if (tempProp.getLocation() != ""){
             placeMarker(TypesConversions.getLatLngFromString(tempProp.getLocation()));
@@ -163,12 +152,9 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
         validButton.setEnabled(false);
 
         Handler mainHandler = new Handler(mContext.getMainLooper());
-        Runnable myRunnable = new Runnable() {
-            @Override
-            public void run() {
-                validButton.setVisibility(View.VISIBLE);
-                validButton.setEnabled(true);
-            }
+        Runnable myRunnable = () -> {
+            validButton.setVisibility(View.VISIBLE);
+            validButton.setEnabled(true);
         };
 
         Geocoder geocoder = new Geocoder(mContext);
@@ -193,24 +179,14 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
             Log.i("alex", e.toString());
         }
 
-        POICount poiCount = new POICount(new OnPOICountDone() {
-            @Override
-            public void OnPoiCountDone(String result) {
-                Log.i("alex", "poi stuff done");
-                Log.i("alex", "result: " + result);
-                tempProp.setPois(result);
-                mainHandler.post(myRunnable);
-            }
+        POICount poiCount = new POICount(result -> {
+            Log.i("alex", "poi stuff done");
+            Log.i("alex", "result: " + result);
+            tempProp.setPois(result);
+            mainHandler.post(myRunnable);
         });
 
         Executor taskExecutor = Executors.newSingleThreadExecutor();
-        taskExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                poiCount.requestNearbyPois(apiKey, latLng);
-            }
-        });
-
-
+        taskExecutor.execute(() -> poiCount.requestNearbyPois(apiKey, latLng));
     }
 }

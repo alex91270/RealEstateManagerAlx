@@ -5,30 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.realestatemanageralx.R;
-import com.example.realestatemanageralx.fragments.offers_list.OffersListRecyclerViewAdapter;
-
 import java.util.List;
 
 public class OfferDetailPoiRecyclerAdapter extends RecyclerView.Adapter<OfferDetailPoiRecyclerAdapter.ViewHolder>{
 
     private final List<String> poiList;
-    private int positionRecycler;
     private Context context;
 
     public OfferDetailPoiRecyclerAdapter(List<String> pois) {
 
         poiList = pois;
         Log.i("alex", "adapter poilist size: " + poiList.size());
-
-
     }
 
     @Override

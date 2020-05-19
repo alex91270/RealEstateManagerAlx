@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -69,37 +68,33 @@ public class OffersListFragment extends Fragment {
 
     private void initObservers() {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
-            public void onChanged(@Nullable List<Property> properties) {
-                if(getArguments()!= null && getArguments().containsKey("filter")){
-                    Log.i("alex", "there is a filter in the bundle");
-                    propertiesList = DataHolder.getInstance().getSearchedPropertiesList();
-                } else {
-                    Log.i("alex", "there is no filter in the bundle");
-                    propertiesList = properties;
-                }
-                updateRecycler();
+        propertyViewModel.getPropertiesList().observe(this, properties -> {
+            if(getArguments()!= null && getArguments().containsKey("filter")){
+                Log.i("alex", "there is a filter in the bundle");
+                propertiesList = DataHolder.getInstance().getSearchedPropertiesList();
+            } else {
+                Log.i("alex", "there is no filter in the bundle");
+                propertiesList = properties;
+            }
+            updateRecycler();
 
-                if (DataHolder.getInstance().getOrientation().equals("landscape")) {
-                    OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("propertyId", 1);
-                    bundle.putLong("agentId", properties.get(1).getAgentId());
-                    offerDetailFrag.setArguments(bundle);
-                    fm.beginTransaction()
-                            .replace(R.id.fragment_list_frame_layout, offerDetailFrag, "fragment offer detail")
-                            .addToBackStack(null)
-                            .commit();
-                }
+            if (DataHolder.getInstance().getOrientation().equals("landscape")) {
+                OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong("propertyId", 1);
+                bundle.putLong("agentId", properties.get(1).getAgentId());
+                offerDetailFrag.setArguments(bundle);
+                fm.beginTransaction()
+                        .replace(R.id.fragment_list_frame_layout, offerDetailFrag, "fragment offer detail")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
         mediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
-        mediaViewModel.getAllMedias().observe(this, new Observer<List<OfferMedia>>() {
-            public void onChanged(@Nullable List<OfferMedia> medias) {
-                mediasList = medias;
-                updateRecycler();
-            }
+        mediaViewModel.getAllMedias().observe(this, medias -> {
+            mediasList = medias;
+            updateRecycler();
         });
     }
 
@@ -110,61 +105,52 @@ public class OffersListFragment extends Fragment {
     }
 
     private void initSortButtons() {
-        buttonSurface.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonPrice.setImageResource(R.drawable.price_up_un);
-                buttonDate.setImageResource(R.drawable.date_up_un);
+        buttonSurface.setOnClickListener(v -> {
+            buttonPrice.setImageResource(R.drawable.price_up_un);
+            buttonDate.setImageResource(R.drawable.date_up_un);
 
-                if (currentSort.equals(SortType.surfaceUp)){
-                    buttonSurface.setImageResource(R.drawable.surface_down_sel);
-                    Collections.sort(propertiesList, Collections.reverseOrder(new SortBySurface()));
-                    currentSort = SortType.surfaceDown;
-                } else {
-                    buttonSurface.setImageResource(R.drawable.surface_up_sel);
-                    Collections.sort(propertiesList, new SortBySurface());
-                    currentSort = SortType.surfaceUp;
-                }
-                updateRecycler();
+            if (currentSort.equals(SortType.surfaceUp)){
+                buttonSurface.setImageResource(R.drawable.surface_down_sel);
+                Collections.sort(propertiesList, Collections.reverseOrder(new SortBySurface()));
+                currentSort = SortType.surfaceDown;
+            } else {
+                buttonSurface.setImageResource(R.drawable.surface_up_sel);
+                Collections.sort(propertiesList, new SortBySurface());
+                currentSort = SortType.surfaceUp;
             }
+            updateRecycler();
         });
 
-        buttonPrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonSurface.setImageResource(R.drawable.surface_up_un);
-                buttonDate.setImageResource(R.drawable.date_up_un);
+        buttonPrice.setOnClickListener(v -> {
+            buttonSurface.setImageResource(R.drawable.surface_up_un);
+            buttonDate.setImageResource(R.drawable.date_up_un);
 
-                if (currentSort.equals(SortType.priceUp)){
-                    buttonPrice.setImageResource(R.drawable.price_down_sel);
-                    Collections.sort(propertiesList, Collections.reverseOrder(new SortByPrice()));
-                    currentSort = SortType.priceDown;
-                } else {
-                    buttonPrice.setImageResource(R.drawable.price_up_sel);
-                    Collections.sort(propertiesList, new SortByPrice());
-                    currentSort = SortType.priceUp;
-                }
-                updateRecycler();
+            if (currentSort.equals(SortType.priceUp)){
+                buttonPrice.setImageResource(R.drawable.price_down_sel);
+                Collections.sort(propertiesList, Collections.reverseOrder(new SortByPrice()));
+                currentSort = SortType.priceDown;
+            } else {
+                buttonPrice.setImageResource(R.drawable.price_up_sel);
+                Collections.sort(propertiesList, new SortByPrice());
+                currentSort = SortType.priceUp;
             }
+            updateRecycler();
         });
 
-        buttonDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonSurface.setImageResource(R.drawable.surface_up_un);
-                buttonPrice.setImageResource(R.drawable.price_up_un);
+        buttonDate.setOnClickListener(v -> {
+            buttonSurface.setImageResource(R.drawable.surface_up_un);
+            buttonPrice.setImageResource(R.drawable.price_up_un);
 
-                if (currentSort.equals(SortType.dateUp)){
-                    buttonDate.setImageResource(R.drawable.date_down_sel);
-                    Collections.sort(propertiesList, Collections.reverseOrder(new SortByDate()));
-                    currentSort = SortType.dateDown;
-                } else {
-                    buttonDate.setImageResource(R.drawable.date_up_sel);
-                    Collections.sort(propertiesList, new SortByDate());
-                    currentSort = SortType.dateUp;
-                }
-                updateRecycler();
+            if (currentSort.equals(SortType.dateUp)){
+                buttonDate.setImageResource(R.drawable.date_down_sel);
+                Collections.sort(propertiesList, Collections.reverseOrder(new SortByDate()));
+                currentSort = SortType.dateDown;
+            } else {
+                buttonDate.setImageResource(R.drawable.date_up_sel);
+                Collections.sort(propertiesList, new SortByDate());
+                currentSort = SortType.dateUp;
             }
+            updateRecycler();
         });
     }
 }

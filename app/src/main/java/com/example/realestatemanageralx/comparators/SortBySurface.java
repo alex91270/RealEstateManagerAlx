@@ -7,7 +7,6 @@ import java.util.Comparator;
     public class SortBySurface  implements Comparator<Property> {
 
         /**
-         *
          * @param p1 offer to compare
          * @param p2 offer to compare
          * @return number describing the order between the 2

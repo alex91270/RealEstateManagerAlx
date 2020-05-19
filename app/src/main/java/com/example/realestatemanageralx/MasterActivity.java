@@ -18,10 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -29,7 +27,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.FirstFragment;
@@ -44,7 +41,6 @@ import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
 import com.google.android.material.navigation.NavigationView;
-
 import java.io.File;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -61,21 +57,11 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     private Fragment mapFragment;
     private Fragment loanFragment;
     private Fragment createFragment;
-
-    //Identify each fragment with a number
-    private static final int FRAGMENT_FIRST = 0;
-    private static final int FRAGMENT_MAP = 1;
-    private static final int FRAGMENT_LOAN = 2;
-
-    private AppDatabase myDatabase;
-    //private PropertyViewModel propertyViewModel;
-    //private List<Property> propertiesList = new ArrayList<>();
     private AgentViewModel agentViewModel;
     private AlertDialog dialog = null;
     private Context context;
     private EditText dialogTextUsername = null;
     private EditText dialogTextPassword = null;
-
     private BroadcastReceiver MyReceiver = null;
 
     @Override
@@ -98,8 +84,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
-        myDatabase = AppDatabase.getDatabase(getApplicationContext());
-
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
         //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
         //new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
@@ -107,22 +91,18 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
-        showStartFragment();
 
         // TO BE REMOVED !!
         nav_Menu.setGroupEnabled(R.id.pro_group, true);
         nav_Menu.setGroupVisible(R.id.pro_group, true);
         DataHolder.getInstance().setIsLogged(true);
         DataHolder.getInstance().setAgentId(1);
-        showFirstFragment();
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         Log.i("alex", "height in DP: " + dpHeight);
         Log.i("alex", "width in DP: " + dpWidth);
         // TO BE REMOVED !!
-
-        //Log.i("alex", "onCreate, register receiver");
 
         showFirstFragment();
        }
@@ -183,29 +163,9 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     private void configureNavigationView(){
         navigationView = (NavigationView) findViewById(R.id.activity_master_nav_view);
-        View headerView = navigationView.getHeaderView(0);
+        //View headerView = navigationView.getHeaderView(0);
         nav_Menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    //Show first fragment when activity is created
-    private void showStartFragment(){
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_master_frame_layout);
-        if (visibleFragment == null){
-            showFragment(FRAGMENT_FIRST);
-            navigationView.getMenu().getItem(0).setChecked(true);
-        }
-    }
-
-    //Show fragment according an Identifier
-    private void showFragment(int fragmentIdentifier){
-        switch (fragmentIdentifier){
-            case FRAGMENT_FIRST :
-                showFirstFragment();
-                break;
-            default:
-                break;
-        }
     }
 
     private void showFirstFragment(){
@@ -243,7 +203,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
 
     private void startTransactionFragment(Fragment fragment){
-
         if (!fragment.isVisible()){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_master_frame_layout, fragment).commit();

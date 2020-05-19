@@ -63,8 +63,6 @@ public class ResearchFragment extends Fragment {
     private String typeSelected;
     private String locationSelected;
     private int spinnerDatePosition;
-
-
     private ArrayList<String> typeSpinnerArray =  new ArrayList<>();
     private ArrayList<String> locationSpinnerArray = new ArrayList<>();
     private ArrayList<String> roomsSpinnerArray = new ArrayList<>();
@@ -143,14 +141,11 @@ public class ResearchFragment extends Fragment {
         cardViewSwitches.setVisibility(View.INVISIBLE);
 
 
-        checkBoxConvenience.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkBoxConvenience.isChecked()){
-                    cardViewSwitches.setVisibility(View.VISIBLE);
-                } else {cardViewSwitches.setVisibility(View.INVISIBLE);}
-                filter();
-            }
+        checkBoxConvenience.setOnClickListener(v -> {
+            if (checkBoxConvenience.isChecked()){
+                cardViewSwitches.setVisibility(View.VISIBLE);
+            } else {cardViewSwitches.setVisibility(View.INVISIBLE);}
+            filter();
         });
 
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -207,11 +202,7 @@ public class ResearchFragment extends Fragment {
         });
 
         radioButtonOnSale.setChecked(true);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                filter();
-            }
-        });
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> filter());
 
         dateSpinnerArray.add("Any");
         dateSpinnerArray.add("Less than a week ago");
@@ -242,19 +233,16 @@ public class ResearchFragment extends Fragment {
         switchSubways.setOnCheckedChangeListener((buttonView, isChecked) -> filter());
 
         buttonOffers.setText(String.valueOf(allPropertiesList.size()) + " Offers found");
-        buttonOffers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataHolder.getInstance().setSearchedPropertiesList(filteredPropertiesList);
-                OffersListFragment offerListFrag = new OffersListFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("filter", "filter");
-                offerListFrag.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, offerListFrag, "fragment offer list")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        buttonOffers.setOnClickListener(v -> {
+            DataHolder.getInstance().setSearchedPropertiesList(filteredPropertiesList);
+            OffersListFragment offerListFrag = new OffersListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("filter", "filter");
+            offerListFrag.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, offerListFrag, "fragment offer list")
+                    .addToBackStack(null)
+                    .commit();
         });
             }
         });

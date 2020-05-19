@@ -28,11 +28,6 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
 
         String currency_API_key = strings[0];
-
-        Log.i("alex", "thread currency rate async: " + String.valueOf(Thread.currentThread().getId()));
-
-        Log.i("alex", "key: " + currency_API_key);
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -44,10 +39,7 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
             sb.append(currency_API_key);
             sb.append("&base=EUR&symbols=USD");
 
-
             URL url = new URL(sb.toString());
-            //URL url = new URL ("http://httpbin.org/ip");
-            //url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=40.712775,-74.0059717&type=restaurant&rankby=distance&key=AIzaSyAhwPQxQ6UU4V7VQ7IxYsvFa3WzoNJ2qDg");
             Log.i("alex", "url: " + url);
             conn = (HttpURLConnection) url.openConnection();
             //opens up an inputStreamReader to intercept the response from that url

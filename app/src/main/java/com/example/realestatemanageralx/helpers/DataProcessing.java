@@ -1,5 +1,6 @@
 package com.example.realestatemanageralx.helpers;
 
+import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class DataProcessing {
         return lastOffer;
     }
 
-    public static Property getPropertyById(List<Property> offersList, long id) {
+    /**public static Property getPropertyById(List<Property> offersList, long id) {
         Property myProperty = null;
 
         for (Property prop : offersList) {
@@ -59,5 +60,28 @@ public class DataProcessing {
             }
         }
         return myProperty;
+    }*/
+
+    public static Property buildEmptyProperty() {
+        Property tempProp = new Property(
+                "",
+                "",
+                "",
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                false,
+                0,
+                "",
+                -1,
+                DataHolder.getInstance().getAgentId(),
+                false,"",
+                -1,
+                "",
+                0);
+
+        return tempProp;
     }
 }

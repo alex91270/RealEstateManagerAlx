@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-//import android.util.Log;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.datas.DataHolder;
@@ -44,7 +42,6 @@ import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +60,6 @@ public class OfferDetailFragment extends Fragment {
     private Long propertyId;
     private Long agentId;
     private static String apiKey;
-
     private ImageView imageSold;
     private TextView textViewBuildType;
     private TextView textViewLocation;
@@ -93,20 +89,16 @@ public class OfferDetailFragment extends Fragment {
     private RecyclerView poiRecycler;
     private OfferDetailPoiRecyclerAdapter myAdapter;
     private LayoutInflater galleryInflater;
-
     private String surfaceUnit = "m²";
     private String currency = "dollar";
-
     private double exchangeRate;
     private Context context;
     private AlertDialog dialog = null;
     private final int PERMISSION_REQUEST_CALL = 123;
-    //private TypesConversions tc = new TypesConversions();
 
     public static OfferDetailFragment newInstance() {
         return (new OfferDetailFragment());
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,9 +108,7 @@ public class OfferDetailFragment extends Fragment {
         apiKey = context.getString(R.string.google_maps_key);
         propertyId = getArguments().getLong("propertyId");
         agentId = getArguments().getLong("agentId");
-
         imageSold = root.findViewById(R.id.detail_image_sold);
-
         textViewLocation = root.findViewById(R.id.detail_text_location);
         liteMap = root.findViewById(R.id.detail_map_lite);
         textViewBuildType = root.findViewById(R.id.detail_text_type);
@@ -156,33 +146,22 @@ public class OfferDetailFragment extends Fragment {
             buttonModify.setEnabled(true);
         }
 
-        buttonMail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog dialog = getMessageDialog();
-                dialog.show();
-            }
+        buttonMail.setOnClickListener(v -> {
+            final AlertDialog dialog = getMessageDialog();
+            dialog.show();
         });
 
-        buttonPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callAgent();
-            }
-        });
+        buttonPhone.setOnClickListener(v -> callAgent());
 
-        liteMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MapViewFragment mapViewFrag= new MapViewFragment();
-                Bundle bundle=new Bundle();
-                bundle.putLong("propertyId",propertyId);
-                mapViewFrag.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_master_frame_layout, mapViewFrag, "fragment map view")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        liteMap.setOnClickListener(v -> {
+            MapViewFragment mapViewFrag= new MapViewFragment();
+            Bundle bundle=new Bundle();
+            bundle.putLong("propertyId",propertyId);
+            mapViewFrag.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_master_frame_layout, mapViewFrag, "fragment map view")
+                    .addToBackStack(null)
+                    .commit();
         });
 
         textViewConvertUnit.setOnClickListener(v -> {
@@ -203,7 +182,6 @@ public class OfferDetailFragment extends Fragment {
 
                 if (currency.equals("dollar")) {
                     currency = "euro";
-                    //textViewPrice.setText(tc.formatPriceNicely((int)(Math.round((mProperty.getPrice())/exchangeRate))));
                     textViewPrice.setText(TypesConversions.formatPriceNicely(Utils.convertDollarToEuro(mProperty.getPrice(),exchangeRate)));
                     textViewConvertCurrency.setText("convert to dollar");
                     imageCurrency.setImageResource(R.drawable.ic_euro);
@@ -216,9 +194,6 @@ public class OfferDetailFragment extends Fragment {
                 }
             }
         });
-
-        Log.i("alex", "end on create ");
-
         initObservers();
 
         return root;
@@ -228,59 +203,43 @@ public class OfferDetailFragment extends Fragment {
 
     private void initObservers() {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
-        propertyViewModel.getPropertyById(propertyId).observe(this, new Observer<Property>() {
-            public void onChanged(@Nullable Property property) {
-                mProperty = property;
-                fillDatas();
-            }
+        propertyViewModel.getPropertyById(propertyId).observe(this, property -> {
+            mProperty = property;
+            fillDatas();
         });
 
         agentViewModel = ViewModelProviders.of(this).get(AgentViewModel.class);
-        agentViewModel.getAgentById(agentId).observe(this, new Observer<Agent>() {
-            public void onChanged(@Nullable Agent agent) {
-                mAgent = agent;
-                fillDatas();
-            }
+        agentViewModel.getAgentById(agentId).observe(this, agent -> {
+            mAgent = agent;
+            fillDatas();
         });
 
         rateViewModel = ViewModelProviders.of(this).get(RateViewModel.class);
-        rateViewModel.getRates().observe(this, new Observer<List<Rate>>() {
-            public void onChanged(@Nullable List<Rate> rates) {
-                exchangeRate = rates.get(0).getValue();
-            }
-        });
+        rateViewModel.getRates().observe(this, rates -> exchangeRate = rates.get(0).getValue());
 
         mediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
-        mediaViewModel.getMediasByPropertyId(propertyId).observe(this, new Observer<List<OfferMedia>>() {
-            public void onChanged(@Nullable List<OfferMedia> medias) {
-                mediasList = medias;
-                int index = DataProcessing.getMainPictureIndex(propertyId, medias);
-                Log.i("alex", "main pic index: " + index);
-                Collections.swap(medias, index, 0);
+        mediaViewModel.getMediasByPropertyId(propertyId).observe(this, medias -> {
+            mediasList = medias;
+            int index = DataProcessing.getMainPictureIndex(propertyId, medias);
+            Log.i("alex", "main pic index: " + index);
+            Collections.swap(medias, index, 0);
 
-                gallery.setAdapter(new SliderAdapter(context, mediasList));
-            }
+            gallery.setAdapter(new SliderAdapter(context, mediasList));
         });
     }
 
     private void fillDatas() {
 
         if (mProperty != null && mAgent != null) {
-
             Log.i("alex", "detail: offer ID: " + mProperty.getId());
-
             textViewBuildType.setText(mProperty.getBuildType());
-
             textViewLocation.setText(mProperty.getCity() + " | " + mProperty.getDistrict());
-
             String lat = (mProperty.getLocation().split(",", -1))[0];
             String lon = (mProperty.getLocation().split(",", -1))[1];
-
             String liteMapUrl = "https://maps.google.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=12&size=400x200&markers=color:red%7C" + lat + "," + lon + "&sensor=false&key=" + apiKey;
             Glide.with(context)
                     .load(liteMapUrl)
                     .into(liteMap);
-
 
             textViewSurface.setText("Size: " + mProperty.getSurface() + " " + surfaceUnit);
 
@@ -339,7 +298,6 @@ public class OfferDetailFragment extends Fragment {
 
             List<String> poiList = Arrays.asList(mProperty.getPois().split(","));
             List<String> recyclerPoiList = new ArrayList<>();
-            //HashMap<String, Integer>hashPOI;
 
             for (int i=0; i<poiList.size(); i++) {
                 if (!poiList.get(i).equals("0")) {
@@ -383,19 +341,16 @@ public class OfferDetailFragment extends Fragment {
                         .commit();
             });
 
-            buttonModify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CreateFragment createFragment = CreateFragment.newInstance();
-                    Bundle bundle=new Bundle();
-                    bundle.putString("action", "modification");
-                    bundle.putSerializable("prop", mProperty);
-                    createFragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.activity_master_frame_layout, createFragment, "fragment create")
-                            .addToBackStack(null)
-                            .commit();
-                }
+            buttonModify.setOnClickListener(v -> {
+                CreateFragment createFragment = CreateFragment.newInstance();
+                Bundle bundle=new Bundle();
+                bundle.putString("action", "modification");
+                bundle.putSerializable("prop", mProperty);
+                createFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_master_frame_layout, createFragment, "fragment create")
+                        .addToBackStack(null)
+                        .commit();
             });
         }
     }
@@ -406,20 +361,12 @@ public class OfferDetailFragment extends Fragment {
         View v = inflater.inflate(R.layout.alert_dialog_message, null);
         alertBuilder.setView(v);
         dialog = alertBuilder.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = dialog.findViewById(R.id.dialog_button_send);
-                button.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                    }
-                });
-            }
+        dialog.setOnShowListener(dialogInterface -> {
+            Button button = dialog.findViewById(R.id.dialog_button_send);
+            button.setOnClickListener(view -> {
+                Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            });
         });
 
         return dialog;
