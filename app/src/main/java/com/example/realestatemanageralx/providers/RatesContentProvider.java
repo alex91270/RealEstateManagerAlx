@@ -17,8 +17,9 @@ public class RatesContentProvider extends ContentProvider {
 
 
 
-    public static final String AUTHORITY = "com.example.realestatemanageralx.providers";
+    public static final String AUTHORITY = "com.example.realestatemanageralx.providers.rate";
     public static final String TABLE_NAME = Rate.class.getSimpleName();
+    public static final Uri RATE_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
     public boolean onCreate() { return true; }
@@ -28,7 +29,8 @@ public class RatesContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         if (getContext() != null){
-            final Cursor cursor = AppDatabase.getDatabase(getContext()).propertyDAO().getPropertiesWithCursor();
+            long rateId = ContentUris.parseId(uri);
+            final Cursor cursor = AppDatabase.getDatabase(getContext()).rateDAO().getRateByIdWithCursor(rateId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;
         }

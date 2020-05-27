@@ -14,8 +14,9 @@ import com.example.realestatemanageralx.model.OfferMedia;
 
 public class MediasContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "com.example.realestatemanageralx.providers";
+    public static final String AUTHORITY = "com.example.realestatemanageralx.providers.media";
     public static final String TABLE_NAME = OfferMedia.class.getSimpleName();
+    public static final Uri MEDIA_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
     public boolean onCreate() { return true; }

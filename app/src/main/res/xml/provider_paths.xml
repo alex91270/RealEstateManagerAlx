@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <files-path name="Medias" path="medias/"/>
+    <files-path name="Agent" path="agent/"/>
+    <files-path name="Property" path="property/"/>
+    <files-path name="Rate" path="rate/"/>
 </paths>

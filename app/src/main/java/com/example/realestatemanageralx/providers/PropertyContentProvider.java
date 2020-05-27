@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +16,14 @@ import com.example.realestatemanageralx.model.Property;
 
 public class PropertyContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "com.example.realestatemanageralx.providers";
+    public static final String AUTHORITY = "com.example.realestatemanageralx.providers.property";
     public static final String TABLE_NAME = Property.class.getSimpleName();
+    public static final Uri PROPERTY_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
-    public boolean onCreate() { return true; }
+    public boolean onCreate() {
+        Log.i("alex", "uri property: " + PROPERTY_URI_ITEM);
+        return true; }
 
     @Nullable
     @Override

@@ -50,6 +50,7 @@ import java.util.Date;
 import java.util.List;
 
 public class OfferDetailFragment extends Fragment {
+
     private PropertyViewModel propertyViewModel;
     private OfferMediaViewModel mediaViewModel;
     private List<OfferMedia> mediasList = new ArrayList<>();
@@ -243,6 +244,8 @@ public class OfferDetailFragment extends Fragment {
 
             textViewSurface.setText("Size: " + mProperty.getSurface() + " " + surfaceUnit);
 
+            //textViewRooms.setText(mProperty.getRooms() == -1 ? "N.C" : "rooms…");
+
             if (mProperty.getRooms() == -1) {
                 textViewRooms.setText("N.C");
             } else {
@@ -381,6 +384,7 @@ public class OfferDetailFragment extends Fragment {
             dialPhoneNumber();
         }
     }
+
 
     private void dialPhoneNumber() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);

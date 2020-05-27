@@ -25,10 +25,16 @@ public interface RateDAO {
     @Query("SELECT * FROM rate")
     LiveData<List<Rate>> getAllRates();
 
+    @Query("SELECT * FROM rate WHERE rid = :id")
+    LiveData<Rate>getRateById(long id);
+
     @Query("UPDATE rate SET value = :number WHERE rid = :rateId")
     void updateRate(long rateId, double number);
 
     // for contentProvider
     @Query("SELECT * FROM rate")
     Cursor getRatesWithCursor();
+
+    @Query("SELECT * FROM rate WHERE rid = :id")
+    Cursor getRateByIdWithCursor(long id);
 }

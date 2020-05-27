@@ -54,19 +54,19 @@
 
         <provider
             android:name=".providers.MediasContentProvider"
-            android:authorities="com.example.realestatemanageralx.providers"
+            android:authorities="com.example.realestatemanageralx.providers.media"
             android:exported="true"/>
         <provider
             android:name=".providers.PropertyContentProvider"
-            android:authorities="com.example.realestatemanageralx.providers"
+            android:authorities="com.example.realestatemanageralx.providers.property"
             android:exported="true"/>
         <provider
             android:name=".providers.RatesContentProvider"
-            android:authorities="com.example.realestatemanageralx.providers"
+            android:authorities="com.example.realestatemanageralx.providers.rate"
             android:exported="true"/>
         <provider
             android:name=".providers.AgentContentProvider"
-            android:authorities="com.example.realestatemanageralx.providers"
+            android:authorities="com.example.realestatemanageralx.providers.agent"
             android:exported="true"/>
         <provider
             android:name="androidx.core.content.FileProvider"
