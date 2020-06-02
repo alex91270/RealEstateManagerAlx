@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
 
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,9 +44,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha1', {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+   
 
-    implementation 'com.google.guava:guava:24.1-jre'
-
+    implementation 'com.google.guava:guava:27.0.1-jre' , {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
 
 
     implementation 'com.google.android.material:material:1.1.0'
@@ -90,4 +94,5 @@ dependencies {
     //BUTTER KNIFE
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0-beta02'
 }
