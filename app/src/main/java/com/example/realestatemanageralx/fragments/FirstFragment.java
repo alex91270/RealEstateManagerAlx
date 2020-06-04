@@ -1,18 +1,20 @@
 package com.example.realestatemanageralx.fragments;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
@@ -21,8 +23,10 @@ import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment
 import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
+import com.example.realestatemanageralx.unused.MainActivity;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +51,20 @@ public class FirstFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_first, container, false);
         context = root.getContext();
 
+        //****** For MainActivityTest*****
+        ImageButton mainActButton = root.findViewById(R.id.buttonMainAct);
+        mainActButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, MainActivity.class));
+            }
+        });
+        //****** For MainActivityTest*****
+
+
         seeOffersButton = root.findViewById(R.id.see_offers_button);
         seeOffersButton.setOnClickListener(v -> {
-            OffersListFragment offersListFrag= new OffersListFragment();
+            OffersListFragment offersListFrag = new OffersListFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_master_frame_layout, offersListFrag, "Fragment offersList")
                     .addToBackStack(null)
@@ -59,9 +74,9 @@ public class FirstFragment extends Fragment {
         imageNewOffer = root.findViewById(R.id.image_last_offer);
         imageNewOffer.setOnClickListener(v -> {
 
-            OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
-            Bundle bundle=new Bundle();
-            bundle.putLong("propertyId",property.getId());
+            OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong("propertyId", property.getId());
             bundle.putLong("agentId", property.getAgentId());
             offerDetailFrag.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
@@ -78,13 +93,13 @@ public class FirstFragment extends Fragment {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         propertyViewModel.getPropertiesList().observe(this, properties -> {
             propertiesList = properties;
-            if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
+            if (propertiesList.size() > 0 && mediasList.size() > 0) fillLastOffer();
         });
 
         mediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
         mediaViewModel.getAllMedias().observe(this, medias -> {
             mediasList = medias;
-            if (propertiesList.size()>0 && mediasList.size()>0)fillLastOffer();
+            if (propertiesList.size() > 0 && mediasList.size() > 0) fillLastOffer();
         });
     }
 
@@ -99,9 +114,9 @@ public class FirstFragment extends Fragment {
 
         property = DataProcessing.getLastOffer(propertiesList);
 
-            String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), mediasList);
+        String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), mediasList);
 
-            Log.i("alex", "last offer id: " + property.getId());
+        Log.i("alex", "last offer id: " + property.getId());
 
         if (!property.getDistrict().equals("")) {
             text_district.setText(property.getDistrict());
@@ -109,18 +124,18 @@ public class FirstFragment extends Fragment {
             text_district.setText(property.getCity());
         }
 
-            text_surface.setText(String.valueOf(property.getSurface()) + " m²");
+        text_surface.setText(String.valueOf(property.getSurface()) + " m²");
 
-            if (property.getRooms() == -1) {
-                text_rooms.setText("N.C");
-            } else {
-                text_rooms.setText(String.valueOf(property.getRooms()) + " rooms");
-            }
-
-
-            Glide.with(context)
-                    .load(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(image);
+        if (property.getRooms() == -1) {
+            text_rooms.setText("N.C");
+        } else {
+            text_rooms.setText(String.valueOf(property.getRooms()) + " rooms");
         }
+
+
+        Glide.with(context)
+                .load(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia)
+                .apply(RequestOptions.circleCropTransform())
+                .into(image);
+    }
 }

@@ -8,9 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.database.OfferMediaDAO;
-import com.example.realestatemanageralx.database.PropertyDAO;
 import com.example.realestatemanageralx.model.OfferMedia;
-import com.example.realestatemanageralx.model.Property;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -20,14 +18,14 @@ import java.util.concurrent.Executors;
  * ViewModel for medias, using the DAO and returning LiveData, observed by the view
  */
 
-public class OfferMediaViewModel  extends AndroidViewModel {
+public class OfferMediaViewModel extends AndroidViewModel {
     private OfferMediaDAO offerMediaDAO;
     private LiveData<List<OfferMedia>> allMediasLiveData;
     private LiveData<List<OfferMedia>> mediasList;
     private Executor taskExecutor;
 
 
-    public OfferMediaViewModel (@NonNull Application application) {
+    public OfferMediaViewModel(@NonNull Application application) {
         super(application);
         offerMediaDAO = AppDatabase.getDatabase(application).offerMediaDAO();
         taskExecutor = Executors.newSingleThreadExecutor();

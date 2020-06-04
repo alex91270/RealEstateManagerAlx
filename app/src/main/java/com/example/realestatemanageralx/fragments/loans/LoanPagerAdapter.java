@@ -6,19 +6,20 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class LoanPagerAdapter extends FragmentPagerAdapter {
 
-    public LoanPagerAdapter (FragmentManager fm) {
+    public LoanPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     /**
      * getItem is called to instantiate the fragment for the given page.
+     *
      * @param position
      * @return
      */
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fm=null;
+        Fragment fm = null;
         switch (position) {
             case 0:
                 //If first tab tapped, launch simulator
@@ -35,6 +36,7 @@ public class LoanPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * get the number of pages
+     *
      * @return
      */
     @Override

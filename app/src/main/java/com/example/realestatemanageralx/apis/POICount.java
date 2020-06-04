@@ -2,10 +2,13 @@ package com.example.realestatemanageralx.apis;
 
 import android.os.StrictMode;
 import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,11 +21,18 @@ public class POICount {
     private LatLng location;
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     private static final int radius = 200;
-    private final String [] typesList = {"school","store","park","restaurant","subway_station"};
+    private final String[] typesList = {"school", "store", "park", "restaurant", "subway_station"};
     private int[] integerResults = new int[typesList.length];
 
-    public POICount(OnPOICountDone onPOICountDone)  {this.onPOICountDone = onPOICountDone;}
+    public POICount(OnPOICountDone onPOICountDone) {
+        this.onPOICountDone = onPOICountDone;
+    }
 
+    /**
+     * Gets the number of each POI in a given radius around a given location
+     * @param apiKey
+     * @param loc
+     */
     public void requestNearbyPois(String apiKey, LatLng loc) {
 
         Log.i("alex", "request nearby thread: " + Thread.currentThread());

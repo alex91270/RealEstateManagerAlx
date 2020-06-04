@@ -1,8 +1,5 @@
 package com.example.realestatemanageralx.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -13,9 +10,9 @@ import java.io.Serializable;
 
 @Entity(tableName = "property",
         foreignKeys = {@ForeignKey(entity = Agent.class,
-        parentColumns = "aid",
-        childColumns = "agentId",
-        onDelete = ForeignKey.CASCADE)},
+                parentColumns = "aid",
+                childColumns = "agentId",
+                onDelete = ForeignKey.CASCADE)},
         indices = {
                 @Index(name = "agentId_index", value = {"agentId"})
         })
@@ -28,58 +25,58 @@ public class Property implements Serializable {
     @ColumnInfo(name = "pid")
     private long id;
 
-    @ColumnInfo(name="buildType")
+    @ColumnInfo(name = "buildType")
     private String buildType;
 
-    @ColumnInfo(name="description")
+    @ColumnInfo(name = "description")
     private String description;
 
-    @ColumnInfo(name="pois")
+    @ColumnInfo(name = "pois")
     private String pois;
 
-    @ColumnInfo(name="city")
+    @ColumnInfo(name = "city")
     private String city;
 
-    @ColumnInfo(name="district")
+    @ColumnInfo(name = "district")
     private String district;
 
-    @ColumnInfo(name="surface")
+    @ColumnInfo(name = "surface")
     private int surface;
 
-    @ColumnInfo(name="rooms")
+    @ColumnInfo(name = "rooms")
     private int rooms;
 
-    @ColumnInfo(name="bedrooms")
+    @ColumnInfo(name = "bedrooms")
     private int bedrooms;
 
-    @ColumnInfo(name="toilets")
+    @ColumnInfo(name = "toilets")
     private int toilets;
 
-    @ColumnInfo(name="showers")
+    @ColumnInfo(name = "showers")
     private int showers;
 
-    @ColumnInfo(name="bathtubs")
+    @ColumnInfo(name = "bathtubs")
     private int bathtubs;
 
-    @ColumnInfo(name="aircon")
+    @ColumnInfo(name = "aircon")
     private boolean aircon;
 
-    @ColumnInfo(name="dateOffer")
+    @ColumnInfo(name = "dateOffer")
     private long dateOffer;
 
-    @ColumnInfo(name="dateSale")
+    @ColumnInfo(name = "dateSale")
     private long dateSale;
 
-    @ColumnInfo(name="sold")
+    @ColumnInfo(name = "sold")
     private boolean sold;
 
-    @ColumnInfo(name="location")
+    @ColumnInfo(name = "location")
     private String location;
 
-    @ColumnInfo(name="price")
+    @ColumnInfo(name = "price")
     private int price;
 
-    @ColumnInfo(name="agentId")
+    @ColumnInfo(name = "agentId")
     private long agentId;
 
     public Property(String description, String city, String district, int surface, int bedrooms,
@@ -114,17 +111,25 @@ public class Property implements Serializable {
         return id;
     }
 
-    public String getBuildType() {return buildType;}
+    public String getBuildType() {
+        return buildType;
+    }
 
-    public void setBuildType(String type) {buildType = type;}
+    public void setBuildType(String type) {
+        buildType = type;
+    }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city){this.city = city;}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-    public int getRooms() { return rooms;}
+    public int getRooms() {
+        return rooms;
+    }
 
     public void setRooms(int rooms) {
         this.rooms = rooms;
@@ -146,7 +151,9 @@ public class Property implements Serializable {
         this.dateOffer = dateOffer;
     }
 
-    public long getDateSale() { return dateSale; }
+    public long getDateSale() {
+        return dateSale;
+    }
 
     public int getBedrooms() {
         return bedrooms;
@@ -188,7 +195,9 @@ public class Property implements Serializable {
         this.description = description;
     }
 
-    public String getPois() { return pois;}
+    public String getPois() {
+        return pois;
+    }
 
     public void setPois(String pois) {
         this.pois = pois;

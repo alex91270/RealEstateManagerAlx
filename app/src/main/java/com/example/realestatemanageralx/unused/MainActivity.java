@@ -2,7 +2,9 @@ package com.example.realestatemanageralx.unused;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.Utils;
 
@@ -24,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         this.configureTextViewQuantity();
     }
 
-    private void configureTextViewMain(){
+    private void configureTextViewMain() {
         this.textViewMain.setTextSize(15);
         this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
     }
 
-    private void configureTextViewQuantity(){
-        int quantity = Utils.convertDollarToEuro(100,0.812);
+    private void configureTextViewQuantity() {
+        int quantity = Utils.convertDollarToEuro(100, 0.812);
         this.textViewQuantity.setTextSize(20);
         //this.textViewQuantity.setText(quantity);
         this.textViewQuantity.setText(String.valueOf(quantity));

@@ -11,15 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+
 import com.example.realestatemanageralx.R;
+import com.example.realestatemanageralx.apis.POICount;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.Property;
-import com.example.realestatemanageralx.apis.OnPOICountDone;
-import com.example.realestatemanageralx.apis.POICount;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -40,7 +42,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
     private Button validButton;
     private SearchView searchView;
     private Property tempProp;
-   private static String apiKey;
+    private static String apiKey;
 
     public static LocationPickerFragment newInstance() {
         return (new LocationPickerFragment());
@@ -78,7 +80,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                             Log.i("alex", "sublocality: " + district);
 
                             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                          placeMarker(latLng);
+                            placeMarker(latLng);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -94,7 +96,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
             }
         });
 
-       return root;
+        return root;
     }
 
     @Override
@@ -129,7 +131,7 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(NYLocation, 12)); //between 1 and 20
         mMap.setOnMapLongClickListener(latLng -> placeMarker(latLng));
 
-        if (tempProp.getLocation() != ""){
+        if (tempProp.getLocation() != "") {
             placeMarker(TypesConversions.getLatLngFromString(tempProp.getLocation()));
         }
     }
@@ -168,7 +170,8 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                 if (address.getSubLocality() == null) {
                     tempProp.setDistrict("");
                 } else {
-                    tempProp.setDistrict(address.getSubLocality());}
+                    tempProp.setDistrict(address.getSubLocality());
+                }
 
                 Log.i("alex", "city: " + tempProp.getCity());
                 Log.i("alex", "district: " + tempProp.getDistrict());

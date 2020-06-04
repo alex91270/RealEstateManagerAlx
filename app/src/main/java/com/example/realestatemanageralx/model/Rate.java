@@ -23,14 +23,14 @@ public class Rate {
     /**
      * The name of the value stored
      */
-    @ColumnInfo(name="dataType")
+    @ColumnInfo(name = "dataType")
     @NonNull
     private String dataType;
 
     /**
      * The value stored
      */
-    @ColumnInfo(name="value")
+    @ColumnInfo(name = "value")
     @NonNull
     private double value;
 

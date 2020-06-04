@@ -7,6 +7,12 @@ import android.net.NetworkInfo;
 import com.example.realestatemanageralx.datas.DataHolder;
 
 class NetworkUtil {
+
+    /**
+     * Asks the ConnectivityManager and returns the connectivity status
+     * @param context
+     * @return
+     */
     public static String getConnectivityStatusString(Context context) {
         String status = null;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

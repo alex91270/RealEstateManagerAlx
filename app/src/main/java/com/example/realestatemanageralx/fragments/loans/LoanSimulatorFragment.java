@@ -13,15 +13,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.Rate;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +70,8 @@ public class LoanSimulatorFragment extends Fragment {
     }
 
     private void populateSpinner() {
-        final List<Integer> spinnerArray =  new ArrayList<>();
-        for (int i = 1; i<31; i++) {
+        final List<Integer> spinnerArray = new ArrayList<>();
+        for (int i = 1; i < 31; i++) {
             spinnerArray.add(i);
         }
 
@@ -80,9 +83,10 @@ public class LoanSimulatorFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Log.i("alex", "position: " + position);
-                duration = (position + 1)*12;
+                duration = (position + 1) * 12;
                 editTextRate.setText(String.valueOf(ratesList.get(position)));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
@@ -93,7 +97,7 @@ public class LoanSimulatorFragment extends Fragment {
         rateViewModel = ViewModelProviders.of(this).get(RateViewModel.class);
         rateViewModel.getRates().observe(this, new Observer<List<Rate>>() {
             public void onChanged(@Nullable List<Rate> rates) {
-                updateDate = tc.getStringFromTimestamp((long)(rates.get(2).getValue()*1000));
+                updateDate = tc.getStringFromTimestamp((long) (rates.get(2).getValue() * 1000));
                 textViewSuggestedRates.setText("Suggested rates last updated on " + updateDate);
                 //Log.i("alex", "update date: " + updateDate);
 
@@ -110,9 +114,9 @@ public class LoanSimulatorFragment extends Fragment {
     private void calculate() {
         double payment; //monthly payment, the result
         double M = Double.valueOf(editTextLoanAmount.getText().toString()); //initial borrowed amount
-        double t = Double.valueOf(editTextRate.getText().toString())/100; //rate
+        double t = Double.valueOf(editTextRate.getText().toString()) / 100; //rate
 
-       payment = (((M*t)/12) / (1-Math.pow((1+(t/12)), -duration)));
+        payment = (((M * t) / 12) / (1 - Math.pow((1 + (t / 12)), -duration)));
 
         textViewMonthlyAmount.setText(String.valueOf(Math.round(payment)));
     }

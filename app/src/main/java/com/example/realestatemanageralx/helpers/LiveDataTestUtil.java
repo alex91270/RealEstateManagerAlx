@@ -9,6 +9,14 @@ import java.util.concurrent.TimeUnit;
 
 
 public class LiveDataTestUtil {
+
+    /**
+     * Allows to test LiveData and ViewModel
+     * @param liveData
+     * @param <T>
+     * @return
+     * @throws InterruptedException
+     */
     public static <T> T getValue(final LiveData<T> liveData) throws InterruptedException {
         final Object[] data = new Object[1];
         final CountDownLatch latch = new CountDownLatch(1);

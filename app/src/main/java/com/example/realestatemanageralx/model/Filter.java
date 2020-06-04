@@ -2,6 +2,10 @@ package com.example.realestatemanageralx.model;
 
 import java.io.Serializable;
 
+/**
+ * Object containing all the requests of a research
+ */
+
 public class Filter implements Serializable {
     private boolean filterByType;
     private String type;
@@ -15,7 +19,7 @@ public class Filter implements Serializable {
     private int minRooms;
     private boolean onSaleChecked;
     private boolean soldChecked;
-    private boolean  filterByDate;
+    private boolean filterByDate;
     private int dateCase;
     private boolean filterByConveniences;
     private boolean filterBySchool;
@@ -24,7 +28,8 @@ public class Filter implements Serializable {
     private boolean filterByRestaurants;
     private boolean filterBySubways;
 
-    public Filter(){}
+    public Filter() {
+    }
 
     public boolean isFilterByType() {
         return filterByType;

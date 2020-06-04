@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.realestatemanageralx.database.AppDatabase;
-import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Rate;
 
-public class RatesContentProvider extends ContentProvider {
+/**
+ * ContentProvider for the Rate table
+ */
 
+public class RatesContentProvider extends ContentProvider {
 
 
     public static final String AUTHORITY = "com.example.realestatemanageralx.providers.rate";
@@ -22,13 +24,15 @@ public class RatesContentProvider extends ContentProvider {
     public static final Uri RATE_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
-    public boolean onCreate() { return true; }
+    public boolean onCreate() {
+        return true;
+    }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        if (getContext() != null){
+        if (getContext() != null) {
             long rateId = ContentUris.parseId(uri);
             final Cursor cursor = AppDatabase.getDatabase(getContext()).rateDAO().getRateByIdWithCursor(rateId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);

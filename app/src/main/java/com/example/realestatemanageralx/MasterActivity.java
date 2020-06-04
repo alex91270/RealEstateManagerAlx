@@ -18,29 +18,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import com.example.realestatemanageralx.database.AppDatabase;
+
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
+import com.example.realestatemanageralx.fragments.MapViewFragment;
 import com.example.realestatemanageralx.fragments.ResearchFragment;
 import com.example.realestatemanageralx.fragments.create_offer.CreateFragment;
-import com.example.realestatemanageralx.fragments.MapViewFragment;
-import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.fragments.genuine_data.InitialCopyActivity;
+import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
 import com.example.realestatemanageralx.helpers.MyReceiver;
+import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
+
 import java.io.File;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -66,11 +70,22 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //*****************Supprimer
+        LatLng latLng = new LatLng(40,-73);
+        double result = TypesConversions.getTimeStampFromString("2020-06-01");
+        double expected = 1.5909696E9;
+        Log.i("alex", "timestampfromstring: " +  TypesConversions.getTimeStampFromString("2020-06-01"));
+        Log.i("alex", "the result: " +  expected);
+        Log.i("alex", "comparison: " +  (result == expected));
+        //*****************Supprimer
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
         context = this;
         MyReceiver = new MyReceiver();
-        if(getResources().getString(R.string.orientation).equals("portrait")) {
+        if (getResources().getString(R.string.orientation).equals("portrait")) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             DataHolder.getInstance().setOrientation("portrait");
         } else {
@@ -79,7 +94,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
 
         File folderMedias = new File(this.getFilesDir(), "medias");
-        if (! folderMedias.exists()) {
+        if (!folderMedias.exists()) {
             Log.i("alex", "the folder does not exist");
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
@@ -105,7 +120,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         // TO BE REMOVED !!
 
         showFirstFragment();
-       }
+    }
 
     @Override
     protected void onResume() {
@@ -116,27 +131,27 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-        switch (id){
-            case R.id.nav_drawer_see_offers :
+        switch (id) {
+            case R.id.nav_drawer_see_offers:
                 showOffersListFragment();
                 break;
-            case R.id.nav_drawer_research :
+            case R.id.nav_drawer_research:
                 showResearchFragment();
                 break;
-            case R.id.nav_drawer_see_on_map :
+            case R.id.nav_drawer_see_on_map:
                 showMapFragment();
                 break;
-            case R.id.nav_drawer_loan :
+            case R.id.nav_drawer_loan:
                 showLoanFragment();
                 break;
-            case R.id.nav_drawer_pro :
+            case R.id.nav_drawer_pro:
                 final AlertDialog dialog = getMessageDialog();
                 dialog.show();
                 break;
-            case R.id.nav_drawer_create :
+            case R.id.nav_drawer_create:
                 showCreateFragment();
                 break;
-            case R.id.nav_drawer_logout :
+            case R.id.nav_drawer_logout:
                 nav_Menu.setGroupEnabled(R.id.pro_group, false);
                 nav_Menu.setGroupVisible(R.id.pro_group, false);
                 DataHolder.getInstance().setIsLogged(false);
@@ -148,62 +163,62 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private void configureToolBar(){
+    private void configureToolBar() {
         toolbar = (Toolbar) findViewById(R.id.activity_master_toolbar);
         toolbar.setTitle(R.string.toolbar_title);
         setSupportActionBar(toolbar);
     }
 
-    private void configureDrawerLayout(){
+    private void configureDrawerLayout() {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_master_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    private void configureNavigationView(){
+    private void configureNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.activity_master_nav_view);
         //View headerView = navigationView.getHeaderView(0);
         nav_Menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void showFirstFragment(){
+    private void showFirstFragment() {
         if (firstFragment == null) firstFragment = FirstFragment.newInstance();
         startTransactionFragment(firstFragment);
     }
 
-    private void showOffersListFragment(){
+    private void showOffersListFragment() {
         if (offersListFragment == null) offersListFragment = OffersListFragment.newInstance();
         startTransactionFragment(offersListFragment);
     }
 
-    private void showResearchFragment(){
+    private void showResearchFragment() {
         if (researchFragment == null) researchFragment = ResearchFragment.newInstance();
         startTransactionFragment(researchFragment);
     }
 
-    private void showMapFragment(){
+    private void showMapFragment() {
         if (mapFragment == null) mapFragment = MapViewFragment.newInstance();
         startTransactionFragment(mapFragment);
     }
 
-    private void showLoanFragment(){
+    private void showLoanFragment() {
         if (loanFragment == null) loanFragment = LoanFragment.newInstance();
         startTransactionFragment(loanFragment);
     }
 
     private void showCreateFragment() {
         if (createFragment == null) createFragment = CreateFragment.newInstance();
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putString("action", "creation");
         createFragment.setArguments(bundle);
         startTransactionFragment(createFragment);
     }
 
 
-    private void startTransactionFragment(Fragment fragment){
-        if (!fragment.isVisible()){
+    private void startTransactionFragment(Fragment fragment) {
+        if (!fragment.isVisible()) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_master_frame_layout, fragment).commit();
         }
@@ -214,7 +229,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         agentViewModel.getAgentByUsername(name).observe(this, new Observer<Agent>() {
             @Override
             public void onChanged(Agent agent) {
-                if (agent!=null) {
+                if (agent != null) {
                     if (agent.getPassword().equals(pass)) {
                         Toast.makeText(context, "You are now loggued in", Toast.LENGTH_LONG).show();
                         dialog.dismiss();
@@ -235,7 +250,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     private AlertDialog getMessageDialog() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.alert_dialog_login, null);
         alertBuilder.setView(v);
         dialog = alertBuilder.create();
@@ -251,7 +266,7 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
                         dialogTextUsername = dialog.findViewById(R.id.loginEditTextName);
                         dialogTextPassword = dialog.findViewById(R.id.loginEditTextPassword);
 
-                       initObserverAgent(dialogTextUsername.getText().toString(), dialogTextPassword.getText().toString());
+                        initObserverAgent(dialogTextUsername.getText().toString(), dialogTextPassword.getText().toString());
                     }
                 });
             }

@@ -2,7 +2,6 @@ package com.example.realestatemanageralx.database;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -27,8 +26,11 @@ public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 
     public abstract AgentDao agentDAO();
+
     public abstract PropertyDAO propertyDAO();
+
     public abstract OfferMediaDAO offerMediaDAO();
+
     public abstract RateDAO rateDAO();
 
     private static final String DB_NAME = "real.db";

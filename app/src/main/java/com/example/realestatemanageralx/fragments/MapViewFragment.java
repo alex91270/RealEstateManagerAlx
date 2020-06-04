@@ -1,6 +1,7 @@
 package com.example.realestatemanageralx.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -13,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
@@ -33,9 +36,11 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, EasyPermissions.PermissionCallbacks {
@@ -94,12 +99,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             @Override
             public void onLocationChanged(Location location) {
             }
+
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
             }
+
             @Override
             public void onProviderEnabled(String provider) {
             }
+
             @Override
             public void onProviderDisabled(String provider) {
             }
@@ -107,11 +115,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
         locationManager.requestLocationUpdates("gps", 1000, 50, locationListener);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(mContext, R.raw.mapstyle_retro_poi);
-        mMap.setMapStyle(style);        mMap.setMyLocationEnabled(true);
+        mMap.setMapStyle(style);
+        mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setOnMarkerClickListener(this);
 
@@ -158,9 +168,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
         long propertyId = markersList.get(marker.getId()).getId();
         long agentId = markersList.get(marker.getId()).getAgentId();
 
-        OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
-        Bundle bundle=new Bundle();
-        bundle.putLong("propertyId",propertyId);
+        OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong("propertyId", propertyId);
         bundle.putLong("agentId", agentId);
         offerDetailFrag.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()

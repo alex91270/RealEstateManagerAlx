@@ -1,26 +1,21 @@
 package com.example.realestatemanageralx.video;
 
 import android.app.Activity;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.example.realestatemanageralx.R;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.IOException;
+
+/**
+ * Activity playing a video media of an offer
+ */
 
 public class VideoActivity extends Activity implements TextureView.SurfaceTextureListener {
 
@@ -46,10 +41,10 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
 
     private void initView() {
 
-       TextureView textureView = (TextureView) findViewById(R.id.textureView);
-       textureView.setSurfaceTextureListener(this);
-       buttonClose = findViewById(R.id.texture_close);
-       buttonClose.setOnClickListener(v -> finish());
+        TextureView textureView = (TextureView) findViewById(R.id.textureView);
+        textureView.setSurfaceTextureListener(this);
+        buttonClose = findViewById(R.id.texture_close);
+        buttonClose.setOnClickListener(v -> finish());
     }
 
     @Override

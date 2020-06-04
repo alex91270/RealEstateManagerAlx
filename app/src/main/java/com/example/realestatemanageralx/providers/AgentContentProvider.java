@@ -9,8 +9,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.model.Agent;
+
+/**
+ * ContentProvider for the Agent table
+ */
 
 public class AgentContentProvider extends ContentProvider {
 
@@ -22,13 +27,14 @@ public class AgentContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.i("alex", "uri agent: " + AGENT_URI_ITEM);
-    return true; }
+        return true;
+    }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        if (getContext() != null){
+        if (getContext() != null) {
             long agentId = ContentUris.parseId(uri);
             final Cursor cursor = AppDatabase.getDatabase(getContext()).agentDAO().getAgentByIdWithCursor(agentId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);

@@ -4,7 +4,7 @@ import com.example.realestatemanageralx.model.Property;
 
 import java.util.Comparator;
 
-public class SortByDate  implements Comparator<Property> {
+public class SortByDate implements Comparator<Property> {
 
     /**
      * @param p1 offer to compare

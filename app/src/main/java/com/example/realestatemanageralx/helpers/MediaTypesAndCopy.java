@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class MediaTypesAndCopy {
 
@@ -17,6 +16,11 @@ public class MediaTypesAndCopy {
     private static final ArrayList<String> videoExtensions = new ArrayList<String>(
             Arrays.asList("3gp", "mp4", "mkv"));
 
+    /**
+     * Checks whether or not a file is of an image type managed by android
+     * @param filename
+     * @return
+     */
     public static boolean isImage(String filename) {
 
         if (imageExtensions.contains(filename.substring(filename.length() - 3))) {
@@ -25,6 +29,11 @@ public class MediaTypesAndCopy {
         return false;
     }
 
+    /**
+     * Checks whether or not a file is of a video type managed by android
+     * @param filename
+     * @return
+     */
     public static boolean isVideo(String filename) {
 
         if (videoExtensions.contains(filename.substring(filename.length() - 3))) {
@@ -33,6 +42,12 @@ public class MediaTypesAndCopy {
         return false;
     }
 
+    /**
+     * Copies a file from an input stream to an output stream
+     * @param in
+     * @param out
+     * @throws IOException
+     */
     public static void copyFile(InputStream in, OutputStream out) throws IOException {
         Log.i("alex", "helper copyFile");
 

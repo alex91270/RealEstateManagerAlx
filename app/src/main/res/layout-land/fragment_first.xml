@@ -7,6 +7,15 @@
     android:background="#e1e2e1"
     tools:context=".fragments.FirstFragment">
 
+    <ImageButton
+        android:id="@+id/buttonMainAct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/empty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="530dp"

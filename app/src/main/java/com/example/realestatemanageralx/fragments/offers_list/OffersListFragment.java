@@ -6,14 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.comparators.SortByDate;
 import com.example.realestatemanageralx.comparators.SortByPrice;
@@ -24,6 +24,7 @@ import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +41,9 @@ public class OffersListFragment extends Fragment {
     private ImageButton buttonSurface;
     private ImageButton buttonDate;
     private FragmentManager fm;
-    private enum SortType{priceUp, priceDown, surfaceUp, surfaceDown, dateUp, dateDown}
+
+    private enum SortType {priceUp, priceDown, surfaceUp, surfaceDown, dateUp, dateDown}
+
     private SortType currentSort = SortType.dateUp;
 
     public static OffersListFragment newInstance() {
@@ -69,7 +72,7 @@ public class OffersListFragment extends Fragment {
     private void initObservers() {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         propertyViewModel.getPropertiesList().observe(this, properties -> {
-            if(getArguments()!= null && getArguments().containsKey("filter")){
+            if (getArguments() != null && getArguments().containsKey("filter")) {
                 Log.i("alex", "there is a filter in the bundle");
                 propertiesList = DataHolder.getInstance().getSearchedPropertiesList();
             } else {
@@ -109,7 +112,7 @@ public class OffersListFragment extends Fragment {
             buttonPrice.setImageResource(R.drawable.price_up_un);
             buttonDate.setImageResource(R.drawable.date_up_un);
 
-            if (currentSort.equals(SortType.surfaceUp)){
+            if (currentSort.equals(SortType.surfaceUp)) {
                 buttonSurface.setImageResource(R.drawable.surface_down_sel);
                 Collections.sort(propertiesList, Collections.reverseOrder(new SortBySurface()));
                 currentSort = SortType.surfaceDown;
@@ -125,7 +128,7 @@ public class OffersListFragment extends Fragment {
             buttonSurface.setImageResource(R.drawable.surface_up_un);
             buttonDate.setImageResource(R.drawable.date_up_un);
 
-            if (currentSort.equals(SortType.priceUp)){
+            if (currentSort.equals(SortType.priceUp)) {
                 buttonPrice.setImageResource(R.drawable.price_down_sel);
                 Collections.sort(propertiesList, Collections.reverseOrder(new SortByPrice()));
                 currentSort = SortType.priceDown;
@@ -141,7 +144,7 @@ public class OffersListFragment extends Fragment {
             buttonSurface.setImageResource(R.drawable.surface_up_un);
             buttonPrice.setImageResource(R.drawable.price_up_un);
 
-            if (currentSort.equals(SortType.dateUp)){
+            if (currentSort.equals(SortType.dateUp)) {
                 buttonDate.setImageResource(R.drawable.date_down_sel);
                 Collections.sort(propertiesList, Collections.reverseOrder(new SortByDate()));
                 currentSort = SortType.dateDown;

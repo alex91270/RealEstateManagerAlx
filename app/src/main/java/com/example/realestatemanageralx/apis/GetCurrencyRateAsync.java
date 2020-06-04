@@ -3,9 +3,12 @@ package com.example.realestatemanageralx.apis;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
+
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,6 +21,11 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = "RealEstateManager";
     private String result;
     private RateViewModel rateViewModel;
+
+    /**
+     * Gets the last up to date Dollar-Euro exchange rate from the data.fixer.io API
+     * @param rvm
+     */
 
     public GetCurrencyRateAsync(RateViewModel rvm) {
         rateViewModel = rvm;
@@ -81,7 +89,7 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
             JSONObject jsonObj = new JSONObject(result);
             String rates = jsonObj.getString("rates");
             String ts = jsonObj.getString("timestamp");
-            Log.i("alex", "rates: " +rates);
+            Log.i("alex", "rates: " + rates);
             JSONObject jsonObj2 = new JSONObject(rates);
 
             String usd = jsonObj2.getString("USD");
@@ -95,7 +103,7 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
             Log.e(LOG_TAG, "Error processing JSON results", e);
         }
 
-        s="success";
+        s = "success";
 
         if (s == null) {
             Log.i("alex", "error ");

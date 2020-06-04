@@ -7,7 +7,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.model.Rate;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public interface RateDAO {
     LiveData<List<Rate>> getAllRates();
 
     @Query("SELECT * FROM rate WHERE rid = :id")
-    LiveData<Rate>getRateById(long id);
+    LiveData<Rate> getRateById(long id);
 
     @Query("UPDATE rate SET value = :number WHERE rid = :rateId")
     void updateRate(long rateId, double number);

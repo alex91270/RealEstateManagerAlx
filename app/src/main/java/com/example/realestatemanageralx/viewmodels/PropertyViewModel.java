@@ -16,14 +16,12 @@ import com.example.realestatemanageralx.model.Property;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.function.LongBinaryOperator;
-import java.util.function.LongFunction;
 
 /**
  * ViewModel for properties, using the DAO and returning LiveData, observed by the view
  */
 
-public class PropertyViewModel  extends AndroidViewModel {
+public class PropertyViewModel extends AndroidViewModel {
     private PropertyDAO propertyDao;
     private LiveData<List<Property>> propertiesLiveData;
     private LiveData<Property> propertyLiveData;

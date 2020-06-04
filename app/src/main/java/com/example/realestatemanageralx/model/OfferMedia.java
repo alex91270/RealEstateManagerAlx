@@ -1,7 +1,5 @@
 package com.example.realestatemanageralx.model;
 
-import android.content.ContentValues;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -35,14 +33,14 @@ public class OfferMedia {
     /**
      * The name of the media file
      */
-    @ColumnInfo(name="fileName")
+    @ColumnInfo(name = "fileName")
     @NonNull
     private String fileName;
 
     /**
      * whether or not this media is the main one
      */
-    @ColumnInfo(name="isMain")
+    @ColumnInfo(name = "isMain")
     @NonNull
     private boolean isMain;
 
@@ -77,16 +75,16 @@ public class OfferMedia {
 
 
     /**public static OfferMedia fromContentValues(ContentValues values) {
-        long propertyId = 0;
-        String fileName = "";
-        boolean isMain = false;
-        if (values.containsKey("propertyId")) propertyId = values.getAsLong("propertyId");
-        if (values.containsKey("filename")) fileName = values.getAsString("filename");
-        if (values.containsKey("isMain")) isMain = values.getAsBoolean("isMain");
+     long propertyId = 0;
+     String fileName = "";
+     boolean isMain = false;
+     if (values.containsKey("propertyId")) propertyId = values.getAsLong("propertyId");
+     if (values.containsKey("filename")) fileName = values.getAsString("filename");
+     if (values.containsKey("isMain")) isMain = values.getAsBoolean("isMain");
 
-        final OfferMedia offerMedia = new OfferMedia(propertyId, fileName, isMain);
+     final OfferMedia offerMedia = new OfferMedia(propertyId, fileName, isMain);
 
-        return offerMedia;
-    }*/
+     return offerMedia;
+     }*/
 }
 

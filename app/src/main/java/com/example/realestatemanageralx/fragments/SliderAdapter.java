@@ -7,15 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import androidx.viewpager.widget.PagerAdapter;
+
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.video.VideoActivity;
+
 import java.util.List;
 
-public class SliderAdapter extends PagerAdapter{
+public class SliderAdapter extends PagerAdapter {
 
     Context context;
 
@@ -44,23 +47,23 @@ public class SliderAdapter extends PagerAdapter{
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = inflater.inflate(R.layout.slider_item,container,false);
+        View itemView = inflater.inflate(R.layout.slider_item, container, false);
 
         imageView = itemView.findViewById(R.id.slider_image_view);
 
         if (MediaTypesAndCopy.isImage(img.get(position).getFileName())) {
-         Glide.with(context)
-         .load(context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName())
-         .into(imageView);
+            Glide.with(context)
+                    .load(context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName())
+                    .into(imageView);
 
 
-        } else if (MediaTypesAndCopy.isVideo(img.get(position).getFileName())){
-         imageView.setImageResource(R.drawable.video);
-         imageView.setOnClickListener(v -> {
-             Intent intent = new Intent(context, VideoActivity.class);
-             intent.putExtra("path", context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName());
-             context.startActivity(intent);
-         });
+        } else if (MediaTypesAndCopy.isVideo(img.get(position).getFileName())) {
+            imageView.setImageResource(R.drawable.video);
+            imageView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, VideoActivity.class);
+                intent.putExtra("path", context.getFilesDir().getPath() + "/medias/" + img.get(position).getFileName());
+                context.startActivity(intent);
+            });
 
         }
         container.addView(itemView);

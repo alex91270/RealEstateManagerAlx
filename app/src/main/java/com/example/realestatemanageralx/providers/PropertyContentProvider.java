@@ -1,7 +1,6 @@
 package com.example.realestatemanageralx.providers;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.realestatemanageralx.database.AppDatabase;
-import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
+
+/**
+ * ContentProvider for the Property table
+ */
 
 public class PropertyContentProvider extends ContentProvider {
 
@@ -23,13 +25,14 @@ public class PropertyContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.i("alex", "uri property: " + PROPERTY_URI_ITEM);
-        return true; }
+        return true;
+    }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        if (getContext() != null){
+        if (getContext() != null) {
             final Cursor cursor = AppDatabase.getDatabase(getContext()).propertyDAO().getPropertiesWithCursor();
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;

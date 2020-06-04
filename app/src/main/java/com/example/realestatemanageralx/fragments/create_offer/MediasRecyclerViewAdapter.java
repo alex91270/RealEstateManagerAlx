@@ -9,14 +9,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.events.DeleteMediaEvent;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
+
 import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
-public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecyclerViewAdapter.ViewHolder>{
+public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecyclerViewAdapter.ViewHolder> {
     private ArrayList<String> paths;
     private MediaTypesAndCopy mtc = new MediaTypesAndCopy();
     private int lastSelectedPosition = 0;
@@ -40,7 +44,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
         holder.radioButton.setChecked(lastSelectedPosition == position);
 
         if (path.length() > 20) {
-            holder.filenameTextView.setText("..." + path.substring(path.length()-20));
+            holder.filenameTextView.setText("..." + path.substring(path.length() - 20));
         } else {
             holder.filenameTextView.setText(path);
         }
@@ -48,7 +52,7 @@ public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecycl
         if (MediaTypesAndCopy.isImage(path)) {
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             holder.picture.setImageBitmap(bitmap);
-        }else if (MediaTypesAndCopy.isVideo(path)) {
+        } else if (MediaTypesAndCopy.isVideo(path)) {
             holder.picture.setImageResource(R.drawable.video);
         }
     }

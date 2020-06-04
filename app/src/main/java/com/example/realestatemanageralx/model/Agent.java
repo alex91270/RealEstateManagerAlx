@@ -18,46 +18,46 @@ public class Agent {
     /**
      * The first name of the real estate agent
      */
-    @ColumnInfo(name="firstName")
+    @ColumnInfo(name = "firstName")
     @NonNull
     private String firstName;
 
     /**
      * The last name of the real estate agent
      */
-    @ColumnInfo(name="lastName")
+    @ColumnInfo(name = "lastName")
     @NonNull
     private String lastName;
 
     /**
      * The username of the real estate agent
      */
-    @ColumnInfo(name="userName")
+    @ColumnInfo(name = "userName")
     @NonNull
     private String userName;
 
     /**
      * The password of the real estate agent
      */
-    @ColumnInfo(name="password")
+    @ColumnInfo(name = "password")
     @NonNull
     private String password;
 
     /**
      * The email address of the real estate agent
      */
-    @ColumnInfo(name="email")
+    @ColumnInfo(name = "email")
     @NonNull
     private String email;
 
     /**
      * The phone number of the real estate agent
      */
-    @ColumnInfo(name="phone")
+    @ColumnInfo(name = "phone")
     @NonNull
     private String phone;
 
-    public Agent( String firstName,  String lastName, String userName, String password, String email, String phone) {
+    public Agent(String firstName, String lastName, String userName, String password, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;

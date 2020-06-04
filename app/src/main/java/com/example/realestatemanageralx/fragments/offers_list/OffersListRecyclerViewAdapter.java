@@ -1,6 +1,5 @@
 package com.example.realestatemanageralx.fragments.offers_list;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
@@ -67,7 +68,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         holder.textViewLocation.setText(property.getCity() + " - " + property.getDistrict());
 
         if (property.getRooms() == -1) {
-            holder.textViewSurface.setText(property.getSurface() + " m²" );
+            holder.textViewSurface.setText(property.getSurface() + " m²");
         } else {
             holder.textViewSurface.setText(property.getSurface() + " m²" + " - " + property.getRooms() + " rooms");
         }
@@ -78,7 +79,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         Log.i("alex", "filenameMain: " + fileNameMainMedia);
 
         if (!fileNameMainMedia.equals("")) {
-            Log.i("alex", "thecre is a picture " );
+            Log.i("alex", "thecre is a picture ");
             Bitmap bitmap = BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia);
             holder.picture.setImageBitmap(bitmap);
         } else {
@@ -86,23 +87,23 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
             holder.picture.setImageResource(R.drawable.nopicture);
         }
         holder.cardView.setOnClickListener(v -> {
-           int frameLayout;
-            if(DataHolder.getInstance().getOrientation().equals("portrait")) {
+            int frameLayout;
+            if (DataHolder.getInstance().getOrientation().equals("portrait")) {
                 frameLayout = R.id.activity_master_frame_layout;
             } else {
                 frameLayout = R.id.fragment_list_frame_layout;
             }
 
-            OfferDetailFragment offerDetailFrag= new OfferDetailFragment();
-            Bundle bundle=new Bundle();
+            OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
+            Bundle bundle = new Bundle();
             bundle.putLong("propertyId", listOffers.get(position).getId());
             bundle.putLong("agentId", listOffers.get(position).getAgentId());
-           offerDetailFrag.setArguments(bundle);
-                    fragmentManager.beginTransaction()
-                            .replace(frameLayout, offerDetailFrag, "fragment offer detail")
-                            .addToBackStack(null)
-                            .commit();
-                });
+            offerDetailFrag.setArguments(bundle);
+            fragmentManager.beginTransaction()
+                    .replace(frameLayout, offerDetailFrag, "fragment offer detail")
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
     @Override

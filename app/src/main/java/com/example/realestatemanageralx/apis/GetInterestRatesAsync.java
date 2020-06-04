@@ -3,8 +3,10 @@ package com.example.realestatemanageralx.apis;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
+
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,6 +20,12 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = "RealEstateManager";
     private RateViewModel rateViewModel;
     private String raw_result;
+
+    /**
+     * Gets the last up to date interest rates from the quandl.com API
+     * @param rvm
+     */
+
     public GetInterestRatesAsync(RateViewModel rvm) {
         rateViewModel = rvm;
     }
@@ -96,12 +104,12 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
 
         Log.i("alex", "rates array size : " + ratesArray.length);
         Log.i("alex", "rate one year: " + ratesArray[0]);
-        for (int i = 0; i<ratesArray.length; i++) {
-            rateViewModel.updateRateValue(i+4, Double.valueOf(ratesArray[i]));
+        for (int i = 0; i < ratesArray.length; i++) {
+            rateViewModel.updateRateValue(i + 4, Double.valueOf(ratesArray[i]));
             //Log.i("alex", "i=" + i + " rate id: " + String.valueOf(i+4) + " rateYear" + String.valueOf(i+1) + " value: " + ratesArray[i]);
         }
 
-        s="success";
+        s = "success";
 
         if (s == null) {
             Log.i("alex", "error ");

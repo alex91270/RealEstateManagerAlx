@@ -9,9 +9,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.realestatemanageralx.model.Agent;
-import com.example.realestatemanageralx.model.Property;
-
-import java.util.List;
 
 /**
  * * DAO (data access object) providing SQL queries to interact with the Agent table

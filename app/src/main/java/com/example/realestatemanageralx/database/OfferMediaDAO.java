@@ -8,9 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.realestatemanageralx.model.OfferMedia;
-import com.example.realestatemanageralx.model.Property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ public interface OfferMediaDAO {
     long insertOfferMedia(OfferMedia offerMedia);
 
     @Query("SELECT * FROM offerMedia")
-        LiveData<List<OfferMedia>> getAllMedias();
+    LiveData<List<OfferMedia>> getAllMedias();
 
     @Query("SELECT * FROM offerMedia WHERE propertyId = :propertyId")
         //LiveData<Property> getMediaByPropertyId(long propertyId);

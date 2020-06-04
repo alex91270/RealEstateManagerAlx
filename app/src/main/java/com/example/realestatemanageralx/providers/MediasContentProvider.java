@@ -12,6 +12,10 @@ import androidx.annotation.Nullable;
 import com.example.realestatemanageralx.database.AppDatabase;
 import com.example.realestatemanageralx.model.OfferMedia;
 
+/**
+ * ContentProvider for the OfferMedia table
+ */
+
 public class MediasContentProvider extends ContentProvider {
 
     public static final String AUTHORITY = "com.example.realestatemanageralx.providers.media";
@@ -19,13 +23,15 @@ public class MediasContentProvider extends ContentProvider {
     public static final Uri MEDIA_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
-    public boolean onCreate() { return true; }
+    public boolean onCreate() {
+        return true;
+    }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        if (getContext() != null){
+        if (getContext() != null) {
             long propertyId = ContentUris.parseId(uri);
             final Cursor cursor = AppDatabase.getDatabase(getContext()).offerMediaDAO().getMediasWithCursor(propertyId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);

@@ -7,12 +7,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Broadcast receiver triggered by a connectivity change
+ */
+
 public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
         String status = NetworkUtil.getConnectivityStatusString(context);
-        Log.i("alex", "broadcast receiver status: " +  status);
+        Log.i("alex", "broadcast receiver status: " + status);
 
         Handler mainHandler = new Handler(context.getMainLooper());
         Runnable myRunnable = () -> {

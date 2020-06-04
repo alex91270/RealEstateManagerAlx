@@ -1,7 +1,13 @@
 package com.example.realestatemanageralx.datas;
 
 import com.example.realestatemanageralx.model.Property;
+
 import java.util.ArrayList;
+
+/**
+ * Holds values for if a real estate agent is logged or not
+ * and holds the list of properties returned by the last research
+ */
 
 public class DataHolder {
 
@@ -16,7 +22,7 @@ public class DataHolder {
         return holder;
     }
 
-    public void setIsLogged(boolean logged){
+    public void setIsLogged(boolean logged) {
         isAgentLogged = logged;
     }
 
@@ -32,7 +38,7 @@ public class DataHolder {
         return agentId;
     }
 
-    public void setSearchedPropertiesList (ArrayList<Property> propList) {
+    public void setSearchedPropertiesList(ArrayList<Property> propList) {
         searchedPropertiesList = propList;
     }
 
