@@ -11,10 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.realestatemanageralx.R;
@@ -26,7 +24,6 @@ import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.unused.MainActivity;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,19 +101,12 @@ public class FirstFragment extends Fragment {
     }
 
     private void fillLastOffer() {
-
-        Log.i("alex", "filllast offer");
         ImageView image = getView().findViewById(R.id.image_last_offer);
         TextView text_district = getView().findViewById(R.id.textView_district);
         TextView text_surface = getView().findViewById(R.id.textView_surface);
         TextView text_rooms = getView().findViewById(R.id.textView_rooms);
-
-
         property = DataProcessing.getLastOffer(propertiesList);
-
         String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), mediasList);
-
-        Log.i("alex", "last offer id: " + property.getId());
 
         if (!property.getDistrict().equals("")) {
             text_district.setText(property.getDistrict());

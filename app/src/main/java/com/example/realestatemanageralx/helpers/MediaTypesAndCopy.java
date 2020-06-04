@@ -49,13 +49,10 @@ public class MediaTypesAndCopy {
      * @throws IOException
      */
     public static void copyFile(InputStream in, OutputStream out) throws IOException {
-        Log.i("alex", "helper copyFile");
 
         try {
             byte[] buffer = new byte[1024];
             int read;
-
-            //int bits = 0;
 
             while ((read = in.read(buffer)) != -1) {
                 //bits += 1;

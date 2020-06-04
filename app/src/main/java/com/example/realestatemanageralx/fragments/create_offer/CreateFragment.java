@@ -78,7 +78,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
     @SuppressWarnings("unused")
     @Subscribe
     public void onDeleteMedia(DeleteMediaEvent event) {
-        Log.i("alex", "delete media triggered");
+        //When the eventBus warns a media has been deleted in the recyclerView
         paths.remove(event.path);
         myAdapter.notifyDataSetChanged();
     }
@@ -121,6 +121,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         });
 
         binding.createButtonLocation.setOnClickListener(v -> {
+            //saves the temporary created offer before picking up a location
             saveTemporaryProp();
             LocationPickerFragment pickerFragment = LocationPickerFragment.newInstance();
             Bundle bundle = new Bundle();
@@ -147,14 +148,14 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
         modif = false;
         if (getArguments().getString("action").equals("modification")) {
-            Log.i("alex", "bundle is modification ");
+            //if this concerns an existing offers, gets it back to fill the fields
             binding.createButtonLocation.setText("CHANGE LOCATION");
             modif = true;
             tempProp = (Property) getArguments().getSerializable("prop");
             fillFieldsFromTemp();
             initMediasObserver();
         } else {
-            Log.i("alex", "bundle is creation ");
+            //if this concerns a new offer, builds an empty one from scratch
             tempProp = DataProcessing.buildEmptyProperty();
         }
 
@@ -189,15 +190,12 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
         offerMediaViewModel = ViewModelProviders.of(this).get(OfferMediaViewModel.class);
         offerMediaViewModel.getMediasByPropertyId(tempProp.getId()).observe(this, new Observer<List<OfferMedia>>() {
             public void onChanged(@Nullable List<OfferMedia> medias) {
-
-                Log.i("alex", "medias list observer changed. size: " + medias.size());
                 if (medias.size() > 0) {
                     paths.clear();
                     for (OfferMedia media : medias) {
                         paths.add(context.getFilesDir().getPath() + "/medias/" + media.getFileName());
                     }
                     int index = DataProcessing.getMainPictureIndex(tempProp.getId(), medias);
-                    Log.i("alex", "index: " + index);
                     Collections.swap(paths, index, 0);
                     updateRecycler();
                 }
@@ -233,6 +231,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
             Cursor cursor = getActivity().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
+            assert cursor != null;
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -240,7 +239,7 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
             cursor.close();
 
             if (MediaTypesAndCopy.isImage(picturePath) || MediaTypesAndCopy.isVideo(picturePath)) {
-                Log.i("alex", "picture path: " + picturePath);
+                //checks the file format is of an image or video accepted one
                 paths.add(picturePath);
                 updateRecycler();
             } else {
@@ -289,24 +288,19 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
 
     private void copyMedias(long propertyId) {
 
-        Log.i("alex", "copyMedias. paths size: " + paths.size() + "PID: " + propertyId);
         String filename;
         int mainMediaIndex = myAdapter.getMainPicture();
         boolean isMain;
 
         if (paths != null) for (String path : paths) {
-            Log.i("alex", "path of file to copy: " + path);
 
             isMain = false;
             if (paths.indexOf(path) == mainMediaIndex) {
-                Log.i("alex", "this is main media !!");
                 isMain = true;
             }
             File inFile = new File(path);
             filename = inFile.getName();
             File outFile = new File(context.getFilesDir().getPath() + "/medias/" + filename);
-
-            Log.i("alex", "insert media, ID: " + propertyId + " filename: " + filename + " " + isMain);
             offerMediaViewModel.insert(new OfferMedia(propertyId, filename, isMain));
 
             InputStream in = null;
@@ -316,9 +310,6 @@ public class CreateFragment extends Fragment implements EasyPermissions.Permissi
                 try {
                     in = new FileInputStream(inFile);
                     out = new FileOutputStream(outFile);
-
-                    Log.i("alex", "infile: " + inFile.getPath());
-                    Log.i("alex", "outfile: " + outFile.getPath());
 
                     MediaTypesAndCopy.copyFile(in, out);
                 } catch (IOException e) {

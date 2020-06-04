@@ -6,12 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.realestatemanageralx.R;
-
 import java.util.List;
 
 public class OfferDetailPoiRecyclerAdapter extends RecyclerView.Adapter<OfferDetailPoiRecyclerAdapter.ViewHolder> {
@@ -20,9 +17,7 @@ public class OfferDetailPoiRecyclerAdapter extends RecyclerView.Adapter<OfferDet
     private Context context;
 
     public OfferDetailPoiRecyclerAdapter(List<String> pois) {
-
         poiList = pois;
-        Log.i("alex", "adapter poilist size: " + poiList.size());
     }
 
     @Override
@@ -37,9 +32,7 @@ public class OfferDetailPoiRecyclerAdapter extends RecyclerView.Adapter<OfferDet
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.i("alex", "position: " + position);
         holder.textViewPoiName.setText(poiList.get(position));
-        Log.i("alex", "poi at this position: " + poiList.get(position));
     }
 
     @Override

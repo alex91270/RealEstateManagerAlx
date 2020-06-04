@@ -14,13 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
 import com.example.realestatemanageralx.helpers.TypesConversions;
@@ -37,9 +35,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -65,7 +66,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
 
         mContext = this.getActivity();
         apiKey = mContext.getString(R.string.google_maps_key);
-        Log.i("alex", "bundle: " + getArguments());
 
         View root = inflater.inflate(R.layout.fragment_map_view, container, false);
 
@@ -145,7 +145,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             for (Property prop : propertiesList) {
                 if (prop.getLocation() != null && mMap != null) {
 
-
                     Bitmap bitmapIcon = iGen.makeIcon(TypesConversions.formatPriceNicely(prop.getPrice()) + " $");
 
                     MarkerOptions mo = new MarkerOptions()
@@ -153,8 +152,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                             .position(TypesConversions.getLatLngFromString(prop.getLocation()));
 
                     Marker marker = mMap.addMarker(mo);
-
-                    Log.i("alex", "marker Id: " + marker.getId());
 
                     markersList.put(marker.getId(), prop);
                 }
@@ -165,15 +162,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        long propertyId = markersList.get(marker.getId()).getId();
-        long agentId = markersList.get(marker.getId()).getAgentId();
+        long propertyId = Objects.requireNonNull(markersList.get(marker.getId())).getId();
+        long agentId = Objects.requireNonNull(markersList.get(marker.getId())).getAgentId();
 
         OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putLong("propertyId", propertyId);
         bundle.putLong("agentId", agentId);
         offerDetailFrag.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_master_frame_layout, offerDetailFrag, "fragment offer detail")
                 .addToBackStack(null)
                 .commit();
@@ -188,19 +185,19 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         Log.i("alex", "location request permission result");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
         getMap();
     }
 
     @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
         Toast.makeText(mContext, getString(R.string.perm_denied), Toast.LENGTH_LONG).show();
     }
 

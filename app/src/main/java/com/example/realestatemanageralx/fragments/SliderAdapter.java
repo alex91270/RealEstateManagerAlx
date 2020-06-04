@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import androidx.viewpager.widget.PagerAdapter;
-
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.video.VideoActivity;
-
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter {

@@ -72,7 +72,6 @@ public class OfferDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentOfferDetailBinding.inflate(getLayoutInflater());
-        //View root = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         context = binding.getRoot().getContext();
         apiKey = context.getString(R.string.google_maps_key);
         propertyId = getArguments().getLong("propertyId");

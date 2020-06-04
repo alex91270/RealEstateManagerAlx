@@ -13,18 +13,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.Rate;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +79,6 @@ public class LoanSimulatorFragment extends Fragment {
         durationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.i("alex", "position: " + position);
                 duration = (position + 1) * 12;
                 editTextRate.setText(String.valueOf(ratesList.get(position)));
             }
@@ -99,7 +95,6 @@ public class LoanSimulatorFragment extends Fragment {
             public void onChanged(@Nullable List<Rate> rates) {
                 updateDate = tc.getStringFromTimestamp((long) (rates.get(2).getValue() * 1000));
                 textViewSuggestedRates.setText("Suggested rates last updated on " + updateDate);
-                //Log.i("alex", "update date: " + updateDate);
 
                 ratesList = new ArrayList<>();
 

@@ -14,13 +14,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
-
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.offers_list.OffersListFragment;
@@ -28,12 +26,9 @@ import com.example.realestatemanageralx.helpers.SearchQueryBuilder;
 import com.example.realestatemanageralx.model.Filter;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
-
 import org.florescu.android.rangeseekbar.RangeSeekBar;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,42 +37,24 @@ public class ResearchFragment extends Fragment {
     private PropertyViewModel propertyViewModel;
     private ArrayList<Property> filteredPropertiesList = new ArrayList<>();
     private Context context;
-    @BindView(R.id.research_spinner_type)
-    Spinner spinnerType;
-    @BindView(R.id.research_spinner_location)
-    Spinner spinnerLocation;
-    @BindView(R.id.research_seekBar_price)
-    RangeSeekBar seekBarPrice;
-    @BindView(R.id.research_seekBar_surface)
-    RangeSeekBar seekBarSurface;
-    @BindView(R.id.research_spinner_rooms)
-    Spinner spinnerRooms;
-    @BindView(R.id.research_spinner_date)
-    Spinner spinnerDate;
-    @BindView(R.id.research_radio_group_sold)
-    RadioGroup radioGroup;
-    @BindView(R.id.research_radio_button_on_sale)
-    RadioButton radioButtonOnSale;
-    @BindView(R.id.research_radio_button_sold)
-    RadioButton radioButtonSold;
-    @BindView(R.id.research_radio_button_both)
-    RadioButton radioButtonBoth;
-    @BindView(R.id.research_convenience_checkbox)
-    CheckBox checkBoxConvenience;
-    @BindView(R.id.research_switch_schools)
-    Switch switchSchools;
-    @BindView(R.id.research_switch_stores)
-    Switch switchStores;
-    @BindView(R.id.research_switch_restaurants)
-    Switch switchRestaurants;
-    @BindView(R.id.research_switch_parks)
-    Switch switchParks;
-    @BindView(R.id.research_switch_subways)
-    Switch switchSubways;
-    @BindView(R.id.research_button_offers)
-    Button buttonOffers;
-    @BindView(R.id.cardviewConveniences)
-    CardView cardViewSwitches;
+    @BindView(R.id.research_spinner_type) Spinner spinnerType;
+    @BindView(R.id.research_spinner_location) Spinner spinnerLocation;
+    @BindView(R.id.research_seekBar_price) RangeSeekBar seekBarPrice;
+    @BindView(R.id.research_seekBar_surface) RangeSeekBar seekBarSurface;
+    @BindView(R.id.research_spinner_rooms) Spinner spinnerRooms;
+    @BindView(R.id.research_spinner_date) Spinner spinnerDate;
+    @BindView(R.id.research_radio_group_sold) RadioGroup radioGroup;
+    @BindView(R.id.research_radio_button_on_sale) RadioButton radioButtonOnSale;
+    @BindView(R.id.research_radio_button_sold) RadioButton radioButtonSold;
+    @BindView(R.id.research_radio_button_both) RadioButton radioButtonBoth;
+    @BindView(R.id.research_convenience_checkbox) CheckBox checkBoxConvenience;
+    @BindView(R.id.research_switch_schools) Switch switchSchools;
+    @BindView(R.id.research_switch_stores) Switch switchStores;
+    @BindView(R.id.research_switch_restaurants) Switch switchRestaurants;
+    @BindView(R.id.research_switch_parks) Switch switchParks;
+    @BindView(R.id.research_switch_subways) Switch switchSubways;
+    @BindView(R.id.research_button_offers) Button buttonOffers;
+    @BindView(R.id.cardviewConveniences) CardView cardViewSwitches;
     private int minPriceSelected;
     private int maxPriceSelected;
     private int minSurfaceSelected;
@@ -94,7 +71,6 @@ public class ResearchFragment extends Fragment {
     public static ResearchFragment newInstance() {
         return (new ResearchFragment());
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,10 +138,7 @@ public class ResearchFragment extends Fragment {
                 spinnerRooms.setAdapter(roomsAdapter);
                 spinnerRooms.setSelection(0);
                 minRoomsSelected = 0;
-
                 cardViewSwitches.setVisibility(View.INVISIBLE);
-
-
                 checkBoxConvenience.setOnClickListener(v -> {
                     if (checkBoxConvenience.isChecked()) {
                         cardViewSwitches.setVisibility(View.VISIBLE);
@@ -230,7 +203,6 @@ public class ResearchFragment extends Fragment {
 
                 radioButtonOnSale.setChecked(true);
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> filter());
-
                 dateSpinnerArray.add("Any");
                 dateSpinnerArray.add("Less than a week ago");
                 dateSpinnerArray.add("Less than a month ago");
@@ -258,7 +230,6 @@ public class ResearchFragment extends Fragment {
                 switchRestaurants.setOnCheckedChangeListener((buttonView, isChecked) -> filter());
                 switchParks.setOnCheckedChangeListener((buttonView, isChecked) -> filter());
                 switchSubways.setOnCheckedChangeListener((buttonView, isChecked) -> filter());
-
                 buttonOffers.setText(String.valueOf(allPropertiesList.size()) + " Offers found");
                 buttonOffers.setOnClickListener(v -> {
                     DataHolder.getInstance().setSearchedPropertiesList(filteredPropertiesList);
@@ -300,7 +271,6 @@ public class ResearchFragment extends Fragment {
         filter.setFilterBySubways(switchSubways.isChecked());
 
         String query = new SearchQueryBuilder().buildQuery(filter);
-        Log.i("alex", "query: " + query);
 
         return filter;
     }
@@ -308,7 +278,6 @@ public class ResearchFragment extends Fragment {
     private void filter() {
         propertyViewModel.getFilteredPropertiesList(getTheFilter()).observe(this, new Observer<List<Property>>() {
             public void onChanged(@Nullable List<Property> properties) {
-                Log.i("alex", "viewmodel filtered changed, list size: " + properties.size());
                 buttonOffers.setText(properties.size() + " Offers found");
                 filteredPropertiesList = (ArrayList) properties;
             }

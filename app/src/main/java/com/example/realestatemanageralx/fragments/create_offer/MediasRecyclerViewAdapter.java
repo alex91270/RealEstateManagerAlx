@@ -9,15 +9,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.events.DeleteMediaEvent;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 public class MediasRecyclerViewAdapter extends RecyclerView.Adapter<MediasRecyclerViewAdapter.ViewHolder> {

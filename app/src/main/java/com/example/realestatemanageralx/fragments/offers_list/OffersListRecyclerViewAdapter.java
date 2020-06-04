@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.offer_detail.OfferDetailFragment;
@@ -22,7 +20,6 @@ import com.example.realestatemanageralx.helpers.DataProcessing;
 import com.example.realestatemanageralx.helpers.TypesConversions;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
-
 import java.util.List;
 
 public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersListRecyclerViewAdapter.ViewHolder> {
@@ -34,7 +31,6 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
     private FragmentManager fragmentManager;
 
     public OffersListRecyclerViewAdapter(List<Property> offers, List<OfferMedia> medias, FragmentManager fm) {
-        Log.i("alex", "medias list size: " + medias.size());
         listOffers = offers;
         listMedias = medias;
         this.fragmentManager = fm;
@@ -53,11 +49,8 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
     @Override
     public void onBindViewHolder(final OffersListRecyclerViewAdapter.ViewHolder holder, final int position) {
-
-
         positionRecycler = position;
         Property property = listOffers.get(position);
-        Log.i("alex", "this one property ID: " + property.getId());
 
         if (property.isSold()) {
             holder.imageSold.setVisibility(View.VISIBLE);
@@ -76,14 +69,10 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
 
         String fileNameMainMedia = DataProcessing.getMainPictureName(property.getId(), listMedias);
 
-        Log.i("alex", "filenameMain: " + fileNameMainMedia);
-
         if (!fileNameMainMedia.equals("")) {
-            Log.i("alex", "thecre is a picture ");
             Bitmap bitmap = BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia);
             holder.picture.setImageBitmap(bitmap);
         } else {
-            Log.i("alex", "there is no picture");
             holder.picture.setImageResource(R.drawable.nopicture);
         }
         holder.cardView.setOnClickListener(v -> {
@@ -118,7 +107,6 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         ImageView picture;
         CardView cardView;
         ImageView imageSold;
-
 
         public ViewHolder(View view) {
             super(view);

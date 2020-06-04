@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.comparators.SortByDate;
 import com.example.realestatemanageralx.comparators.SortByPrice;
@@ -24,7 +22,6 @@ import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
 import com.example.realestatemanageralx.viewmodels.OfferMediaViewModel;
 import com.example.realestatemanageralx.viewmodels.PropertyViewModel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,10 +70,8 @@ public class OffersListFragment extends Fragment {
         propertyViewModel = ViewModelProviders.of(this).get(PropertyViewModel.class);
         propertyViewModel.getPropertiesList().observe(this, properties -> {
             if (getArguments() != null && getArguments().containsKey("filter")) {
-                Log.i("alex", "there is a filter in the bundle");
                 propertiesList = DataHolder.getInstance().getSearchedPropertiesList();
             } else {
-                Log.i("alex", "there is no filter in the bundle");
                 propertiesList = properties;
             }
             updateRecycler();

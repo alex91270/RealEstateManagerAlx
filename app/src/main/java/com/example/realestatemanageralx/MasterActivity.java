@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +27,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.fragments.FirstFragment;
 import com.example.realestatemanageralx.fragments.LoanFragment;
@@ -44,7 +42,6 @@ import com.example.realestatemanageralx.viewmodels.AgentViewModel;
 import com.example.realestatemanageralx.viewmodels.RateViewModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
-
 import java.io.File;
 
 public class MasterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -70,21 +67,12 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //*****************Supprimer
-        LatLng latLng = new LatLng(40,-73);
-        double result = TypesConversions.getTimeStampFromString("2020-06-01");
-        double expected = 1.5909696E9;
-        Log.i("alex", "timestampfromstring: " +  TypesConversions.getTimeStampFromString("2020-06-01"));
-        Log.i("alex", "the result: " +  expected);
-        Log.i("alex", "comparison: " +  (result == expected));
-        //*****************Supprimer
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
         context = this;
         MyReceiver = new MyReceiver();
+
+        //Forces screen orientation accordingly to the screen density of the device
         if (getResources().getString(R.string.orientation).equals("portrait")) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             DataHolder.getInstance().setOrientation("portrait");
@@ -94,12 +82,16 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
 
         File folderMedias = new File(this.getFilesDir(), "medias");
+        //if the folder medias does not exist, creates it and fills it
         if (!folderMedias.exists()) {
             Log.i("alex", "the folder does not exist");
             startActivity(new Intent(this, InitialCopyActivity.class));
         }
 
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
+        //TODO
+        //TO reactivate
+        //gets back async, exchange rate and interest rates
         //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
         //new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
 
@@ -107,25 +99,17 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         configureDrawerLayout();
         configureNavigationView();
 
+        //TODO
         // TO BE REMOVED !!
-        nav_Menu.setGroupEnabled(R.id.pro_group, true);
-        nav_Menu.setGroupVisible(R.id.pro_group, true);
-        DataHolder.getInstance().setIsLogged(true);
-        DataHolder.getInstance().setAgentId(1);
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        Log.i("alex", "height in DP: " + dpHeight);
-        Log.i("alex", "width in DP: " + dpWidth);
+        //nav_Menu.setGroupEnabled(R.id.pro_group, true);
+        //nav_Menu.setGroupVisible(R.id.pro_group, true);
+        //DataHolder.getInstance().setIsLogged(true);
+        //DataHolder.getInstance().setAgentId(1);
         // TO BE REMOVED !!
 
-        showFirstFragment();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        //registers the broadcast receiver for connectivity check
         registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        showFirstFragment();
     }
 
     @Override
@@ -178,7 +162,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     private void configureNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.activity_master_nav_view);
-        //View headerView = navigationView.getHeaderView(0);
         nav_Menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -273,12 +256,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         });
 
         return dialog;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(MyReceiver);
     }
 }
 

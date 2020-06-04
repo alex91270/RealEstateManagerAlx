@@ -5,23 +5,22 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.example.realestatemanageralx.MasterActivity;
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.helpers.MediaTypesAndCopy;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class InitialCopyActivity extends AppCompatActivity {
+/**
+ * Activity solicited at app's first launch to create and populate the BDD
+ */
 
-    MediaTypesAndCopy mtc = new MediaTypesAndCopy();
+public class InitialCopyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class InitialCopyActivity extends AppCompatActivity {
                 .load(R.drawable.wait)
                 .into(image);
 
-        Log.i("alex", "initial copy activity ");
         copyMediaFiles();
     }
 
@@ -55,7 +53,7 @@ public class InitialCopyActivity extends AppCompatActivity {
                 in = assetManager.open("medias/" + filename);
                 File outFile = new File(getFilesDir().getPath() + "/medias/" + filename);
                 out = new FileOutputStream(outFile);
-                mtc.copyFile(in, out);
+                MediaTypesAndCopy.copyFile(in, out);
             } catch (IOException e) {
                 Log.e("alex", "Failed to copy asset file: " + filename, e);
             } finally {

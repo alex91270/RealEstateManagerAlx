@@ -11,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-
 import com.example.realestatemanageralx.R;
 import com.example.realestatemanageralx.apis.POICount;
 import com.example.realestatemanageralx.helpers.TypesConversions;
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -62,7 +59,6 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
             public boolean onQueryTextSubmit(String s) {
                 String location = searchView.getQuery().toString();
                 List<Address> addressList = null;
-                Log.i("alex", "onquerysubmit ");
 
 
                 if (location != null || !location.equals("")) {
@@ -70,21 +66,16 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
 
-                        Log.i("alex", "adresse 0: " + addressList.get(0));
-
                         if (addressList == null) {
                             Toast.makeText(mContext, "Address not resolved...", Toast.LENGTH_LONG).show();
                         } else {
                             Address address = addressList.get(0);
                             String district = address.getSubLocality();
-                            Log.i("alex", "sublocality: " + district);
-
                             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                             placeMarker(latLng);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.i("alex", e.toString());
                     }
                 }
                 return false;
@@ -148,8 +139,6 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
 
     private void getDatas(LatLng latLng) {
 
-        Log.i("alex", "location picker thread: " + Thread.currentThread());
-
         validButton.setVisibility(View.INVISIBLE);
         validButton.setEnabled(false);
 
@@ -172,19 +161,12 @@ public class LocationPickerFragment extends Fragment implements OnMapReadyCallba
                 } else {
                     tempProp.setDistrict(address.getSubLocality());
                 }
-
-                Log.i("alex", "city: " + tempProp.getCity());
-                Log.i("alex", "district: " + tempProp.getDistrict());
-
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i("alex", e.toString());
         }
 
         POICount poiCount = new POICount(result -> {
-            Log.i("alex", "poi stuff done");
-            Log.i("alex", "result: " + result);
             tempProp.setPois(result);
             mainHandler.post(myRunnable);
         });
