@@ -3,7 +3,7 @@
 
 # Real Estate Manager
 
-This application propose a list of real estate offers for sale located in NYC. It allows anyone to consult the details of the offers, contact the real estate agent in charge, see them on a map, and much more. It also has a professional acces for the agents to manage their offers.
+This application proposes a list of real estate offers for sale located in NYC. It allows anyone to consult the details of the offers, contact the real estate agent in charge, see them on a map, and much more. It also has a professional acces for the agents to manage their offers.
 # Files
 
 All the source files can be downloaded or cloned from GitHub, at [**[[https://github.com/alex91270/RealEstateManagerAlx](https://github.com/alex91270/Go4Lunch)]**
