@@ -2,13 +2,10 @@ package com.example.realestatemanageralx.apis;
 
 import android.os.StrictMode;
 import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -35,7 +32,6 @@ public class POICount {
      */
     public void requestNearbyPois(String apiKey, LatLng loc) {
 
-        Log.i("alex", "request nearby thread: " + Thread.currentThread());
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -57,8 +53,6 @@ public class POICount {
     }
 
     private void requestPOI(String apiKey, LatLng loc, int i) {
-
-        Log.i("alex", "starting retrieval of " + typesList[i]);
 
         location = loc;
         Double lat = location.latitude;
@@ -96,8 +90,6 @@ public class POICount {
         try {
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
             JSONArray predsJsonArray = jsonObj.getJSONArray("results");
-
-            Log.i("alex", "number of " + typesList[i] + "s : " + predsJsonArray.length());
             integerResults[i] = predsJsonArray.length();
 
         } catch (JSONException e) {

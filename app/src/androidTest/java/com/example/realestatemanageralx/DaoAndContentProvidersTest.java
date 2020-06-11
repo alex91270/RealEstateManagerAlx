@@ -20,7 +20,7 @@ import static com.example.realestatemanageralx.providers.AgentContentProvider.AG
 import static com.example.realestatemanageralx.providers.MediasContentProvider.MEDIA_URI_ITEM;
 import static com.example.realestatemanageralx.providers.PropertyContentProvider.PROPERTY_URI_ITEM;
 import static com.example.realestatemanageralx.providers.RatesContentProvider.RATE_URI_ITEM;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -44,12 +44,13 @@ public class DaoAndContentProvidersTest {
         Agent agent = LiveDataTestUtil.getValue(database.agentDAO().getAgentById(1));
 
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(AGENT_URI_ITEM, 1), null, null, null, null);
+        assert cursor != null;
         cursor.moveToFirst();
 
         assertThat(cursor, notNullValue());
         assertThat(cursor.getCount(), is(1));
-        assertTrue(cursor.getString(1).equals(agent.getFirstName()));
-        assertTrue(cursor.getString(2).equals(agent.getLastName()));
+        assertEquals(cursor.getString(1), agent.getFirstName());
+        assertEquals(cursor.getString(2), agent.getLastName());
 
         cursor.close();
     }
@@ -63,7 +64,8 @@ public class DaoAndContentProvidersTest {
 
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(PROPERTY_URI_ITEM, 1), null, null, null, null);
 
-        assertTrue(locallyAccessedList.size()==cursor.getCount());
+        assert cursor != null;
+        assertEquals(locallyAccessedList.size(), cursor.getCount());
 
         cursor.close();
     }
@@ -75,7 +77,8 @@ public class DaoAndContentProvidersTest {
 
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(MEDIA_URI_ITEM, 1), null, null, null, null);
 
-        assertTrue(locallyAccessedList.size()==cursor.getCount());
+        assert cursor != null;
+        assertEquals(locallyAccessedList.size(), cursor.getCount());
 
         cursor.close();
     }
@@ -85,11 +88,12 @@ public class DaoAndContentProvidersTest {
 
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(RATE_URI_ITEM, 13), null, null, null, null);
         Rate locallyAccessedRate = LiveDataTestUtil.getValue(database.rateDAO().getRateById(13));
+        assert cursor != null;
         cursor.moveToFirst();
         double providerValue = cursor.getDouble(2);
         assertThat(cursor, notNullValue());
         assertThat(cursor.getCount(), is(1));
-        assertTrue(providerValue == locallyAccessedRate.getValue());
+        assertEquals(providerValue, locallyAccessedRate.getValue());
 
         cursor.close();
     }

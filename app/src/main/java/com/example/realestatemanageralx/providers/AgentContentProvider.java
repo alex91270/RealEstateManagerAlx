@@ -23,12 +23,8 @@ public class AgentContentProvider extends ContentProvider {
     public static final String TABLE_NAME = Agent.class.getSimpleName();
     public static final Uri AGENT_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
-
     @Override
-    public boolean onCreate() {
-        Log.i("alex", "uri agent: " + AGENT_URI_ITEM);
-        return true;
-    }
+    public boolean onCreate() {return true;}
 
     @Nullable
     @Override

@@ -23,10 +23,7 @@ public class PropertyContentProvider extends ContentProvider {
     public static final Uri PROPERTY_URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
-    public boolean onCreate() {
-        Log.i("alex", "uri property: " + PROPERTY_URI_ITEM);
-        return true;
-    }
+    public boolean onCreate() {return true;}
 
     @Nullable
     @Override

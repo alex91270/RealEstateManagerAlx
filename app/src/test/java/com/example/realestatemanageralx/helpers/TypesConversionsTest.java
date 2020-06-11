@@ -1,12 +1,8 @@
 package com.example.realestatemanageralx.helpers;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class TypesConversionsTest {
@@ -19,32 +15,32 @@ public class TypesConversionsTest {
     }
 
     @Test
-    public void getStringFromTimestamp() {
+    public void getStringFromTimestampTest() {
         assertEquals(TypesConversions.getStringFromTimestamp(1591105742000L), "2020-06-02");
     }
 
     @Test
-    public void getTimeStampFromString() {
+    public void getTimeStampFromStringTest() {
         assertTrue(TypesConversions.getTimeStampFromString("2020-06-01") == 1.5909624E9);
     }
 
     @Test
-    public void getLatLngFromString() {
+    public void getLatLngFromStringTest() {
         assertEquals(TypesConversions.getLatLngFromString("40,-73"), latLng);
     }
 
     @Test
-    public void getStringFromLatLng() {
+    public void getStringFromLatLngTest() {
         assertEquals(TypesConversions.getStringFromLatLng(latLng), "40.0,-73.0");
     }
 
     @Test
-    public void formatPriceNicely() {
+    public void formatPriceNicelyTest() {
         assertEquals(TypesConversions.formatPriceNicely(1000000), "1 000 000");
     }
 
     @Test
-    public void round() {
+    public void roundTest() {
         assertTrue(TypesConversions.round(100.6786876,2) == 100.68);
     }
 }

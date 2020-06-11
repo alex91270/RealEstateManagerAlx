@@ -16,7 +16,6 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String status = NetworkUtil.getConnectivityStatusString(context);
-        Log.i("alex", "broadcast receiver status: " + status);
 
         Handler mainHandler = new Handler(context.getMainLooper());
         Runnable myRunnable = () -> {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e1e2e1"
-    tools:context=".fragments.FirstFragment">
+    tools:context=".ui.fragments.FirstFragment">
 
     <ImageButton
         android:id="@+id/buttonMainAct"
