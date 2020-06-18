@@ -49,6 +49,7 @@
         android:fitsSystemWindows="true"
         app:itemTextColor="#ffffff"
         app:itemIconTint="#ffffff"
+        app:theme="@style/DrawerStyle"
         app:headerLayout="@layout/drawer_header"
         android:background="@drawable/bottom_drawer"
         app:menu="@menu/drawer_navigation_menu" />

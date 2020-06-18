@@ -3,6 +3,7 @@ package com.example.realestatemanageralx.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,10 +122,13 @@ public class FirstFragment extends Fragment {
             text_rooms.setText(String.valueOf(property.getRooms()) + " rooms");
         }
 
-
-        Glide.with(context)
-                .load(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia)
-                .apply(RequestOptions.circleCropTransform())
-                .into(image);
+        if (fileNameMainMedia.equals("")) {
+            imageNewOffer.setImageResource(R.drawable.nopicture_round);
+        } else {
+            Glide.with(context)
+                    .load(context.getFilesDir().getPath() + "/medias/" + fileNameMainMedia)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(image);
+        }
     }
 }

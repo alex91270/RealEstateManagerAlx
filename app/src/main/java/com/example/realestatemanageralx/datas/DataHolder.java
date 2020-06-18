@@ -15,7 +15,6 @@ public class DataHolder {
     private boolean isAgentLogged = false;
     private long agentId = 0;
     private ArrayList<Property> searchedPropertiesList;
-    private String orientation;
     private String lastNetworkState;
 
     public static DataHolder getInstance() {
@@ -44,14 +43,6 @@ public class DataHolder {
 
     public ArrayList<Property> getSearchedPropertiesList() {
         return searchedPropertiesList;
-    }
-
-    public String getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(String orientation) {
-        this.orientation = orientation;
     }
 
     public String getLastNetworkState() {

@@ -1,6 +1,7 @@
 package com.example.realestatemanageralx.ui.fragments.offers_list;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,8 @@ public class OffersListFragment extends Fragment {
             }
             updateRecycler();
 
-            if (DataHolder.getInstance().getOrientation().equals("landscape")) {
+            //if (DataHolder.getInstance().getOrientation().equals("landscape")) {
+            if (getResources().getString(R.string.twopanes).equals("true")) {
                 OfferDetailFragment offerDetailFrag = new OfferDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putLong("propertyId", 1);

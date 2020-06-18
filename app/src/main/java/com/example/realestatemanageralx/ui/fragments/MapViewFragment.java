@@ -98,6 +98,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12)); //between 1 and 20
             }
 
             @Override
@@ -201,8 +202,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             propertyViewModel.getPropertiesList().observe(this, new Observer<List<Property>>() {
                 public void onChanged(@Nullable List<Property> properties) {
                     propertiesList = properties;
-                    LatLng NYLocation = new LatLng(40.777108, -73.971537);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(NYLocation, 12)); //between 1 and 20
+                    //LatLng NYLocation = new LatLng(40.777108, -73.971537);
+                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(NYLocation, 12)); //between 1 and 20
                     placeMarkers();
                 }
             });

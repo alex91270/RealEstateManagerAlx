@@ -7,8 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,14 +75,24 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         context = this;
         MyReceiver = new MyReceiver();
 
-        //Forces screen orientation accordingly to the screen density of the device
+        if (getResources().getString(R.string.twopanes).equals("true")) {
+            Log.i("alex", "displaying on 2 panes");
+        } else {
+            Log.i("alex", "displaying on 1 pane");
+        }
+
+
+/**
+                //Forces screen orientation accordingly to the screen density of the device
         if (getResources().getString(R.string.orientation).equals("portrait")) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             DataHolder.getInstance().setOrientation("portrait");
+            Log.i("alex", "portrait");
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             DataHolder.getInstance().setOrientation("landscape");
-        }
+            Log.i("alex", "landscape");
+        }*/
 
 
         File folderMedias = new File(this.getFilesDir(), "medias");
@@ -88,10 +102,11 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
 
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
+//TODO
 
         //gets back async, exchange rate and interest rates
-        new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
-        new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
+        //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
+        //new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
 
         configureToolBar();
         configureDrawerLayout();
@@ -158,27 +173,27 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
 
     private void showFirstFragment() {
         if (firstFragment == null) firstFragment = FirstFragment.newInstance();
-        startTransactionFragment(firstFragment);
+        startTransactionFragment(firstFragment, "firstFragment");
     }
 
     private void showOffersListFragment() {
         if (offersListFragment == null) offersListFragment = OffersListFragment.newInstance();
-        startTransactionFragment(offersListFragment);
+        startTransactionFragment(offersListFragment, "offersListFragment");
     }
 
     private void showResearchFragment() {
         if (researchFragment == null) researchFragment = ResearchFragment.newInstance();
-        startTransactionFragment(researchFragment);
+        startTransactionFragment(researchFragment, "researchFragment");
     }
 
     private void showMapFragment() {
         if (mapFragment == null) mapFragment = MapViewFragment.newInstance();
-        startTransactionFragment(mapFragment);
+        startTransactionFragment(mapFragment, "mapFragment");
     }
 
     private void showLoanFragment() {
         if (loanFragment == null) loanFragment = LoanFragment.newInstance();
-        startTransactionFragment(new LoanFragment());
+        startTransactionFragment(loanFragment, "loanFragment");
     }
 
     private void showCreateFragment() {
@@ -186,14 +201,14 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         Bundle bundle = new Bundle();
         bundle.putString("action", "creation");
         createFragment.setArguments(bundle);
-        startTransactionFragment(createFragment);
+        startTransactionFragment(createFragment, "createFragment");
     }
 
 
-    private void startTransactionFragment(Fragment fragment) {
+    private void startTransactionFragment(Fragment fragment, String tag) {
         if (!fragment.isVisible()) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_master_frame_layout, fragment).commit();
+                    .replace(R.id.activity_master_frame_layout, fragment, tag).commit();
         }
     }
 
@@ -246,6 +261,22 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         });
 
         return dialog;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(MyReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag("firstFragment");
+        if (currentFrag == null) {
+            showFirstFragment();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
 

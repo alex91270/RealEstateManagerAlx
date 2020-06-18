@@ -22,8 +22,14 @@
         android:xlargeScreens="true"
         android:anyDensity="true"
         android:requiresSmallestWidthDp="320"
+        />
+
+        <!--
         android:compatibleWidthLimitDp="320"
-        android:largestWidthLimitDp="420"/>
+        android:largestWidthLimitDp="420"
+        -->
+
+
 
     <application
         android:allowBackup="true"
@@ -50,6 +56,7 @@
 
         <activity
             android:name=".ui.MasterActivity"
+            android:noHistory = "true"
             android:theme="@style/MasterActTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

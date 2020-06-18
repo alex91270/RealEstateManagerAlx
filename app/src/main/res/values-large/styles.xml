@@ -21,6 +21,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColorHint">@android:color/black</item>
+
+    </style>
+
+    <style name="DrawerStyle" parent="MasterActTheme">
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

@@ -45,4 +45,7 @@ public class LoanFragment extends Fragment {
 
         return root;
     }
+
+
+
 }

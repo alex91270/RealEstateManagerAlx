@@ -18,19 +18,19 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="530dp"
-        android:layout_height="330dp"
+        android:layout_width="300dp"
+        android:layout_height="170dp"
 
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background" />
 
     <ImageView
         android:id="@+id/image_last_offer"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/see_offers_button"
@@ -39,8 +39,8 @@
 
     <ImageView
         android:id="@+id/image_new_banner"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
 
         app:layout_constraintStart_toStartOf="@+id/image_last_offer"
         app:layout_constraintTop_toTopOf="@+id/image_last_offer"
@@ -51,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="#969a96"
-        android:text="See offers"
+        android:text="See offers land"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,11 +63,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="casual"
         android:text="Appartment"
         android:textColor="@color/colorText"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/image_last_offer"
         app:layout_constraintTop_toTopOf="@+id/image_last_offer" />
@@ -80,7 +80,7 @@
         android:fontFamily="casual"
         android:text="Greenwich Village"
         android:textColor="@color/colorText"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView_district"
         app:layout_constraintTop_toBottomOf="@+id/textView_district" />
@@ -93,7 +93,7 @@
         android:fontFamily="casual"
         android:text="240 Sq Ft"
         android:textColor="@color/colorText"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView_district"
         app:layout_constraintTop_toBottomOf="@+id/textView_surface" />

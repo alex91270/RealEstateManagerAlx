@@ -11,15 +11,15 @@
         android:id="@+id/buttonMainAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:src="@drawable/empty"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="350dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,8 +29,8 @@
 
     <ImageView
         android:id="@+id/image_last_offer"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
 
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/image_new_banner"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
 
         app:layout_constraintStart_toStartOf="@+id/image_last_offer"
         app:layout_constraintTop_toTopOf="@+id/image_last_offer"
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:background="#969a96"
-        android:text="See offers portrait"
+        android:text="See offers large"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,11 +65,12 @@
         android:id="@+id/textView_district"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="casual"
         android:text="Appartment"
         android:textColor="@color/colorText"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/image_last_offer"
         app:layout_constraintTop_toTopOf="@+id/image_last_offer" />
@@ -83,6 +84,7 @@
         android:fontFamily="casual"
         android:text="Greenwich Village"
         android:textColor="@color/colorText"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView_district"
         app:layout_constraintTop_toBottomOf="@+id/textView_district" />
@@ -95,38 +97,39 @@
         android:fontFamily="casual"
         android:text="240 Sq Ft"
         android:textColor="@color/colorText"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView_district"
         app:layout_constraintTop_toBottomOf="@+id/textView_surface" />
 
     <ImageView
         android:id="@+id/dot1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/ic_dot_dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_district"
         app:layout_constraintEnd_toStartOf="@+id/textView_district"
-        app:layout_constraintTop_toTopOf="@+id/textView_district" />
+        app:layout_constraintTop_toTopOf="@+id/textView_district"
+        app:srcCompat="@drawable/ic_dot_dp" />
 
     <ImageView
         android:id="@+id/dot2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/ic_dot_dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_surface"
         app:layout_constraintEnd_toStartOf="@+id/textView_surface"
-        app:layout_constraintTop_toTopOf="@+id/textView_surface" />
+        app:layout_constraintTop_toTopOf="@+id/textView_surface"
+        app:srcCompat="@drawable/ic_dot_dp" />
 
     <ImageView
         android:id="@+id/dot3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/ic_dot_dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_rooms"
         app:layout_constraintEnd_toStartOf="@+id/textView_rooms"
-        app:layout_constraintTop_toTopOf="@+id/textView_rooms" />
+        app:layout_constraintTop_toTopOf="@+id/textView_rooms"
+        app:srcCompat="@drawable/ic_dot_dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

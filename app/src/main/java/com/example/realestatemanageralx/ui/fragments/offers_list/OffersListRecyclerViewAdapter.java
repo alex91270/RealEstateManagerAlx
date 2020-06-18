@@ -76,7 +76,7 @@ public class OffersListRecyclerViewAdapter extends RecyclerView.Adapter<OffersLi
         }
         holder.cardView.setOnClickListener(v -> {
             int frameLayout;
-            if (DataHolder.getInstance().getOrientation().equals("portrait")) {
+            if (context.getResources().getString(R.string.twopanes).equals("false")) {
                 frameLayout = R.id.activity_master_frame_layout;
             } else {
                 frameLayout = R.id.fragment_list_frame_layout;
