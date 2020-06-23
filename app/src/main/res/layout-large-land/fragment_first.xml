@@ -52,7 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="#969a96"
-        android:text="See offers large land"
+        android:text="See offers"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
