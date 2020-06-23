@@ -1,8 +1,15 @@
 package com.example.realestatemanageralx.helpers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
+import com.example.realestatemanageralx.datas.DataHolder;
+
+import java.io.IOException;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +33,7 @@ public class Utils {
 
     /**
      * Conversion d'un prix d'un bien immobilier (Euros vers Dollars)
+     *
      * @param euros
      * @param rate
      * @return
@@ -47,6 +55,7 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
+
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -54,8 +63,32 @@ public class Utils {
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
+    public static boolean isInternetAvailable(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+
+        if (activeNetwork != null) {
+            DataHolder.getInstance().setLastConnectionType(activeNetwork.getTypeName());
+        } else {
+            DataHolder.getInstance().setLastConnectionType("none");
+        }
+
+        if (activeNetwork == null || !activeNetwork.isConnected()) {
+            DataHolder.getInstance().setLastConnectionState(false);
+            return false;
+        }
+
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            DataHolder.getInstance().setLastConnectionState(!ipAddr.equals(""));
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            DataHolder.getInstance().setLastConnectionState(false);
+            Log.e("REMAlx", "an exception occured: " + e.toString());
+            return false;
+        }
     }
 }

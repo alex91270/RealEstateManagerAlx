@@ -6,13 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,26 +70,6 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         context = this;
         MyReceiver = new MyReceiver();
 
-        if (getResources().getString(R.string.twopanes).equals("true")) {
-            Log.i("alex", "displaying on 2 panes");
-        } else {
-            Log.i("alex", "displaying on 1 pane");
-        }
-
-
-/**
-                //Forces screen orientation accordingly to the screen density of the device
-        if (getResources().getString(R.string.orientation).equals("portrait")) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            DataHolder.getInstance().setOrientation("portrait");
-            Log.i("alex", "portrait");
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            DataHolder.getInstance().setOrientation("landscape");
-            Log.i("alex", "landscape");
-        }*/
-
-
         File folderMedias = new File(this.getFilesDir(), "medias");
         //if the folder medias does not exist, creates it and fills it
         if (!folderMedias.exists()) {
@@ -102,18 +77,14 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         }
 
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
-//TODO
 
         //gets back async, exchange rate and interest rates
-        //new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
-        //new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
+        new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
+        new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
 
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
-
-        //registers the broadcast receiver for connectivity check
-        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         showFirstFragment();
     }
 
@@ -268,14 +239,24 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         super.onStop();
         unregisterReceiver(MyReceiver);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //registers the broadcast receiver for connectivity check
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
 
     @Override
     public void onBackPressed() {
-        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag("firstFragment");
-        if (currentFrag == null) {
-            showFirstFragment();
+        Fragment currentFrag = getSupportFragmentManager().findFragmentById(R.id.activity_master_frame_layout);
+        if (currentFrag != null && currentFrag.getTag().equals("firstFragment")) {
+            finish();
         } else {
-            super.onBackPressed();
+            showFirstFragment();
+            if (DataHolder.getInstance().getIsAgentLogged()) {
+                nav_Menu.setGroupEnabled(R.id.pro_group, true);
+                nav_Menu.setGroupVisible(R.id.pro_group, true);
+            }
         }
     }
 }

@@ -8,19 +8,19 @@
         android:id="@+id/loan_ability_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Debt capacity"
         android:textAlignment="center"
         android:textColor="@color/colorPurple"
-        android:textSize="36sp" />
+        android:textSize="30sp" />
 
 
     <View
         android:id="@+id/detail_divider1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="#f53128" />
 
     <LinearLayout
@@ -39,7 +39,7 @@
                 android:id="@+id/linear_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -88,7 +88,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -96,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
                     android:layout_weight="1"
                     android:text="On 10 years :"
                     android:textSize="18sp" />

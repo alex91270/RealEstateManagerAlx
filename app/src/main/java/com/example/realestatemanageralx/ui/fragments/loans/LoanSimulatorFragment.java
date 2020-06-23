@@ -1,10 +1,12 @@
 package com.example.realestatemanageralx.ui.fragments.loans;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -112,7 +114,8 @@ public class LoanSimulatorFragment extends Fragment {
         payment = (((M * t) / 12) / (1 - Math.pow((1 + (t / 12)), -duration)));
 
         textViewMonthlyAmount.setText(String.valueOf(Math.round(payment)));
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
-
-
 }

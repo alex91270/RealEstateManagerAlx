@@ -1,8 +1,7 @@
 package com.example.realestatemanageralx.ui.fragments.loans;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +90,9 @@ public class LoanAbilityFragment extends Fragment {
         long M30; //the result, the capacity on 30 years
         M30 = Math.round((m * (1 - Math.pow((1 + (t30 / 12)), -360))) / (t30 / 12));
         textCapacity30y.setText(String.valueOf(M30));
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
 }

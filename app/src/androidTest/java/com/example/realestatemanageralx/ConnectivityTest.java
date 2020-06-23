@@ -8,34 +8,43 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.example.realestatemanageralx.datas.DataHolder;
 import com.example.realestatemanageralx.helpers.MyReceiver;
 import org.junit.Test;
+import java.net.InetAddress;
 import static org.junit.Assert.assertEquals;
 
 public class ConnectivityTest {
 
     @Test
     public void testConnectivity() {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        ConnectivityManager cm = (ConnectivityManager) InstrumentationRegistry.getInstrumentation()
-                .getTargetContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        DataHolder.getInstance().setLastNetworkState("null");
-
 
         MyReceiver receiver = new MyReceiver();
         Intent i = new Intent("android.net.conn.CONNECTIVITY_CHANGE");
 
-        receiver.onReceive(InstrumentationRegistry.getInstrumentation().getTargetContext(), i);
+        receiver.onReceive(context, i);
 
-
-        if (activeNetwork != null) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                assertEquals(DataHolder.getInstance().getLastNetworkState(), "wifi");
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                assertEquals(DataHolder.getInstance().getLastNetworkState(), "mobile");
-            }
+        if (activeNetwork == null) {
+            assertEquals(DataHolder.getInstance().getLastConnectionType(), "none");
         } else {
-            assertEquals(DataHolder.getInstance().getLastNetworkState(), "none");
+            assertEquals(DataHolder.getInstance().getLastConnectionType(), activeNetwork.getTypeName());
+        }
+
+        if (activeNetwork == null || !activeNetwork.isConnected()) {
+            assertEquals(DataHolder.getInstance().getLastConnectionState(), false);
+        } else {
+            try {
+                InetAddress ipAddr = InetAddress.getByName("google.com");
+                if (ipAddr.equals("")) {
+                    assertEquals(DataHolder.getInstance().getLastConnectionState(), false);
+                } else {
+                    assertEquals(DataHolder.getInstance().getLastConnectionState(), true);
+                }
+
+            } catch (Exception e) {
+                assertEquals(DataHolder.getInstance().getLastConnectionState(), false);
+            }
         }
     }
 }
