@@ -1,14 +1,12 @@
 package com.example.realestatemanageralx.database;
 
-
 import android.content.Context;
-
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.example.realestatemanageralx.model.Agent;
 import com.example.realestatemanageralx.model.OfferMedia;
 import com.example.realestatemanageralx.model.Property;
