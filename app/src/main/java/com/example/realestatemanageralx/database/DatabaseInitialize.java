@@ -16,15 +16,11 @@ public class DatabaseInitialize {
 
 
     public static void populateAsync(final AppDatabase db) {
-
-        Log.i("alex", "populate async");
-
         PopulateDbAsync task = new PopulateDbAsync(db);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-
 
         private final AppDatabase mDb;
 
@@ -40,8 +36,6 @@ public class DatabaseInitialize {
     }
 
     private static void populateProjectsIfNewDb(AppDatabase db) {
-
-        Log.i("alex", "populating DB");
 
         //adding professional users
         db.agentDAO().insertAgent(new Agent("john", "doe", "john.doe", "1234", "john.doe@rem.com", "014075226"));
@@ -181,7 +175,6 @@ public class DatabaseInitialize {
         db.offerMediaDAO().insertOfferMedia(new OfferMedia(8, "photo85.jpg", false));
         db.offerMediaDAO().insertOfferMedia(new OfferMedia(8, "photo86.jpg", false));
         db.offerMediaDAO().insertOfferMedia(new OfferMedia(8, "video87.mp4", false));
-
     }
 }
 

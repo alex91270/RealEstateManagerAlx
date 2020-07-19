@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,8 +80,8 @@ public class MasterActivity extends AppCompatActivity implements NavigationView.
         RateViewModel rvm = ViewModelProviders.of(this).get(RateViewModel.class);
 
         //gets back async, exchange rate and interest rates
-        new GetInterestRatesAsync(rvm).execute(getString(R.string.loans_API_key));
-        new GetCurrencyRateAsync(rvm).execute(getString(R.string.currency_API_key));
+        new GetCurrencyRateAsync(rvm, getString(R.string.currency_API_key)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new GetInterestRatesAsync(rvm, getString(R.string.loans_API_key)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         configureToolBar();
         configureDrawerLayout();

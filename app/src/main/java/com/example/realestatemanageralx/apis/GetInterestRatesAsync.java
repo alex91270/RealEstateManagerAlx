@@ -18,20 +18,20 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = "RealEstateManager";
     private RateViewModel rateViewModel;
     private String raw_result;
+    private String loan_API_key;
 
     /**
      * Gets the last up to date interest rates from the quandl.com API
      * @param rvm
      */
 
-    public GetInterestRatesAsync(RateViewModel rvm) {
+    public GetInterestRatesAsync(RateViewModel rvm, String key) {
         rateViewModel = rvm;
+        loan_API_key = key;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-
-        String loan_API_key = strings[0];
 
         Calendar cal = Calendar.getInstance();
         String today = String.valueOf(cal.get(Calendar.YEAR)) + "-"
@@ -83,16 +83,19 @@ public class GetInterestRatesAsync extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        String result_last_day = raw_result.substring((raw_result.indexOf("data\":[[") + 9), (raw_result.indexOf("],[") + 3));
-        String last_date_available = "20" + result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
-        rateViewModel.updateRateValue(3, TypesConversions.getTimeStampFromString(last_date_available));
-        String rates_only = result_last_day.substring(result_last_day.indexOf("\",") + 2, result_last_day.indexOf("],["));
+       if (raw_result.length() > 0) {
 
-        String[] ratesArray = rates_only.split(",", -1);
+           String result_last_day = raw_result.substring((raw_result.indexOf("data\":[[") + 9), (raw_result.indexOf("],[") + 3));
+           String last_date_available = "20" + result_last_day.substring((result_last_day.indexOf(":[[") + 3), (result_last_day.indexOf("\",")));
+           rateViewModel.updateRateValue(3, TypesConversions.getTimeStampFromString(last_date_available));
+           String rates_only = result_last_day.substring(result_last_day.indexOf("\",") + 2, result_last_day.indexOf("],["));
 
-        for (int i = 0; i < ratesArray.length; i++) {
-            rateViewModel.updateRateValue(i + 4, Double.valueOf(ratesArray[i]));
-        }
+           String[] ratesArray = rates_only.split(",", -1);
+
+           for (int i = 0; i < ratesArray.length; i++) {
+               rateViewModel.updateRateValue(i + 4, Double.valueOf(ratesArray[i]));
+           }
+       }
     }
 }
 

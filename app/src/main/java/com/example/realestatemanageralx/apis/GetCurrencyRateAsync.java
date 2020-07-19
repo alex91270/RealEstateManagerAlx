@@ -18,21 +18,22 @@ public class GetCurrencyRateAsync extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = "RealEstateManager";
     private String result;
     private RateViewModel rateViewModel;
+    private String currency_API_key;
 
     /**
      * Gets the last up to date Dollar-Euro exchange rate from the data.fixer.io API
      * @param rvm
      */
 
-    public GetCurrencyRateAsync(RateViewModel rvm) {
+    public GetCurrencyRateAsync(RateViewModel rvm, String key) {
         rateViewModel = rvm;
+        currency_API_key = key;
     }
 
 
     @Override
     protected String doInBackground(String... strings) {
 
-        String currency_API_key = strings[0];
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 

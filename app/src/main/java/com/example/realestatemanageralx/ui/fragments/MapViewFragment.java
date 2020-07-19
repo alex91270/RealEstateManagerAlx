@@ -98,7 +98,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             @Override
             public void onLocationChanged(Location location) {
                 if (getArguments() == null) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
+                   if (mMap != null) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
+                    }
                 }
             }
 

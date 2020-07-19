@@ -88,6 +88,7 @@ public class Utils {
         } catch (Exception e) {
             DataHolder.getInstance().setLastConnectionState(false);
             Log.e("REMAlx", "an exception occured: " + e.toString());
+
             return false;
         }
     }
